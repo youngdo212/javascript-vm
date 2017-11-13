@@ -32,7 +32,7 @@
 
     wallet.total = 0;
 
-    wallet.putMoney = function (unit, count) {
+    wallet.getMoney = function (unit, count) {
         unit = parseInt(unit);
         count = parseInt(count);
 
@@ -42,7 +42,7 @@
         this.total += unit * count;
     }
 
-    wallet.getMoney = function(unit, count) {
+    wallet.loseMoney = function(unit, count) {
         unit = parseInt(unit);
         count = parseInt(count);
 
