@@ -2,31 +2,31 @@
     var wallet = [
         {
             unit: 10,
-            count: 0
+            count: 5
         },
         {
             unit: 50,
-            count: 0
+            count: 3
         },
         {
             unit: 100,
-            count: 0
+            count: 5
         },
         {
             unit: 500,
-            count: 0
+            count: 3
         },
         {
             unit: 1000,
-            count: 0
+            count: 5
         },
         {
             unit: 5000,
-            count: 0
+            count: 3
         },
         {
             unit: 10000,
-            count: 0
+            count: 5
         }
     ];
 
@@ -64,7 +64,7 @@
 
     wallet.getCount = function(unit) {
         unit = parseInt(unit);
-        var item = getMoney(unit);
+        var item = this.findMoney(unit);
 
         return item.count;
     }
