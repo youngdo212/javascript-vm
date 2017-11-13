@@ -2,31 +2,31 @@
     var wallet = [
         {
             unit: 10,
-            count: 5
+            count: 0
         },
         {
             unit: 50,
-            count: 3
+            count: 0
         },
         {
             unit: 100,
-            count: 5
+            count: 0
         },
         {
             unit: 500,
-            count: 3
+            count: 0
         },
         {
             unit: 1000,
-            count: 5
+            count: 0
         },
         {
             unit: 5000,
-            count: 3
+            count: 0
         },
         {
             unit: 10000,
-            count: 5
+            count: 0
         }
     ];
 
