@@ -2,7 +2,8 @@
     var view = {
         moneyList: document.querySelectorAll('.wallet .money > li'),
         moneyUnits: document.querySelectorAll('.wallet .money > li .unit'),
-        moneyCounts: document.querySelectorAll('.wallet .money > li .count')
+        moneyCounts: document.querySelectorAll('.wallet .money > li .count'),
+        totalMoney: document.querySelector('.wallet .total')
     }
 
     view.bind = function(event, handler) {
@@ -33,6 +34,7 @@
                 }
 
                 item.textContent = params.count + '개';
+                self.totalMoney.textContent = params.totalMoney + '원';
             }
         };
 
@@ -45,8 +47,13 @@
         self.moneyList.forEach(function(item, index) {
             var unit = item.getAttribute('data-unit');
             var count = model.wallet.getCount(unit);
+            var totalMoney = model.wallet.getTotalMoney();
 
-            self.render('updateMoney', {unit: unit, count: count});
+            self.render('updateMoney', {
+                unit: unit,
+                count: count,
+                totalMoney: totalMoney
+            });
         });
     };
 
