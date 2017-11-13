@@ -1,0 +1,77 @@
+/* reset */
+* { box-sizing: border-box; }
+p { margin: 0; }
+
+/* common styles */
+.nonliststyle {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  position: relative;
+  overflow: hidden;
+  width: 980px;
+  margin: 0 auto;
+}
+
+.row {
+  position: relative;
+  overflow: hidden;
+}
+
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-9,
+.col-12 { float: left; }
+
+.col-12 {
+  width: 100%;
+}
+
+.col-9 {
+  width: 75%;
+}
+
+.col-7 {
+  width: 58.33333333%;
+}
+
+.col-6 {
+  width: 50%;
+}
+
+.col-5 {
+  width: 41.66666666%;
+}
+
+.col-4 {
+  width: 33.33333333%;
+}
+
+.col-3 {
+  width: 25%;
+}
+
+/* components */
+.machine {
+  width: 100%;
+  border: 1px solid #333;
+}
+
+.item-drink {
+  border: 1px solid #ddd;
+  border-radius: 15px;
+}
+
+.wallet {
+
+}
+
+.box {
+  border: 1px solid #ddd;
+}
