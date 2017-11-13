@@ -1,17 +1,16 @@
 (function (window) {
-    var view = {
+    var wallet = {
         moneyList: document.querySelectorAll('.wallet .money > li'),
         moneyUnits: document.querySelectorAll('.wallet .money > li .unit'),
         moneyCounts: document.querySelectorAll('.wallet .money > li .count'),
-        totalMoney: document.querySelector('.wallet .total'),
-        totalInput: document.querySelector('.machine .input')
+        totalMoney: document.querySelector('.wallet .total')
     }
 
-    view.bind = function(event, handler) {
+    wallet.bind = function(event, handler) {
         var self = this;
 
         switch (event) {
-            case 'inputMoney':
+            case 'loseMoney':
                 self.moneyUnits.forEach(function(btn, index) {
                     btn.addEventListener('click', function() {
                         var unit = self.moneyList[index].getAttribute('data-unit');
@@ -22,7 +21,7 @@
         }
     };
 
-    view.render = function(command, params) {
+    wallet.render = function(command, params) {
         var self = this;
 
         var viewCommands = {
@@ -44,15 +43,38 @@
         viewCommands[command]();
     };
 
-    view.init = function(model) {
+    var machine = {
+        inputBox: document.querySelector('.machine .input')
+    }
+
+    machine.render = function(command, params) {
         var self = this;
 
-        self.moneyList.forEach(function(item, index) {
+        var viewCommands = {
+            updateMoney: function() {
+                self.inputBox.textContent = params.money + '원';
+            }
+        };
+
+        viewCommands[command]();
+    };
+
+    var view = {
+        wallet: wallet,
+        machine: machine
+    }
+
+    view.init = function(model) {
+        var self = this;
+        var wallet = self.wallet;
+        var machine = self.machine;
+
+        wallet.moneyList.forEach(function(item, index) {
             var unit = item.getAttribute('data-unit');
             var count = model.wallet.getCount(unit);
             var totalMoney = model.wallet.getTotalMoney();
 
-            self.render('updateMoney', {
+            wallet.render('updateMoney', {
                 unit: unit,
                 count: count,
                 totalMoney: totalMoney

@@ -32,7 +32,7 @@
 
     wallet.total = 0;
 
-    wallet.getMoney = function (unit, count) {
+    wallet.putMoney = function (unit, count) {
         unit = parseInt(unit);
         count = parseInt(count);
 
@@ -69,8 +69,19 @@
         return item.count;
     }
 
+    var machine = {
+        money: 0,
+        putMoney: function(money) {
+            this.money += money;
+        },
+        getMoney: function() {
+            return this.money;
+        }
+    };
+
     var model = {
-        wallet: wallet
+        wallet: wallet,
+        machine: machine
     }
 
     window.vm = window.vm || {};
