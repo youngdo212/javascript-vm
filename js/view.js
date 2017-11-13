@@ -3,15 +3,18 @@
         moneyList: document.querySelectorAll('.wallet .money > li'),
         moneyUnits: document.querySelectorAll('.wallet .money > li .unit'),
         moneyCounts: document.querySelectorAll('.wallet .money > li .count'),
-        totalMoney: document.querySelector('.wallet .total')
+        totalMoney: document.querySelector('.wallet .total'),
+        totalInput: document.querySelector('.machine .input')
     }
 
     view.bind = function(event, handler) {
+        var self = this;
+
         switch (event) {
             case 'inputMoney':
-                moneyUnits.forEach(function(btn, index) {
-                    btn.addEventListner('click', function() {
-                        var unit = moneyList[index].getAttribute('data-unit');
+                self.moneyUnits.forEach(function(btn, index) {
+                    btn.addEventListener('click', function() {
+                        var unit = self.moneyList[index].getAttribute('data-unit');
                         handler(unit);
                     });
                 });
