@@ -56,13 +56,13 @@
         return this.total;
     }
 
-    wallet.findMoney(unit) {
+    wallet.findMoney = function(unit) {
         return this.find(function(item) {
             return item.unit === unit;
         });
     }
 
-    wallet.getCount(unit) {
+    wallet.getCount = function(unit) {
         unit = parseInt(unit);
         var item = getMoney(unit);
 
