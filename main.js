@@ -1,9 +1,9 @@
 
 function main() {
     var vendingMachine = {
-        model: app.model,
-        view: app.view,
-        controller: app.controller,
+        model: vm.model,
+        view: vm.view,
+        controller: vm.controller,
         run: function() {
             this.controller.init(this.model, this.view);
         }
