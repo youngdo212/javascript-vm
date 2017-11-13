@@ -2,69 +2,72 @@
 <html>
   <head>
     <title>자판기</title>
+    <link rel="stylesheet" href="main.css">
   </head>
   <body>
-    <div class="machine">
-      <ul class="items">
-        <li>
-          <p class="name"></p>
-          <span class="id"></span>
-          <span class="price"></span>
-        </li>
-      </ul>
-
-      <div class="controller">
-        <p class="inputbox"></p>
-
-        <ul class="buttons">
-          <li><button>1</button></li>
-          <li><button>2</button></li>
-          <li><button>3</button></li>
-          <li><button>4</button></li>
-          <li><button>5</button></li>
-          <li><button>6</button></li>
-          <li><button>7</button></li>
-          <li><button>8</button></li>
-          <li><button>9</button></li>
+    <div class="container">
+      <div class="machine col-9">
+        <ul class="drinks col-7 nonliststyle">
+          <li class="item-drink col-3">
+            <p class="name">콜라</p>
+            <span class="id">1</span>
+            <span class="price">1000</span>
+          </li>
         </ul>
 
-        <p class="messagebox"></p>
+        <div class="controller col-5">
+          <p class="box input">0원</p>
+
+          <ul class="buttons row nonliststyle">
+            <li class="col-4"><button>1</button></li>
+            <li class="col-4"><button>2</button></li>
+            <li class="col-4"><button>3</button></li>
+            <li class="col-4"><button>4</button></li>
+            <li class="col-4"><button>5</button></li>
+            <li class="col-4"><button>6</button></li>
+            <li class="col-4"><button>7</button></li>
+            <li class="col-4"><button>8</button></li>
+            <li class="col-4"><button>9</button></li>
+          </ul>
+
+          <p class="box message">sdfsd</p>
+        </div>
       </div>
-    </div>
 
-    <div class="wallet">
-      <ul class="money">
-        <li>
-          <button class="unit-10">10원</button>
-          <p class="count"></p>
-        </li>
-        <li>
-          <button class="unit-50">50원</button>
-          <p class="count"></p>
-        </li>
-        <li>
-          <button class="unit-100">100원</button>
-          <p class="count"></p>
-        </li>
-        <li>
-          <button class="unit-500">500원</button>
-          <p class="count"></p>
-        </li>
-        <li>
-          <button class="unit-1000">1000원</button>
-          <p class="count"></p>
-        </li>
-        <li>
-          <button class="unit-5000">5000원</button>
-          <p class="count"></p>
-        </li>
-        <li>
-          <button class="unit-10000">10000원</button>
-          <p class="count"></p>
-        </li>
-      </ul>
+      <div class="wallet col-3">
+        <ul class="money nonliststyle">
+          <li>
+            <button class="unit-10">10원</button>
+            <span class="count">0개</span>
+          </li>
+          <li>
+            <button class="unit-50">50원</button>
+            <span class="count">0개</span>
+          </li>
+          <li>
+            <button class="unit-100">100원</button>
+            <span class="count">0개</span>
+          </li>
+          <li>
+            <button class="unit-500">500원</button>
+            <span class="count">0개</span>
+          </li>
+          <li>
+            <button class="unit-1000">1000원</button>
+            <span class="count">0개</span>
+          </li>
+          <li>
+            <button class="unit-5000">5000원</button>
+            <span class="count">0개</span>
+          </li>
+          <li>
+            <button class="unit-10000">10000원</button>
+            <span class="count">0개</span>
+          </li>
+        </ul>
 
-      <p class="total"></p>
+        <p class="box total">0원</p>
+      </div>
     </div>
   </body>
 </html>
