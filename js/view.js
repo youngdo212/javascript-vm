@@ -13,7 +13,7 @@
             case 'inputMoney':
                 moneyUnits.forEach(function(btn, index) {
                     btn.addEventListner('click', function() {
-                        var unit = btn.getAttribute('data-value');
+                        var unit = moneyList[index].getAttribute('data-unit');
                         handler(unit);
                     });
                 });
@@ -29,13 +29,12 @@
                 var item = null;
 
                 for (var i = 0; i < self.moneyList.length; i++) {
-                    if (self.moneyUnits[i].getAttribute('data-value') === params.unit) {
+                    if (self.moneyList[i].getAttribute('data-unit') === params.unit) {
                         item = self.moneyCounts[i];
                         break;
                     }
                 }
 
-                var count = parseInt(item.getAttribute('data-value'));
                 item.textContent = (count + params.count) + '개';
             }
         };
@@ -47,7 +46,7 @@
         var self = this;
 
         self.moneyList.forEach(function(item, index) {
-            var unit = self.moneyUnits[index].getAttribute('data-value');
+            var unit = item.getAttribute('data-unit');
             var count = model.wallet.getCount(unit);
 
             unit = parseInt(unit);
