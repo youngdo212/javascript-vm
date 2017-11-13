@@ -1,11 +1,8 @@
 (function (window) {
-    var qs = document.querySelector;
-    var qsa = document.queryselectorAll;
-
     var view = {
-        moneyList: qsa('.wallet .money > li'),
-        moneyUnits: qsa('.wallet .money > li .unit'),
-        moneyCounts: qsa('.wallet .money > li .count')
+        moneyList: document.querySelectorAll('.wallet .money > li'),
+        moneyUnits: document.querySelectorAll('.wallet .money > li .unit'),
+        moneyCounts: document.querySelectorAll('.wallet .money > li .count')
     }
 
     view.bind = function(event, handler) {
@@ -35,7 +32,7 @@
                     }
                 }
 
-                item.textContent = (count + params.count) + '개';
+                item.textContent = params.count + '개';
             }
         };
 
@@ -49,10 +46,7 @@
             var unit = item.getAttribute('data-unit');
             var count = model.wallet.getCount(unit);
 
-            unit = parseInt(unit);
-            count = parseInt(count);
-
-            self.render('updateMoney', {unit: unit, count: count})
+            self.render('updateMoney', {unit: unit, count: count});
         });
     };
 
