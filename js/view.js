@@ -13,7 +13,7 @@
             case 'loseMoney':
                 self.moneyUnits.forEach(function(btn, index) {
                     btn.addEventListener('click', function() {
-                        var unit = self.moneyList[index].getAttribute('data-unit');
+                        var unit = self.moneyList[index].dataset.unit;
                         handler(unit);
                     });
                 });
@@ -29,7 +29,7 @@
                 var item = null;
 
                 for (var i = 0; i < self.moneyList.length; i++) {
-                    if (self.moneyList[i].getAttribute('data-unit') === params.unit) {
+                    if (self.moneyList[i].dataset.unit === params.unit) {
                         item = self.moneyCounts[i];
                         break;
                     }
@@ -70,7 +70,7 @@
         var machine = self.machine;
 
         wallet.moneyList.forEach(function(item, index) {
-            var unit = item.getAttribute('data-unit');
+            var unit = item.dataset.unit;
             var count = model.wallet.getCount(unit);
             var totalMoney = model.wallet.getTotalMoney();
 
