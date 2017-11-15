@@ -3,84 +3,81 @@
         moneyList: document.querySelectorAll('.wallet .money > li'),
         moneyUnits: document.querySelectorAll('.wallet .money > li .unit'),
         moneyCounts: document.querySelectorAll('.wallet .money > li .count'),
-        totalMoney: document.querySelector('.wallet .total')
-    }
-
-    wallet.bind = function(event, handler) {
-        var self = this;
-
-        switch (event) {
-            case 'loseMoney':
-                self.moneyUnits.forEach(function(btn, index) {
-                    btn.addEventListener('click', function() {
-                        var unit = self.moneyList[index].dataset.unit;
-                        handler(unit);
-                    });
-                });
-            break;
-        }
-    };
-
-    wallet.render = function(command, params) {
-        var self = this;
-
-        var viewCommands = {
-            updateMoney: function() {
-                var item = null;
-
-                for (var i = 0; i < self.moneyList.length; i++) {
-                    if (self.moneyList[i].dataset.unit === params.unit) {
-                        item = self.moneyCounts[i];
-                        break;
-                    }
-                }
-
-                item.textContent = params.count + '개';
-                self.totalMoney.textContent = params.totalMoney + '원';
+        totalMoney: document.querySelector('.wallet .total'),
+        bind: function(event, handler) {
+            switch (event) {
+                case 'loseMoney':
+                    this.moneyUnits.forEach(function(btn, index) {
+                        btn.addEventListener('click', function() {
+                            var unit = this.moneyList[index].dataset.unit;
+                            handler(unit);
+                        }.bind(this));
+                    }.bind(this));
+                break;
             }
-        };
+        },
 
-        viewCommands[command]();
-    };
+        render: function(command, params) {
+            var viewCommands = {
+                updateMoney: function() {
+                    console.log(this)
+                    var item = null;
+
+                    for (var i = 0; i < this.moneyList.length; i++) {
+                        if (this.moneyList[i].dataset.unit == params.unit) {
+                            item = this.moneyCounts[i];
+                            break;
+                        }
+                    }
+
+                    item.textContent = params.count + '개';
+                    this.totalMoney.textContent = params.totalMoney + '원';
+                }.bind(this)
+            };
+
+            viewCommands[command]();
+        },
+        init: function(model) {
+            model.moneyList.forEach(function(item) {
+                var unit = item.unit;
+                var count = model.getCountOfUnit(unit);
+                var totalMoney = model.getTotalMoney();
+
+                this.render('updateMoney', {
+                    unit: unit,
+                    count: count,
+                    totalMoney: totalMoney
+                });
+
+            }.bind(this));
+        }
+    }
 
     var machine = {
-        inputBox: document.querySelector('.machine .input')
+        drinks: document.querySelector('.machine .drinks'),
+        inputBox: document.querySelector('.machine .input'),
+        render: function(command, params) {
+            var viewCommands = {
+                updateMoney: function() {
+                    this.inputBox.textContent = params.money + '원';
+                }.bind(this)
+            };
+
+            viewCommands[command]();
+        },
+        init: function() {
+
+        }
     }
-
-    machine.render = function(command, params) {
-        var self = this;
-
-        var viewCommands = {
-            updateMoney: function() {
-                self.inputBox.textContent = params.money + '원';
-            }
-        };
-
-        viewCommands[command]();
-    };
 
     var view = {
         wallet: wallet,
-        machine: machine
+        machine: machine,
+        init: function(model) {
+            this.wallet.init(model.wallet);
+            this.machine.init(model.machine);
+        }
     }
-
-    view.init = function(model) {
-        var self = this;
-        var wallet = self.wallet;
-        var machine = self.machine;
-
-        wallet.moneyList.forEach(function(item, index) {
-            var unit = item.dataset.unit;
-            var count = model.wallet.getCountOfUnit(unit);
-            var totalMoney = model.wallet.getTotalMoney();
-
-            wallet.render('updateMoney', {
-                unit: unit,
-                count: count,
-                totalMoney: totalMoney
-            });
-        });
-    };
 
     window.vm = window.vm || {};
     window.vm.view = view;
