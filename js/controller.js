@@ -30,6 +30,9 @@
 
             this.model.machine.putMoney(input);
             this.view.machine.render('updateMoney', {money: this.model.machine.getMoney()});
+
+            var isPurchasable = this.model.machine.getPurchasableFlags();
+            this.view.machine.render('updatePurchasableItems', {isPurchasable: isPurchasable})
         }
     }
 

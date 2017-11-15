@@ -42,6 +42,11 @@
         },
         getMoney: function() {
             return this.money;
+        },
+        getPurchasableFlags: function() {
+            return this.items.map(function(item) {
+                return item.price <= this.money;
+            }.bind(this));
         }
     };
 

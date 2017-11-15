@@ -68,6 +68,11 @@ p { margin: 0; }
   border-radius: 15px;
 }
 
+.item.purchasable {
+  border-color: green;
+  color: green;
+}
+
 .wallet {
 
 }

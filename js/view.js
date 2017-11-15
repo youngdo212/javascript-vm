@@ -52,12 +52,29 @@
     }
 
     var machine = {
-        items: document.querySelector('.machine .items'),
+        itemContainer: document.querySelector('.machine .items'),
+        items: null,
         inputBox: document.querySelector('.machine .input'),
         render: function(command, params) {
             var viewCommands = {
                 updateMoney: function() {
                     this.inputBox.textContent = params.money + '원';
+                }.bind(this),
+
+                updatePurchasableItems: function() {
+                    console.log('!!');
+                    console.log(this.items);
+                    this.items.forEach(function(item, index) {
+                        console.log(params.isPurchasable[index]);
+                        if (!params.isPurchasable[index]) {
+                            item.classList.remove('purchasable');
+                            return;
+                        };
+
+                        if (!item.classList.contains('purchasable')) {
+                            item.classList.add('purchasable');
+                        }
+                    })
                 }.bind(this)
             };
 
@@ -71,11 +88,13 @@
             '</li>';
 
             model.items.forEach(function(item, index) {
-                this.items.innerHTML += drinkItemTemplate
+                this.itemContainer.innerHTML += drinkItemTemplate
                     .replace('{{name}}', item.name)
                     .replace('{{index}}', (index + 1) + '. ')
                     .replace('{{price}}', item.price);
             }.bind(this));
+
+            this.items = document.querySelectorAll('.machine .items .item');
         }
     }
 
