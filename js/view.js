@@ -71,7 +71,7 @@
 
         wallet.moneyList.forEach(function(item, index) {
             var unit = item.dataset.unit;
-            var count = model.wallet.getCount(unit);
+            var count = model.wallet.getCountOfUnit(unit);
             var totalMoney = model.wallet.getTotalMoney();
 
             wallet.render('updateMoney', {

@@ -9,13 +9,13 @@
             var item = this.findMoney(unit);
 
             item.count -= count;
-            this.total -= unit * count;
+            this.totalMoney -= unit * count;
         },
         getTotalMoney: function () {
-            return this.total;
+            return this.totalMoney;
         },
         findMoney: function(unit) {
-            return this.find(function(item) {
+            return this.moneyList.find(function(item) {
                 return item.unit === unit;
             });
         },
@@ -27,7 +27,7 @@
         },
         init: function() {
             this.moneyList.forEach(function(item) {
-                this.total += item.unit * item.count;
+                this.totalMoney += item.unit * item.count;
             }.bind(this));
         }
     };

@@ -12,7 +12,7 @@
         },
 
         spendMoney: function(unit) {
-            var count = this.model.wallet.getCount(unit);
+            var count = this.model.wallet.getCountOfUnit(unit);
 
             if (count < 1) {
                 alert(unit + '원의 개수가 부족합니다.');

@@ -1,5 +1,5 @@
 (function(window) {
-  var wallet = [
+  var moneyList = [
     {
       unit: 10,
       count: 5
@@ -70,7 +70,7 @@
   ];
 
   window.originalData = {};
-  window.originalData.wallet = wallet;
+  window.originalData.moneyList = moneyList;
   window.originalData.drinks = drinks;
 
 })(window);
