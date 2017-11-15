@@ -9,7 +9,7 @@
     { unit: 10000, count: 5 }
   ];
 
-  var drinks = [
+  var items = [
     { name: "콜라", price: 500 },
     { name: "사이다", price: 1000 },
     { name: "환타파인애플", price: 400 },
@@ -46,6 +46,6 @@
 
   window.originalData = {};
   window.originalData.moneyList = moneyList;
-  window.originalData.drinks = drinks;
+  window.originalData.items = items;
 
 })(window);

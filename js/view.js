@@ -52,7 +52,7 @@
     }
 
     var machine = {
-        drinks: document.querySelector('.machine .drinks'),
+        items: document.querySelector('.machine .items'),
         inputBox: document.querySelector('.machine .input'),
         render: function(command, params) {
             var viewCommands = {
@@ -64,14 +64,14 @@
             viewCommands[command]();
         },
         init: function(model) {
-            var drinkItemTemplate = '<li class="item-drink col-3">' +
+            var drinkItemTemplate = '<li class="item col-3">' +
               '<p class="name">{{name}}</p>' +
               '<span class="id">{{index}}</span>' +
               '<span class="price">{{price}}</span>' +
             '</li>';
 
-            model.drinks.forEach(function(item, index) {
-                this.drinks.innerHTML += drinkItemTemplate
+            model.items.forEach(function(item, index) {
+                this.items.innerHTML += drinkItemTemplate
                     .replace('{{name}}', item.name)
                     .replace('{{index}}', (index + 1) + '. ')
                     .replace('{{price}}', item.price);

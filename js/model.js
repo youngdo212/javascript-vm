@@ -36,7 +36,7 @@
 
     var machine = {
         money: 0,
-        drinks: originalData.drinks,
+        items: originalData.items,
         putMoney: function(money) {
             this.money += money;
         },
