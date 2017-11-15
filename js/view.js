@@ -16,11 +16,9 @@
                 break;
             }
         },
-
         render: function(command, params) {
             var viewCommands = {
                 updateMoney: function() {
-                    console.log(this)
                     var item = null;
 
                     for (var i = 0; i < this.moneyList.length; i++) {
@@ -65,8 +63,19 @@
 
             viewCommands[command]();
         },
-        init: function() {
+        init: function(model) {
+            var drinkItemTemplate = '<li class="item-drink col-3">' +
+              '<p class="name">{{name}}</p>' +
+              '<span class="id">{{index}}</span>' +
+              '<span class="price">{{price}}</span>' +
+            '</li>';
 
+            model.drinks.forEach(function(item, index) {
+                this.drinks.innerHTML += drinkItemTemplate
+                    .replace('{{name}}', item.name)
+                    .replace('{{index}}', (index + 1) + '. ')
+                    .replace('{{price}}', item.price);
+            }.bind(this));
         }
     }
 
