@@ -1,38 +1,38 @@
 (function(window) {
-    var wallet = originalData.wallet; //Array
+    var wallet = {
+        moneyList: originalData.moneyList,
+        totalMoney: 0,
+        loseMoney: function(unit, count) {
+            unit = parseInt(unit);
+            count = parseInt(count);
 
-    wallet.total = 0;
-    originalData.wallet.forEach(function(item) {
-        wallet.total += item.unit * item.count;
-    });
-    
+            var item = this.findMoney(unit);
 
-    wallet.loseMoney = function(unit, count) {
-        unit = parseInt(unit);
-        count = parseInt(count);
+            item.count -= count;
+            this.total -= unit * count;
+        },
+        getTotalMoney: function () {
+            return this.total;
+        },
+        findMoney: function(unit) {
+            return this.find(function(item) {
+                return item.unit === unit;
+            });
+        },
+        getCountOfUnit: function(unit) {
+            unit = parseInt(unit);
+            var item = this.findMoney(unit);
 
-        var item = this.findMoney(unit);
+            return item.count;
+        },
+        init: function() {
+            this.moneyList.forEach(function(item) {
+                this.total += item.unit * item.count;
+            }.bind(this));
+        }
+    };
 
-        item.count -= count;
-        this.total -= unit * count;
-    }
-
-    wallet.getTotalMoney = function() {
-        return this.total;
-    }
-
-    wallet.findMoney = function(unit) {
-        return this.find(function(item) {
-            return item.unit === unit;
-        });
-    }
-
-    wallet.getCount = function(unit) {
-        unit = parseInt(unit);
-        var item = this.findMoney(unit);
-
-        return item.count;
-    }
+    wallet.init();
 
     var machine = {
         money: 0,
