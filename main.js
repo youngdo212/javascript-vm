@@ -12,4 +12,4 @@ function main() {
     vendingMachine.run();
 }
 
-window.addEventListener('load', main);
+document.addEventListener('DOMContentLoaded', main);
