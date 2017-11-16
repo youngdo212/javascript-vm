@@ -55,6 +55,7 @@
         itemContainer: document.querySelector('.machine .items'),
         items: null,
         inputBox: document.querySelector('.machine .input'),
+        messageBox: document.querySelector('.machine .message'),
         render: function(command, params) {
             var viewCommands = {
                 updateMoney: function() {
@@ -75,6 +76,10 @@
                             item.classList.add('purchasable');
                         }
                     })
+                }.bind(this),
+
+                displayMessage: function() {
+                    this.messageBox.innerHTML += params.message + '<br/>';
                 }.bind(this)
             };
 
