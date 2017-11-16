@@ -1,12 +1,12 @@
 (function(window) {
-    var wallet = {
+    const wallet = {
         moneyList: originalData.moneyList,
         totalMoney: 0,
         loseMoney: function(unit, count) {
             unit = parseInt(unit);
             count = parseInt(count);
 
-            var item = this.findMoney(unit);
+            const item = this.findMoney(unit);
 
             item.count -= count;
             this.totalMoney -= unit * count;
@@ -21,7 +21,7 @@
         },
         getCountOfUnit: function(unit) {
             unit = parseInt(unit);
-            var item = this.findMoney(unit);
+            const item = this.findMoney(unit);
 
             return item.count;
         },
@@ -32,9 +32,7 @@
         }
     };
 
-    wallet.init();
-
-    var machine = {
+    const machine = {
         money: 0,
         items: originalData.items,
         idInput: '',
@@ -58,7 +56,7 @@
         }
     };
 
-    var model = {
+    const model = {
         wallet: wallet,
         machine: machine
     };
