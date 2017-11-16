@@ -6,54 +6,84 @@
         init: function(model, view) {
             this.model = model;
             this.view = view;
+            this.model.wallet.init();
 
             view.init(model);
             view.wallet.bind('toggleWallet', null);
             view.wallet.bind('loseMoney', this.spendMoney.bind(this));
             view.machine.bind('inputItemId', this.inputItemId.bind(this));
         },
-        spendMoney: function(unit) {
+        clearEvent: function() {
             if (this.nextEvent !== null) {
                 clearTimeout(this.nextEvent);
                 this.nextEvent = null;
             }
+        },
+        spendMoney: function(unit) {
+            this.clearEvent();
 
-            var count = this.model.wallet.getCountOfUnit(unit);
+            const walletModel = this.model.wallet;
+            const walletView = this.view.wallet;
+            const count = walletModel.getCountOfUnit(unit);
 
             if (count < 1) {
                 alert(unit + '원의 개수가 부족합니다.');
                 return;
             }
 
-            this.model.wallet.loseMoney(unit, 1);
-            this.view.wallet.render('updateMoney', {
+            walletModel.loseMoney(unit, 1);
+            walletView.render('updateMoney', {
                 unit: unit,
                 count: count - 1,
-                totalMoney: this.model.wallet.getTotalMoney()
+                totalMoney: walletModel.getTotalMoney()
             });
 
-            var input = parseInt(unit);
+            this.inputMoney(parseInt(unit));
+        },
+        inputMoney: function(input) {
+            const machineModel = this.model.machine;
+            const machineView = this.view.machine;
 
-            this.model.machine.putMoney(input);
-            this.view.machine.render('updateMoney', {money: this.model.machine.getMoney()});
-
-            var isPurchasable = this.model.machine.getPurchasableFlags();
-            this.view.machine.render('updatePurchasableItems', {isPurchasable: isPurchasable});
-
-            this.view.machine.render('displayMessage', {message: input + '원이 입력되었습니다.'});
+            machineModel.putMoney(input);
+            machineView.render(
+                'updateMoney',
+                { money: machineModel.getMoney() }
+            );
+            machineView.render(
+                'updatePurchasableItems',
+                { purchasableFlags: machineModel.getPurchasableFlags() }
+            );
+            machineView.render(
+                'displayMessage',
+                { message: input + '원이 입력되었습니다.' }
+            );
 
             this.nextEvent = setTimeout(this.returnChanges.bind(this), 5000);
         },
         returnChanges: function() {
-            var moneyList = this.model.wallet.moneyList;
-            var changes = this.model.machine.money;
+            const walletModel = this.model.wallet;
+            const walletView = this.view.wallet;
+            const machineModel = this.model.machine;
+            const machineView = this.view.machine;
+
+            const moneyList = walletModel.moneyList;
+            let changes = machineModel.money;
 
             this.nextEvent = null;
-            this.model.machine.money = 0;
-            this.view.machine.render('updateMoney', {money: this.model.machine.getMoney()});
-            this.view.machine.render('displayMessage', {message: changes + '원을 반환합니다.'});
-            var isPurchasable = this.model.machine.getPurchasableFlags();
-            this.view.machine.render('updatePurchasableItems', {isPurchasable: isPurchasable});
+            machineModel.money = 0;
+
+            machineView.render(
+                'updateMoney',
+                { money: machineModel.getMoney() }
+            );
+            machineView.render(
+                'displayMessage',
+                { message: changes + '원을 반환합니다.' }
+            );
+            machineView.render(
+                'updatePurchasableItems',
+                { purchasableFlags: machineModel.getPurchasableFlags() }
+            );
 
             //잔돈 반환 로직
             for (var i = moneyList.length - 1; i >= 0; i--) {
@@ -65,28 +95,33 @@
                     changes -= item.unit * countOfUnit;
                 }
 
-                this.view.wallet.render('updateMoney', {
+                walletView.render('updateMoney', {
                     unit: item.unit,
                     count: item.count,
-                    totalMoney: this.model.wallet.getTotalMoney()
+                    totalMoney: walletModel.getTotalMoney()
                 });
             }
         },
         inputItemId: function(num) {
-            if (this.nextEvent !== null) {
-                clearTimeout(this.nextEvent);
-                this.nextEvent = null;
-            }
+            this.clearEvent();
 
-            var machine = this.model.machine;
+            const machineModel = this.model.machine;
+            const machineView = this.view.machine;
 
-            if (machine.getMoney() === 0) {
-                this.view.machine.render('displayMessage', {message: '돈을 투입해 주세요.'});
+            if (machineModel.getMoney() === 0) {
+                machineView.render(
+                    'displayMessage',
+                    { message: '돈을 투입해 주세요.' }
+                );
+
                 return;
             }
 
-            machine.idInput += num;
-            this.view.machine.render('displayMessage', {message: '입력: ' + machine.idInput});
+            machineModel.idInput += num;
+            machineView.render(
+                'displayMessage',
+                { message: '입력: ' + machineModel.idInput }
+            );
 
             this.nextEvent = setTimeout(function() {
                 this.itemSelected();
@@ -94,37 +129,50 @@
             }.bind(this), 3000);
         },
         itemSelected: function() {
-            if (this.nextEvent !== null) {
-                clearTimeout(this.nextEvent);
-                this.nextEvent = null;
-            }
+            this.clearEvent();
 
-            var machine = this.model.machine;
-            var id = machine.idInput;
-            var item = machine.getItemById(id);
+            const machineModel = this.model.machine;
+            const machineView = this.view.machine;
+
+            const id = machineModel.idInput;
+            const item = machineModel.getItemById(id);
 
             if (!item) {
-                this.view.machine.render('displayMessage', {message: id + '에 해당하는 상품이 존재하지 않습니다.'});
+                machineView.render(
+                    'displayMessage',
+                    { message: id + '에 해당하는 상품이 존재하지 않습니다.' }
+                );
+
                 return;
             }
 
-            if (item.price > machine.getMoney()) {
-                this.view.machine.render('displayMessage', {message: '투입한 금액이 ' + item.name + '의 가격보다 적습니다.'});
+            if (item.price > machineModel.getMoney()) {
+                machineView.render(
+                    'displayMessage', 
+                    { message: '투입한 금액이 ' + item.name + '의 가격보다 적습니다.' }
+                );
+
                 return;
             }
 
-            machine.money -= item.price;
+            machineModel.money -= item.price;
             
-            this.view.machine.render('updateMoney', {money: machine.getMoney()});
-            this.view.machine.render('displayMessage', {message: item.name + ' 상품이 나왔습니다.'});
+            machineView.render(
+                'updateMoney',
+                { money: machineModel.getMoney() }
+            );
+            machineView.render(
+                'displayMessage', 
+                { message: item.name + ' 상품이 나왔습니다.' }
+            );
+            machineView.render(
+                'updatePurchasableItems',
+                { purchasableFlags: machineModel.getPurchasableFlags() }
+            );
 
-            var isPurchasable = this.model.machine.getPurchasableFlags();
-            this.view.machine.render('updatePurchasableItems', {isPurchasable: isPurchasable});
-
-            if (machine.money > 0) {
+            if (machineModel.money > 0) {
                 this.nextEvent = setTimeout(this.returnChanges.bind(this), 5000);
             }
-            
         }
     }
 
