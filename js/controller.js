@@ -1,5 +1,5 @@
 (function (window) {
-    var controller = {
+    const controller = {
         model: null,
         view: null,
         nextEvent: null,
@@ -32,7 +32,7 @@
             }
 
             walletModel.loseMoney(unit, 1);
-            walletView.render('updateMoney', {
+            walletView.renderMoney({
                 unit: unit,
                 count: count - 1,
                 totalMoney: walletModel.getTotalMoney()
@@ -45,17 +45,14 @@
             const machineView = this.view.machine;
 
             machineModel.putMoney(input);
-            machineView.render(
-                'updateMoney',
-                { money: machineModel.getMoney() }
+            machineView.renderMoney(
+                {money: machineModel.getMoney()}
             );
-            machineView.render(
-                'updatePurchasableItems',
-                { purchasableFlags: machineModel.getPurchasableFlags() }
+            machineView.renderPurchasableItems(
+                {purchasableFlags: machineModel.getPurchasableFlags()}
             );
-            machineView.render(
-                'displayMessage',
-                { message: input + '원이 입력되었습니다.' }
+            machineView.renderMessage(
+                {message: input + '원이 입력되었습니다.'}
             );
 
             this.nextEvent = setTimeout(this.returnChanges.bind(this), 5000);
@@ -72,30 +69,27 @@
             this.nextEvent = null;
             machineModel.money = 0;
 
-            machineView.render(
-                'updateMoney',
-                { money: machineModel.getMoney() }
+            machineView.renderMoney(
+                {money: machineModel.getMoney()}
             );
-            machineView.render(
-                'displayMessage',
-                { message: changes + '원을 반환합니다.' }
+            machineView.renderMessage(
+                {message: changes + '원을 반환합니다.'}
             );
-            machineView.render(
-                'updatePurchasableItems',
-                { purchasableFlags: machineModel.getPurchasableFlags() }
+            machineView.renderPurchasableItems(
+                {purchasableFlags: machineModel.getPurchasableFlags()}
             );
 
             //잔돈 반환 로직
-            for (var i = moneyList.length - 1; i >= 0; i--) {
-                var item = moneyList[i];
-                var countOfUnit = Math.floor(changes / item.unit);
+            for (let i = moneyList.length - 1; i >= 0; i--) {
+                const item = moneyList[i];
+                const countOfUnit = Math.floor(changes / item.unit);
 
                 if (countOfUnit > 0) {
                     item.count += countOfUnit;
                     changes -= item.unit * countOfUnit;
                 }
 
-                walletView.render('updateMoney', {
+                walletView.renderMoney({
                     unit: item.unit,
                     count: item.count,
                     totalMoney: walletModel.getTotalMoney()
@@ -109,18 +103,16 @@
             const machineView = this.view.machine;
 
             if (machineModel.getMoney() === 0) {
-                machineView.render(
-                    'displayMessage',
-                    { message: '돈을 투입해 주세요.' }
+                machineView.renderMessage(
+                    {message: '돈을 투입해 주세요.'}
                 );
 
                 return;
             }
 
             machineModel.idInput += num;
-            machineView.render(
-                'displayMessage',
-                { message: '입력: ' + machineModel.idInput }
+            machineView.renderMessage(
+                {message: '입력: ' + machineModel.idInput}
             );
 
             this.nextEvent = setTimeout(function() {
@@ -138,18 +130,16 @@
             const item = machineModel.getItemById(id);
 
             if (!item) {
-                machineView.render(
-                    'displayMessage',
-                    { message: id + '에 해당하는 상품이 존재하지 않습니다.' }
+                machineView.renderMessage(
+                    {message: id + '에 해당하는 상품이 존재하지 않습니다.'}
                 );
 
                 return;
             }
 
             if (item.price > machineModel.getMoney()) {
-                machineView.render(
-                    'displayMessage', 
-                    { message: '투입한 금액이 ' + item.name + '의 가격보다 적습니다.' }
+                machineView.renderMessage(
+                    {message: '투입한 금액이 ' + item.name + '의 가격보다 적습니다.'}
                 );
 
                 return;
@@ -157,17 +147,14 @@
 
             machineModel.money -= item.price;
             
-            machineView.render(
-                'updateMoney',
-                { money: machineModel.getMoney() }
+            machineView.renderMoney(
+                {money: machineModel.getMoney()}
             );
-            machineView.render(
-                'displayMessage', 
-                { message: item.name + ' 상품이 나왔습니다.' }
+            machineView.renderMessage(
+                {message: item.name + ' 상품이 나왔습니다.'}
             );
-            machineView.render(
-                'updatePurchasableItems',
-                { purchasableFlags: machineModel.getPurchasableFlags() }
+            machineView.renderPurchasableItems(
+                {purchasableFlags: machineModel.getPurchasableFlags()}
             );
 
             if (machineModel.money > 0) {
