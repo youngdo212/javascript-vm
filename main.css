@@ -64,7 +64,12 @@ button  {
 
 /* components */
 .machine {
-  border: 1px solid #333;
+  margin-top: 15px;
+  border: 2px solid #777;
+}
+
+.machine .items {
+  border-right: 2px solid #777;
   padding-top: 30px;
   padding-bottom: 15px;
 }
@@ -122,6 +127,10 @@ button  {
   margin-bottom: 4px;
 }
 
+.machine .controller {
+  padding-top: 30px;
+}
+
 .machine .controller .input {
   font-size: 24px;
   font-weight: 600;
@@ -132,7 +141,7 @@ button  {
 
 .machine .controller .message.box {
   padding: 15px;
-  height: 210px;
+  height: 203px;
   overflow-y: scroll;
 }
 
