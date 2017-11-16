@@ -78,20 +78,22 @@
                 }
             });
         },
+        mappingItemData: function(template, obj) {
+            const keys = Object.keys(obj);
+            let result = template;
+
+            keys.forEach((key) => {
+                result = result.replace(`{{${key}}}`, obj[key]);
+            });
+
+            return result;
+        },
         init: function(model) {
-            let itemTemplate = '<li class="col-3">' +
-              '<div class="item">' +
-              '<p class="name">{{name}}</p>' +
-              '<span class="id">{{index}}</span>' +
-              '<span class="price">{{price}}</span>' +
-              '</div>'
-            '</li>';
+            const itemTemplate = document.querySelector('#itemTemplate');
 
             model.items.forEach(function(item, index) {
-                this.itemContainer.innerHTML += itemTemplate
-                    .replace('{{name}}', item.name)
-                    .replace('{{index}}', (index + 1) + '. ')
-                    .replace('{{price}}', item.price);
+                let newItem = itemTemplate.innerHTML;
+                this.itemContainer.innerHTML += this.mappingItemData(newItem, item);
             }.bind(this));
 
             this.items = document.querySelectorAll('.machine .items .item');
