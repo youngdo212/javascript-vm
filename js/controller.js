@@ -86,6 +86,7 @@
             }
 
             machine.idInput += num;
+            this.view.machine.render('displayMessage', {message: '입력: ' + machine.idInput});
 
             this.nextEvent = setTimeout(function() {
                 this.itemSelected();
