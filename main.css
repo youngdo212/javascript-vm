@@ -1,8 +1,17 @@
 /* reset */
 * { box-sizing: border-box; }
-p { margin: 0; }
+body, p { margin: 0; }
+button  {
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none; 
+  -webkit-appearance:none;
+}
 
 /* common styles */
+.hide { display: none; }
+
 .nonliststyle {
   list-style: none;
   padding: 0;
@@ -12,69 +21,168 @@ p { margin: 0; }
 .container {
   position: relative;
   overflow: hidden;
-  width: 980px;
+  width: 1140px;
   margin: 0 auto;
 }
 
 .row {
+  margin-left: -15px;
+  margin-right: -15px;
   position: relative;
   overflow: hidden;
 }
 
+.col-1,
+.col-2,
 .col-3,
 .col-4,
 .col-5,
 .col-6,
 .col-7,
+.col-8,
 .col-9,
-.col-12 { float: left; }
-
+.col-10,
+.col-11,
 .col-12 {
-  width: 100%;
+  float: left;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
-.col-9 {
-  width: 75%;
-}
-
-.col-7 {
-  width: 58.33333333%;
-}
-
-.col-6 {
-  width: 50%;
-}
-
-.col-5 {
-  width: 41.66666666%;
-}
-
-.col-4 {
-  width: 33.33333333%;
-}
-
-.col-3 {
-  width: 25%;
-}
+.col-12 { width: 100%; }
+.col-11 {width: 91.66666666%;}
+.col-10 {width: 83.33333333%;}
+.col-9 { width: 75%; }
+.col-8 { width: 66.66666666%; }
+.col-7 { width: 58.33333333%; }
+.col-6 { width: 50%; }
+.col-5 { width: 41.66666666%; }
+.col-4 { width: 33.33333333%; }
+.col-3 { width: 25%; }
+.col-2 { width: 16.66666666%; }
+.col-1 { width: 8.33333333%; }
 
 /* components */
 .machine {
-  width: 100%;
   border: 1px solid #333;
+  padding-top: 30px;
+  padding-bottom: 15px;
+}
+
+.machine .buttons button {
+  width: 100%;
+  height: 45px;
+  margin-bottom: 30px;
+  font-size: 20px;
+}
+
+.machine .buttons button:hover {
+  background: mediumseagreen;
+  border-color: mediumseagreen;
+  color: #FFF;
+}
+
+.machine .buttons button:active {
+  background: green;
+  border-color: green;
+  color: #FFF;
+}
+
+.machine .items {
+  padding-left: 7.5px;
+  padding-right: 7.5px;
+}
+
+.machine .items > li {
+  padding-left: 7.5px;
+  padding-right: 7.5px;
+  margin-bottom: 15px;
 }
 
 .item {
+  text-align: center;
   border: 1px solid #ddd;
   border-radius: 15px;
+  padding: 10px;
 }
 
 .item.purchasable {
-  border-color: green;
-  color: green;
+  border-color: mediumseagreen;
+  color: mediumseagreen;
 }
 
-.wallet {
+.item > * {
+  font-size: 13px;
+  line-height: 1.0;
+}
 
+.item > .name {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.machine .controller .input {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: right;
+  padding: 10px 20px;
+  margin-bottom: 30px;
+}
+
+.machine .controller .message.box {
+  padding: 15px;
+  height: 210px;
+  overflow-y: scroll;
+}
+
+.wrap-wallet-icon { text-align: center; }
+.wrap-wallet-icon .icon {
+  width: 120px;
+  cursor: pointer;
+}
+
+.wrap-wallet-icon img:hover {
+  transform: scale(1.2);
+}
+
+.wallet .money li {
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+}
+
+.wallet .money li:hover { z-index: 10; }
+
+.wallet .money li > * {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.wallet .money li > .unit { width: 80%; }
+.wallet .money li > .unit:hover { transform: scale(1.1); }
+
+.wallet .money li > .unit.coin { width: 30%; }
+.wallet .money li > .count {
+  font-size: 24px;
+  margin-left: 20px;
+}
+.wallet .money li > .unit:not(.coin) + .count { vertical-align: top; }
+
+.wallet .money li:nth-child(1),
+.wallet .money li:nth-child(2),
+.wallet .money li:nth-child(3),
+.wallet .money li:nth-child(4) {
+  width: 50%;
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.wallet .money li:nth-child(6),
+.wallet .money li:nth-child(7),
+.wallet .money li:nth-child(8) {
+  position: relative;
+  margin-top: -50px;
 }
 
 .box {

@@ -6,13 +6,14 @@
     { unit: 500, count: 3 },
     { unit: 1000, count: 5 },
     { unit: 5000, count: 3 },
-    { unit: 10000, count: 5 }
+    { unit: 10000, count: 5 },
+    { unit: 50000, count: 3}
   ];
 
   var items = [
     { name: "콜라", price: 500 },
     { name: "사이다", price: 1000 },
-    { name: "환타파인애플", price: 400 },
+    { name: "환타파인", price: 400 },
     { name: "환타포도", price: 400 },
     { name: "레몬에이드", price: 500 },
     { name: "봉봉", price: 1200},

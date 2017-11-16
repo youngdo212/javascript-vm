@@ -8,10 +8,10 @@
             this.view = view;
 
             view.init(model);
+            view.wallet.bind('toggleWallet', null);
             view.wallet.bind('loseMoney', this.spendMoney.bind(this));
             view.machine.bind('inputItemId', this.inputItemId.bind(this));
         },
-
         spendMoney: function(unit) {
             if (this.nextEvent !== null) {
                 clearTimeout(this.nextEvent);
@@ -71,9 +71,6 @@
                     totalMoney: this.model.wallet.getTotalMoney()
                 });
             }
-
-
-
         },
         inputItemId: function(num) {
             if (this.nextEvent !== null) {
@@ -82,6 +79,12 @@
             }
 
             var machine = this.model.machine;
+
+            if (machine.getMoney() === 0) {
+                this.view.machine.render('displayMessage', {message: '돈을 투입해 주세요.'});
+                return;
+            }
+
             machine.idInput += num;
 
             this.nextEvent = setTimeout(function() {

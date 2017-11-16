@@ -1,11 +1,24 @@
 (function (window) {
     var wallet = {
+        money: document.querySelector('.wallet .money'),
         moneyList: document.querySelectorAll('.wallet .money > li'),
         moneyUnits: document.querySelectorAll('.wallet .money > li .unit'),
         moneyCounts: document.querySelectorAll('.wallet .money > li .count'),
         totalMoney: document.querySelector('.wallet .total'),
+        openToggle: document.querySelector('.wallet .wrap-wallet-icon .icon'),
         bind: function(event, handler) {
             switch (event) {
+                case 'toggleWallet':
+                    this.openToggle.addEventListener('click', function(evt) {
+                        console.log(this.money);
+                        console.log(this.money.classList);
+                        if (this.money.classList.contains('hide')) {
+                            this.money.classList.remove('hide');
+                        } else {
+                            this.money.classList.add('hide');
+                        }
+                    }.bind(this));
+                break;
                 case 'loseMoney':
                     this.moneyUnits.forEach(function(btn, index) {
                         btn.addEventListener('click', function() {
@@ -96,10 +109,12 @@
             viewCommands[command]();
         },
         init: function(model) {
-            var drinkItemTemplate = '<li class="item col-3">' +
+            var drinkItemTemplate = '<li class="col-3">' +
+              '<div class="item">' +
               '<p class="name">{{name}}</p>' +
               '<span class="id">{{index}}</span>' +
               '<span class="price">{{price}}</span>' +
+              '</div>'
             '</li>';
 
             model.items.forEach(function(item, index) {
