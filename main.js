@@ -1,6 +1,6 @@
 
 function main() {
-    var vendingMachine = {
+    const vendingMachine = {
         model: vm.model,
         view: vm.view,
         controller: vm.controller,

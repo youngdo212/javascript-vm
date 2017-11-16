@@ -1,5 +1,5 @@
 (function(window) {
-  var moneyList = [
+  const moneyList = [
     { unit: 10, count: 5 },
     { unit: 50, count: 3 },
     { unit: 100, count: 5 },
@@ -10,7 +10,7 @@
     { unit: 50000, count: 3}
   ];
 
-  var items = [
+  const items = [
     { name: "콜라", price: 500 },
     { name: "사이다", price: 1000 },
     { name: "환타파인", price: 400 },

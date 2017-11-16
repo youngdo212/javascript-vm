@@ -36,14 +36,10 @@
         },
         init: function(model) {
             model.moneyList.forEach(function(item) {
-                var unit = item.unit;
-                var count = model.getCountOfUnit(unit);
-                var totalMoney = model.getTotalMoney();
-
                 this.renderMoney({
-                    unit: unit,
-                    count: count,
-                    totalMoney: totalMoney
+                    unit: item.unit,
+                    count: model.getCountOfUnit(item.unit),
+                    totalMoney: model.getTotalMoney()
                 });
             }.bind(this));
         }
@@ -83,7 +79,7 @@
             });
         },
         init: function(model) {
-            var itemTemplate = '<li class="col-3">' +
+            let itemTemplate = '<li class="col-3">' +
               '<div class="item">' +
               '<p class="name">{{name}}</p>' +
               '<span class="id">{{index}}</span>' +
