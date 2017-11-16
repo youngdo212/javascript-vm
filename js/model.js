@@ -37,6 +37,7 @@
     var machine = {
         money: 0,
         items: originalData.items,
+        idInput: '',
         putMoney: function(money) {
             this.money += money;
         },
@@ -47,6 +48,13 @@
             return this.items.map(function(item) {
                 return item.price <= this.money;
             }.bind(this));
+        },
+        getItemById: function(id) {
+            if (id < 1) {
+                return undefined;
+            }
+            
+            return this.items[id - 1];
         }
     };
 

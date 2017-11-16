@@ -56,6 +56,19 @@
         items: null,
         inputBox: document.querySelector('.machine .input'),
         messageBox: document.querySelector('.machine .message'),
+        numberButtons: document.querySelectorAll('.machine .buttons button'),
+        bind: function(event, handler) {
+            switch (event) {
+                case 'inputItemId':
+                    this.numberButtons.forEach(function(btn) {
+                        btn.addEventListener('click', function() {
+                            var num = btn.dataset.num;
+                            handler(num);
+                        });
+                    });
+                break;
+            }
+        },
         render: function(command, params) {
             var viewCommands = {
                 updateMoney: function() {
@@ -63,10 +76,7 @@
                 }.bind(this),
 
                 updatePurchasableItems: function() {
-                    console.log('!!');
-                    console.log(this.items);
                     this.items.forEach(function(item, index) {
-                        console.log(params.isPurchasable[index]);
                         if (!params.isPurchasable[index]) {
                             item.classList.remove('purchasable');
                             return;
