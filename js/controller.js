@@ -120,7 +120,10 @@
             var isPurchasable = this.model.machine.getPurchasableFlags();
             this.view.machine.render('updatePurchasableItems', {isPurchasable: isPurchasable});
 
-            this.nextEvent = setTimeout(this.returnChanges.bind(this), 5000);
+            if (machine.money > 0) {
+                this.nextEvent = setTimeout(this.returnChanges.bind(this), 5000);
+            }
+            
         }
     }
 
