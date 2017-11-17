@@ -1,6 +1,8 @@
-(function(window) {
+window.vm = window.vm || {};
+
+vm.model = (function(win) {
     const wallet = {
-        moneyList: originalData.moneyList,
+        moneyList: vm.originalData.moneyList,
         totalMoney: 0,
         loseMoney: function(unit, count) {
             unit = parseInt(unit);
@@ -34,7 +36,7 @@
 
     const machine = {
         money: 0,
-        items: originalData.items,
+        items: vm.originalData.items,
         idInput: '',
         putMoney: function(money) {
             this.money += money;
@@ -56,12 +58,8 @@
         }
     };
 
-    const model = {
+    return {
         wallet: wallet,
         machine: machine
     };
-
-    window.vm = window.vm || {};
-    window.vm.model = model;
-
-})(window);
+})();

@@ -1,4 +1,6 @@
-(function(window) {
+window.vm = window.vm || {};
+
+vm.originalData = (function() {
   const moneyList = [
     { unit: 10, count: 5 },
     { unit: 50, count: 3 },
@@ -45,8 +47,8 @@
     { name: "짜파게티", price: 1100, id: 32 }
   ];
 
-  window.originalData = {};
-  window.originalData.moneyList = moneyList;
-  window.originalData.items = items;
-
-})(window);
+  return {
+    moneyList: moneyList,
+    items: items
+  };
+})();

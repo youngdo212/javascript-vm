@@ -1,11 +1,13 @@
-(function (window) {
+window.vm = window.vm || {};
+
+vm.view = (function (doc) {
     const wallet = {
-        moneyContainer: document.querySelector('.wallet .money'),
-        moneyItems: document.querySelectorAll('.wallet .money > li'),
-        moneyUnits: document.querySelectorAll('.wallet .money > li .unit'),
-        moneyCounts: document.querySelectorAll('.wallet .money > li .count'),
-        totalMoney: document.querySelector('.wallet .total'),
-        openToggle: document.querySelector('.wallet .wrap-wallet-icon .icon'),
+        moneyContainer: doc.querySelector('.wallet .money'),
+        moneyItems: doc.querySelectorAll('.wallet .money > li'),
+        moneyUnits: doc.querySelectorAll('.wallet .money > li .unit'),
+        moneyCounts: doc.querySelectorAll('.wallet .money > li .count'),
+        totalMoney: doc.querySelector('.wallet .total'),
+        openToggle: doc.querySelector('.wallet .wrap-wallet-icon .icon'),
         bind: function(event, handler) {
             if (event === 'toggleWallet') {
                 this.openToggle.addEventListener('click', function() {
@@ -46,11 +48,11 @@
     }
 
     const machine = {
-        itemContainer: document.querySelector('.machine .items'),
+        itemContainer: doc.querySelector('.machine .items'),
         items: null,
-        inputBox: document.querySelector('.machine .input'),
-        messageBox: document.querySelector('.machine .message'),
-        numberButtons: document.querySelectorAll('.machine .buttons button'),
+        inputBox: doc.querySelector('.machine .input'),
+        messageBox: doc.querySelector('.machine .message'),
+        numberButtons: doc.querySelectorAll('.machine .buttons button'),
         bind: function(event, handler) {
             if (event === 'inputItemId') {
                 this.numberButtons.forEach(function(btn) {
@@ -89,18 +91,18 @@
             return result;
         },
         init: function(model) {
-            const itemTemplate = document.querySelector('#itemTemplate');
+            const itemTemplate = doc.querySelector('#itemTemplate');
 
             model.items.forEach(function(item, index) {
                 let newItem = itemTemplate.innerHTML;
                 this.itemContainer.innerHTML += this.mappingItemData(newItem, item);
             }.bind(this));
 
-            this.items = document.querySelectorAll('.machine .items .item');
+            this.items = doc.querySelectorAll('.machine .items .item');
         }
     }
 
-    const view = {
+    return {
         wallet: wallet,
         machine: machine,
         init: function(model) {
@@ -108,8 +110,4 @@
             this.machine.init(model.machine);
         }
     }
-
-    window.vm = window.vm || {};
-    window.vm.view = view;
-
-})(window);
+})(document);
