@@ -1,88 +1,113 @@
-(function (window) {
-    var wallet = {
-        moneyList: document.querySelectorAll('.wallet .money > li'),
-        moneyUnits: document.querySelectorAll('.wallet .money > li .unit'),
-        moneyCounts: document.querySelectorAll('.wallet .money > li .count'),
-        totalMoney: document.querySelector('.wallet .total')
+window.vm = window.vm || {};
+
+vm.view = (function (doc) {
+    const wallet = {
+        moneyContainer: doc.querySelector('.wallet .money'),
+        moneyItems: doc.querySelectorAll('.wallet .money > li'),
+        moneyUnits: doc.querySelectorAll('.wallet .money > li .unit'),
+        moneyCounts: doc.querySelectorAll('.wallet .money > li .count'),
+        totalMoney: doc.querySelector('.wallet .total'),
+        openToggle: doc.querySelector('.wallet .wrap-wallet-icon .icon'),
+        bind: function(event, handler) {
+            if (event === 'toggleWallet') {
+                this.openToggle.addEventListener('click', function() {
+                    if (this.moneyContainer.classList.contains('hide')) {
+                        this.moneyContainer.classList.remove('hide');
+                    } else {
+                        this.moneyContainer.classList.add('hide');
+                    }
+                }.bind(this));
+            } else if (event === 'loseMoney') {
+                this.moneyUnits.forEach(function(btn, index) {
+                    btn.addEventListener('click', function() {
+                        handler(this.moneyItems[index].dataset.unit);
+                    }.bind(this));
+                }.bind(this));
+            }
+        },
+        renderMoney: function(params) {
+            this.moneyItems.findIndex = Array.prototype.findIndex.bind(this.moneyItems);
+
+            const index = this.moneyItems.findIndex(item => {
+                return item.dataset.unit == params.unit;
+            });
+
+            const item = this.moneyCounts[index];
+            item.textContent = params.count + '개';
+            this.totalMoney.textContent = params.totalMoney + '원';
+        },
+        init: function(model) {
+            model.moneyList.forEach(function(item) {
+                this.renderMoney({
+                    unit: item.unit,
+                    count: model.getCountOfUnit(item.unit),
+                    totalMoney: model.getTotalMoney()
+                });
+            }.bind(this));
+        }
     }
 
-    wallet.bind = function(event, handler) {
-        var self = this;
-
-        switch (event) {
-            case 'loseMoney':
-                self.moneyUnits.forEach(function(btn, index) {
+    const machine = {
+        itemContainer: doc.querySelector('.machine .items'),
+        items: null,
+        inputBox: doc.querySelector('.machine .input'),
+        messageBox: doc.querySelector('.machine .message'),
+        numberButtons: doc.querySelectorAll('.machine .buttons button'),
+        bind: function(event, handler) {
+            if (event === 'inputItemId') {
+                this.numberButtons.forEach(function(btn) {
                     btn.addEventListener('click', function() {
-                        var unit = self.moneyList[index].getAttribute('data-unit');
-                        handler(unit);
+                        handler(btn.dataset.num);
                     });
                 });
-            break;
-        }
-    };
+            }
+        },
+        renderMessage: function(params) {
+            this.messageBox.innerHTML += params.message + '<br/>';
+        },
+        renderMoney: function(params) {
+            this.inputBox.textContent = params.money + '원';
+        },
+        renderPurchasableItems: function(params) {
+            this.items.forEach(function(item, index) {
+                if (!params.purchasableFlags[index]) {
+                    item.classList.remove('purchasable');
+                    return;
+                };
 
-    wallet.render = function(command, params) {
-        var self = this;
-
-        var viewCommands = {
-            updateMoney: function() {
-                var item = null;
-
-                for (var i = 0; i < self.moneyList.length; i++) {
-                    if (self.moneyList[i].getAttribute('data-unit') === params.unit) {
-                        item = self.moneyCounts[i];
-                        break;
-                    }
+                if (!item.classList.contains('purchasable')) {
+                    item.classList.add('purchasable');
                 }
-
-                item.textContent = params.count + '개';
-                self.totalMoney.textContent = params.totalMoney + '원';
-            }
-        };
-
-        viewCommands[command]();
-    };
-
-    var machine = {
-        inputBox: document.querySelector('.machine .input')
-    }
-
-    machine.render = function(command, params) {
-        var self = this;
-
-        var viewCommands = {
-            updateMoney: function() {
-                self.inputBox.textContent = params.money + '원';
-            }
-        };
-
-        viewCommands[command]();
-    };
-
-    var view = {
-        wallet: wallet,
-        machine: machine
-    }
-
-    view.init = function(model) {
-        var self = this;
-        var wallet = self.wallet;
-        var machine = self.machine;
-
-        wallet.moneyList.forEach(function(item, index) {
-            var unit = item.getAttribute('data-unit');
-            var count = model.wallet.getCount(unit);
-            var totalMoney = model.wallet.getTotalMoney();
-
-            wallet.render('updateMoney', {
-                unit: unit,
-                count: count,
-                totalMoney: totalMoney
             });
-        });
-    };
+        },
+        mappingItemData: function(template, obj) {
+            const keys = Object.keys(obj);
+            let result = template;
 
-    window.vm = window.vm || {};
-    window.vm.view = view;
+            keys.forEach((key) => {
+                result = result.replace(`{{${key}}}`, obj[key]);
+            });
 
-})(window);
+            return result;
+        },
+        init: function(model) {
+            const itemTemplate = doc.querySelector('#itemTemplate');
+
+            model.items.forEach(function(item, index) {
+                let newItem = itemTemplate.innerHTML;
+                this.itemContainer.innerHTML += this.mappingItemData(newItem, item);
+            }.bind(this));
+
+            this.items = doc.querySelectorAll('.machine .items .item');
+        }
+    }
+
+    return {
+        wallet: wallet,
+        machine: machine,
+        init: function(model) {
+            this.wallet.init(model.wallet);
+            this.machine.init(model.machine);
+        }
+    }
+})(document);

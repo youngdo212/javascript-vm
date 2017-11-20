@@ -1,47 +1,165 @@
-(function (window) {
+window.vm = window.vm || {};
 
-    var controller = {
-        model: null,
-        view: null,
-        init: function(model, view) {
-            this.model = model;
-            this.view = view;
+vm.controller = {
+    model: null,
+    view: null,
+    nextEvent: null,
+    init: function(model, view) {
+        this.model = model;
+        this.view = view;
+        this.model.wallet.init();
 
-            model.wallet.putMoney(10, 5);
-            model.wallet.putMoney(50, 3);
-            model.wallet.putMoney(100, 5);
-            model.wallet.putMoney(500, 3);
-            model.wallet.putMoney(1000, 5);
-            model.wallet.putMoney(5000, 3);
-            model.wallet.putMoney(10000, 5);
+        view.init(model);
+        view.wallet.bind('toggleWallet', null);
+        view.wallet.bind('loseMoney', this.spendMoney.bind(this));
+        view.machine.bind('inputItemId', this.inputItemId.bind(this));
+    },
+    clearEvent: function() {
+        if (this.nextEvent !== null) {
+            clearTimeout(this.nextEvent);
+            this.nextEvent = null;
+        }
+    },
+    spendMoney: function(unit) {
+        this.clearEvent();
 
-            view.init(model);
-            view.wallet.bind('loseMoney', this.spendMoney.bind(this));
-        },
+        const walletModel = this.model.wallet;
+        const walletView = this.view.wallet;
+        const count = walletModel.getCountOfUnit(unit);
 
-        spendMoney: function(unit) {
-            var count = this.model.wallet.getCount(unit);
+        if (count < 1) {
+            alert(unit + '원의 개수가 부족합니다.');
+            return;
+        }
 
-            if (count < 1) {
-                alert(unit + '원의 개수가 부족합니다.');
-                return;
+        walletModel.loseMoney(unit, 1);
+        walletView.renderMoney({
+            unit: unit,
+            count: count - 1,
+            totalMoney: walletModel.getTotalMoney()
+        });
+
+        this.inputMoney(parseInt(unit));
+    },
+    inputMoney: function(input) {
+        const machineModel = this.model.machine;
+        const machineView = this.view.machine;
+
+        machineModel.putMoney(input);
+        machineView.renderMoney(
+            {money: machineModel.getMoney()}
+        );
+        machineView.renderPurchasableItems(
+            {purchasableFlags: machineModel.getPurchasableFlags()}
+        );
+        machineView.renderMessage(
+            {message: input + '원이 입력되었습니다.'}
+        );
+
+        this.nextEvent = setTimeout(this.returnChanges.bind(this), 5000);
+    },
+    returnChanges: function() {
+        const walletModel = this.model.wallet;
+        const walletView = this.view.wallet;
+        const machineModel = this.model.machine;
+        const machineView = this.view.machine;
+
+        const moneyList = walletModel.moneyList;
+        let changes = machineModel.money;
+
+        this.nextEvent = null;
+        machineModel.money = 0;
+
+        machineView.renderMoney(
+            {money: machineModel.getMoney()}
+        );
+        machineView.renderMessage(
+            {message: changes + '원을 반환합니다.'}
+        );
+        machineView.renderPurchasableItems(
+            {purchasableFlags: machineModel.getPurchasableFlags()}
+        );
+
+        //잔돈 반환 로직
+        for (let i = moneyList.length - 1; i >= 0; i--) {
+            const item = moneyList[i];
+            const countOfUnit = Math.floor(changes / item.unit);
+
+            if (countOfUnit > 0) {
+                item.count += countOfUnit;
+                changes -= item.unit * countOfUnit;
             }
 
-            this.model.wallet.loseMoney(unit, 1);
-            this.view.wallet.render('updateMoney', {
-                unit: unit,
-                count: count - 1,
-                totalMoney: this.model.wallet.getTotalMoney()
+            walletView.renderMoney({
+                unit: item.unit,
+                count: item.count,
+                totalMoney: walletModel.getTotalMoney()
             });
+        }
+    },
+    inputItemId: function(num) {
+        this.clearEvent();
 
-            var input = parseInt(unit);
+        const machineModel = this.model.machine;
+        const machineView = this.view.machine;
 
-            this.model.machine.putMoney(input);
-            this.view.machine.render('updateMoney', {money: this.model.machine.getMoney()});
+        if (machineModel.getMoney() === 0) {
+            machineView.renderMessage(
+                {message: '돈을 투입해 주세요.'}
+            );
+
+            return;
+        }
+
+        machineModel.idInput += num;
+        machineView.renderMessage(
+            {message: '입력: ' + machineModel.idInput}
+        );
+
+        this.nextEvent = setTimeout(function() {
+            this.itemSelected();
+            this.model.machine.idInput = '';
+        }.bind(this), 3000);
+    },
+    itemSelected: function() {
+        this.clearEvent();
+
+        const machineModel = this.model.machine;
+        const machineView = this.view.machine;
+
+        const id = machineModel.idInput;
+        const item = machineModel.getItemById(id);
+
+        if (!item) {
+            machineView.renderMessage(
+                {message: id + '에 해당하는 상품이 존재하지 않습니다.'}
+            );
+
+            return;
+        }
+
+        if (item.price > machineModel.getMoney()) {
+            machineView.renderMessage(
+                {message: '투입한 금액이 ' + item.name + '의 가격보다 적습니다.'}
+            );
+
+            return;
+        }
+
+        machineModel.money -= item.price;
+        
+        machineView.renderMoney(
+            {money: machineModel.getMoney()}
+        );
+        machineView.renderMessage(
+            {message: item.name + ' 상품이 나왔습니다.'}
+        );
+        machineView.renderPurchasableItems(
+            {purchasableFlags: machineModel.getPurchasableFlags()}
+        );
+
+        if (machineModel.money > 0) {
+            this.nextEvent = setTimeout(this.returnChanges.bind(this), 5000);
         }
     }
-
-    window.vm = window.vm || {};
-    window.vm.controller = controller;
-
-})(window);
+}

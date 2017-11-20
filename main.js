@@ -1,6 +1,6 @@
 
 function main() {
-    var vendingMachine = {
+    const vendingMachine = {
         model: vm.model,
         view: vm.view,
         controller: vm.controller,
@@ -12,4 +12,4 @@ function main() {
     vendingMachine.run();
 }
 
-window.addEventListener('load', main);
+document.addEventListener('DOMContentLoaded', main);

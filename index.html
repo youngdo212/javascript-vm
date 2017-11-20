@@ -6,70 +6,81 @@
   </head>
   <body>
     <div class="container">
-      <div class="machine col-9">
-        <ul class="drinks col-7 nonliststyle">
-          <li class="item-drink col-3">
-            <p class="name">콜라</p>
-            <span class="id">1</span>
-            <span class="price">1000</span>
-          </li>
-        </ul>
+      <div class="machine col-8">
+        <div class="row">
+          <ul class="items col-7 nonliststyle"></ul>
 
-        <div class="controller col-5">
-          <p class="box input">0원</p>
+          <div class="controller col-5">
+            <p class="box input">0원</p>
 
-          <ul class="buttons row nonliststyle">
-            <li class="col-4"><button>1</button></li>
-            <li class="col-4"><button>2</button></li>
-            <li class="col-4"><button>3</button></li>
-            <li class="col-4"><button>4</button></li>
-            <li class="col-4"><button>5</button></li>
-            <li class="col-4"><button>6</button></li>
-            <li class="col-4"><button>7</button></li>
-            <li class="col-4"><button>8</button></li>
-            <li class="col-4"><button>9</button></li>
-          </ul>
+            <ul class="buttons row nonliststyle">
+              <li class="col-4"><button data-num="1">1</button></li>
+              <li class="col-4"><button data-num="2">2</button></li>
+              <li class="col-4"><button data-num="3">3</button></li>
+              <li class="col-4"><button data-num="4">4</button></li>
+              <li class="col-4"><button data-num="5">5</button></li>
+              <li class="col-4"><button data-num="6">6</button></li>
+              <li class="col-4"><button data-num="7">7</button></li>
+              <li class="col-4"><button data-num="8">8</button></li>
+              <li class="col-4"><button data-num="9">9</button></li>
+              <li class="col-12"><button data-num="0">0</button></li>
+            </ul>
 
-          <p class="box message">sdfsd</p>
+            <p class="box message"></p>
+          </div>
         </div>
       </div>
 
-      <div class="wallet col-3">
+      <div class="wallet col-4">
+        <div class="wrap-wallet-icon">
+          <img class="icon" src="img/wallet.jpg" />
+        </div>
         <ul class="money nonliststyle">
           <li data-unit="10">
-            <button class="unit">10원</button>
+            <img class="unit coin btn" src="img/unit_10.png">
             <span class="count">0개</span>
-          </li>
-          <li data-unit="50">
-            <button class="unit">50원</button>
+          </li><li data-unit="50">
+            <img class="unit coin btn" src="img/unit_50.png">
             <span class="count">0개</span>
-          </li>
-          <li data-unit="100">
-            <button class="unit">100원</button>
+          </li><li data-unit="100">
+            <img class="unit coin btn" src="img/unit_100.png">
             <span class="count">0개</span>
-          </li>
-          <li data-unit="500">
-            <button class="unit">500원</button>
+          </li><li data-unit="500">
+            <img class="unit coin btn" src="img/unit_500.png">
             <span class="count">0개</span>
-          </li>
-          <li data-unit="1000">
-            <button class="unit">1,000원</button>
+          </li><li data-unit="1000">
+            <img class="unit btn" src="img/unit_1000.png">
             <span class="count">0개</span>
           </li>
           <li data-unit="5000">
-            <button class="unit">5,000원</button>
+            <img class="unit btn" src="img/unit_5000.png">
             <span class="count">0개</span>
           </li>
           <li data-unit="10000">
-            <button class="unit">10,000원</button>
+            <img class="unit btn" src="img/unit_10000.png">
+            <span class="count">0개</span>
+          </li>
+          <li data-unit="50000">
+            <img class="unit btn" src="img/unit_50000.png">
             <span class="count">0개</span>
           </li>
         </ul>
 
-        <p class="box total">0원</p>
+        <p class="box total" style="display: none">0원</p>
       </div>
     </div>
 
+    <script type="text/template" id="itemTemplate">
+      <li class="col-3">
+        <div class="item">
+        <p class="name">{{name}}</p>
+        <span class="id">{{id}}. </span>
+        <span class="price">{{price}}</span>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/javascript" src="js/data.js"></script>
     <script type="text/javascript" src="js/model.js"></script>
     <script type="text/javascript" src="js/view.js"></script>
     <script type="text/javascript" src="js/controller.js"></script>

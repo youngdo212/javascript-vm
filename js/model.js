@@ -1,90 +1,65 @@
-(function(window) {
-    var wallet = [
-        {
-            unit: 10,
-            count: 0
+window.vm = window.vm || {};
+
+vm.model = (function(win) {
+    const wallet = {
+        moneyList: vm.originalData.moneyList,
+        totalMoney: 0,
+        loseMoney: function(unit, count) {
+            unit = parseInt(unit);
+            count = parseInt(count);
+
+            const item = this.findMoney(unit);
+
+            item.count -= count;
+            this.totalMoney -= unit * count;
         },
-        {
-            unit: 50,
-            count: 0
+        getTotalMoney: function () {
+            return this.totalMoney;
         },
-        {
-            unit: 100,
-            count: 0
+        findMoney: function(unit) {
+            return this.moneyList.find(function(item) {
+                return item.unit === unit;
+            });
         },
-        {
-            unit: 500,
-            count: 0
+        getCountOfUnit: function(unit) {
+            unit = parseInt(unit);
+            const item = this.findMoney(unit);
+
+            return item.count;
         },
-        {
-            unit: 1000,
-            count: 0
-        },
-        {
-            unit: 5000,
-            count: 0
-        },
-        {
-            unit: 10000,
-            count: 0
+        init: function() {
+            this.moneyList.forEach(function(item) {
+                this.totalMoney += item.unit * item.count;
+            }.bind(this));
         }
-    ];
+    };
 
-    wallet.total = 0;
-
-    wallet.putMoney = function (unit, count) {
-        unit = parseInt(unit);
-        count = parseInt(count);
-
-        var item = this.findMoney(unit);
-
-        item.count += count;
-        this.total += unit * count;
-    }
-
-    wallet.loseMoney = function(unit, count) {
-        unit = parseInt(unit);
-        count = parseInt(count);
-
-        var item = this.findMoney(unit);
-
-        item.count -= count;
-        this.total -= unit * count;
-    }
-
-    wallet.getTotalMoney = function() {
-        return this.total;
-    }
-
-    wallet.findMoney = function(unit) {
-        return this.find(function(item) {
-            return item.unit === unit;
-        });
-    }
-
-    wallet.getCount = function(unit) {
-        unit = parseInt(unit);
-        var item = this.findMoney(unit);
-
-        return item.count;
-    }
-
-    var machine = {
+    const machine = {
         money: 0,
+        items: vm.originalData.items,
+        idInput: '',
         putMoney: function(money) {
             this.money += money;
         },
         getMoney: function() {
             return this.money;
+        },
+        getPurchasableFlags: function() {
+            return this.items.map(function(item) {
+                return item.price <= this.money;
+            }.bind(this));
+        },
+        getItemById: function(id) {
+            if (id < 1) {
+                return undefined;
+            }
+            
+            return this.items[id - 1];
         }
     };
 
-    var model = {
+    return {
         wallet: wallet,
         machine: machine
-    }
-
-    window.vm = window.vm || {};
-    window.vm.model = model;
-
-})(window);
+    };
+})();
