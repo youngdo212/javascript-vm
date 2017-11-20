@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<head>
+  <title>웹 자판기</title>
+</head>
+
+<body>
+  <div id="item_box">
+    <ul id="item_list">
+      <li>
+        <button class="item_button"></button>
+        <div class="item_data">
+          <span class="item_id"></span>
+          <span class="item_price"></span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div id="machine_controller">
+    <div id="credit_window">
+      <span id="inserted_credit">0원</span>
+    </div>
+    <div id="picking_box">
+      <button class="picking_button" id="pick_1">1</button>
+      <button class="picking_button" id="pick_2">2</button>
+      <button class="picking_button" id="pick_3">3</button>
+      <button class="picking_button" id="pick_4">4</button>
+      <button class="picking_button" id="pick_5">5</button>
+      <button class="picking_button" id="pick_6">6</button>
+      <button class="picking_button" id="pick_7">7</button>
+      <button class="picking_button" id="pick_8">8</button>
+      <button class="picking_button" id="pick_9">9</button>
+      <button class="picking_button" id="pick_0">0</button>
+    </div>
+    <div id="message_window"></div>
+  </div>
+
+  <div id="wallet_box">
+    <div id="credit_box">
+      <button class="credit_unit" id="credit_10">10원</button>
+      <div class="credit_amount" id="credit_10_amount">0개</div>
+      <button class="credit_unit" id="credit_50">50원</button>
+      <div class="credit_amount" id="credit_50_amount">1개</div>
+      <button class="credit_unit" id="credit_100">100원</button>
+      <div class="credit_amount" id="credit_100_amount">5개</div>
+      <button class="credit_unit" id="credit_500">500원</button>
+      <div class="credit_amount" id="credit_500_amount">5개</div>
+      <button class="credit_unit" id="credit_1000">1000원</button>
+      <div class="credit_amount" id="credit_1000_amount">2개</div>
+      <button class="credit_unit" id="credit_5000">5000원</button>
+      <div class="credit_amount" id="credit_5000_amount">2개</div>
+      <button class="credit_unit" id="credit_10000">10000원</button>
+      <div class="credit_amount" id="credit_10000_amount">1개</div>
+    </div>
+    <div id="total_box">
+      <span id="wallet_total">23,550원</span>
+    </div>
+  </div>
+
+</body>
+
+</html>
