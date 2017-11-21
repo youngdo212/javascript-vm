@@ -56,7 +56,7 @@ body {
   width: 55px;
   height: 40px;
   margin: 5px;
-  font-size: 16px;
+  font-size: 20px;
 }
 
 #picking_box > button:nth-child(10){
@@ -99,7 +99,7 @@ body {
 }
 
 #total_box{
-  border: 3px solid gray;
+  border: 2px solid gray;
   margin-top: 30px;
   padding: 5px;
   height: 30px;
