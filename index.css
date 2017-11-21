@@ -84,7 +84,7 @@ button:hover{
   font-size: 20px;
   box-shadow: 0 4px #b33;
 }
-#button0 {
+.picking_box > button:last-child {
   width: 93%; 
 }
 
@@ -111,21 +111,18 @@ button:hover{
   padding: 20px 5px;
   float: left;
 }
-.credit_unit {
+.credit_box > ul > li > button {
   border: 2px solid gray;
-  width: 100px;
   height: 40px;
   margin: 5px;
   font-size: 16px;
   display: inline-block;
 }
-.credit_amount{
-  border: 2px solid gray;
+.credit_box > ul > li > button:nth-child(1) {
+  width: 100px;
+}
+.credit_box > ul > li > button:nth-child(2) {
   width: 70px;
-  height: 40px;
-  margin: 5px;
-  font-size: 16px;
-  display: inline-block;
 }
 .total_box{
   border: 2px solid gray;
