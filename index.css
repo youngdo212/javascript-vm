@@ -37,14 +37,6 @@ body {
   padding: 10px;
   float: left;
 }
-#wallet_box {
-  width: 150px;
-  height: 350px;
-  margin-top: 100px;
-  margin-left: 10px;
-  border: 3px solid gray;
-  float: left;
-}
 
 #credit_window{
   border: 3px solid gray;
@@ -69,7 +61,6 @@ body {
 
 #picking_box > button:nth-child(10){
   width: 93%;
-  height: 40px;
 }
 
 #message_window{
@@ -77,4 +68,42 @@ body {
   margin-top: 30px;
   padding: 5px;
   height: 180px;
+}
+
+#wallet_box {
+  width: 200px;
+  height: 450px;
+  margin-top: 50px;
+  margin-left: 10px;
+  border: 3px solid gray;
+  padding: 20px 5px;
+  float: left;
+}
+
+.credit_unit {
+  border: 2px solid gray;
+  width: 100px;
+  height: 40px;
+  margin: 5px;
+  font-size: 16px;
+  display: inline-block;
+}
+
+.credit_amount{
+  border: 2px solid gray;
+  width: 70px;
+  height: 40px;
+  margin: 5px;
+  font-size: 16px;
+  display: inline-block;
+}
+
+#total_box{
+  border: 3px solid gray;
+  margin-top: 30px;
+  padding: 5px;
+  height: 30px;
+  font-size: 22px;
+  text-align: center;
+  line-height: 150%;
 }
