@@ -1,0 +1,39 @@
+#item_box {
+  border: 5px solid black;
+  width: 420px;
+  height: 500px;
+  margin: 10px;
+  padding: 10px;
+  overflow: hidden;
+  background: #06b;
+  float: left;
+}
+#item_box > ul > li {
+  text-align: center;
+  display:inline-block;
+  margin: 10px;
+}
+#item_box > ul > li > button {
+  border: 2px solid gray;
+  width: 80px;
+  height: 50px;
+  display:block;
+}
+#item_box > ul > li > span {
+  background: white;
+}
+
+#machine_controller {
+  border: 5px solid black;
+  background: #06b;
+  float: left;
+}
+#wallet_box {
+  border: 5px solid gray;
+  background: #06b;
+  float: left;
+}
+ul {
+  list-style:none;
+  padding-left:0px;
+}
