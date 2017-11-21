@@ -12,7 +12,7 @@ button:hover{
 }
 
 
-#vending_machine{
+.vending_machine{
   border: 5px solid #b33;
   overflow: hidden;
   margin-left: 20px;
@@ -20,19 +20,19 @@ button:hover{
   float: left;
 }
 
-#item_box {
+.item_box {
   width: 420px;
   height: 530px;
   padding: 10px;
   background: #ed3b43;
   float: left;
 }
-#item_box > ul > li {
+.item_box > ul > li {
   text-align: center;
   display:inline-block;
   margin: 5px;
 }
-#item_box > ul > li > button {
+.item_box > ul > li > button {
   border: 2px solid #b33;
   width: 90px;
   height: 36px;
@@ -41,18 +41,18 @@ button:hover{
   font-size: 16px;
   box-shadow: 0 4px #b33;
 }
-#item_box > ul > li > button:active{
+.item_box > ul > li > button:active{
   box-shadow: 0 1.5px rgb(150, 3, 3);
   transform: translateY(2.5px);
 }
 
-#item_box > ul > li > span {
+.item_box > ul > li > span {
   background: white;
   border-radius: 2px;
   padding: 1.5px 4px 0px 4px;
 }
 
-#machine_controller {
+.machine_controller {
   border-left: 3px solid #b33;
   width: 220px;
   height: 520px;
@@ -60,7 +60,7 @@ button:hover{
   float: left;
   background: #FF4E4D;
 }
-#credit_window{
+.credit_window{
   border: 3px solid #b33;
   padding: 5px;
   font-size: 1.8em;
@@ -69,14 +69,14 @@ button:hover{
   background: white;
   border-radius: 5px;
 }
-#picking_box{
+.picking_box{
   border: 3px solid #b33;
   background: #fd6a6c;  
   margin-top: 25px;
   padding: 15px 5px;
   border-radius: 5px;
 }
-#picking_box > button{
+.picking_box > button{
   border: 2px solid #b33;
   width: 55px;
   height: 40px;
@@ -84,15 +84,16 @@ button:hover{
   font-size: 20px;
   box-shadow: 0 4px #b33;
 }
-#picking_box > button:nth-child(10){
-  width: 93%;
+#button0 {
+  width: 93%; 
 }
-#picking_box > button:active{
+
+.picking_box > button:active{
   box-shadow: 0 1.5px rgb(150, 3, 3);
   transform: translateY(2.5px);
 }
 
-#message_window{
+.message_window{
   border: 3px solid #b33;
   margin-top: 30px;
   padding: 5px;
@@ -101,7 +102,7 @@ button:hover{
   border-radius: 5px;
 }
 
-#wallet_box {
+.wallet_box {
   width: 200px;
   height: 450px;
   margin-top: 50px;
@@ -126,7 +127,7 @@ button:hover{
   font-size: 16px;
   display: inline-block;
 }
-#total_box{
+.total_box{
   border: 2px solid gray;
   margin-top: 30px;
   padding: 5px;
