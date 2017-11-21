@@ -37,20 +37,17 @@ body {
   padding: 10px;
   float: left;
 }
-
 #credit_window{
   border: 3px solid gray;
   padding: 5px;
   font-size: 1.8em;
   text-align: right;  
 }
-
 #picking_box{
   border: 3px solid gray;
   margin-top: 30px;
   padding: 15px 5px;
 }
-
 #picking_box > button{
   border: 2px solid gray;
   width: 55px;
@@ -58,11 +55,9 @@ body {
   margin: 5px;
   font-size: 20px;
 }
-
 #picking_box > button:nth-child(10){
   width: 93%;
 }
-
 #message_window{
   border: 3px solid gray;
   margin-top: 30px;
@@ -79,7 +74,6 @@ body {
   padding: 20px 5px;
   float: left;
 }
-
 .credit_unit {
   border: 2px solid gray;
   width: 100px;
@@ -88,7 +82,6 @@ body {
   font-size: 16px;
   display: inline-block;
 }
-
 .credit_amount{
   border: 2px solid gray;
   width: 70px;
@@ -97,7 +90,6 @@ body {
   font-size: 16px;
   display: inline-block;
 }
-
 #total_box{
   border: 2px solid gray;
   margin-top: 30px;
