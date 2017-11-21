@@ -45,3 +45,36 @@ body {
   border: 3px solid gray;
   float: left;
 }
+
+#credit_window{
+  border: 3px solid gray;
+  padding: 5px;
+  font-size: 1.8em;
+  text-align: right;  
+}
+
+#picking_box{
+  border: 3px solid gray;
+  margin-top: 30px;
+  padding: 15px 5px;
+}
+
+#picking_box > button{
+  border: 2px solid gray;
+  width: 55px;
+  height: 40px;
+  margin: 5px;
+  font-size: 16px;
+}
+
+#picking_box > button:nth-child(10){
+  width: 93%;
+  height: 40px;
+}
+
+#message_window{
+  border: 3px solid gray;
+  margin-top: 30px;
+  padding: 5px;
+  height: 180px;
+}
