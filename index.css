@@ -1,15 +1,27 @@
 body {
   font-size: 12px;
 }
+button{
+  cursor: pointer;
+}
+button:hover{
+  cursor: pointer;
+  background: #eee
+}
 
-#item_box {
-  border: 5px solid black;
-  width: 420px;
-  height: 530px;
+#vending_machine{
+  border: 5px solid #b33;
+  overflow: hidden;
   margin-left: 20px;
   margin-top: 20px;
+  float: left;
+}
+
+#item_box {
+  width: 420px;
+  height: 530px;
   padding: 10px;
-  background: #06b;
+  background: #ed3b43;
   float: left;
 }
 #item_box > ul > li {
@@ -25,27 +37,33 @@ body {
   display:block;
   font-size: 16px;
 }
+
 #item_box > ul > li > span {
   background: white;
+  border-radius: 2px;
+  padding: 1.5px 4px 0px 4px;
 }
 
 #machine_controller {
-  border: 5px solid black;
+  border-left: 3px solid #b33;
   width: 220px;
-  height: 530px;
-  margin-top: 20px;
-  padding: 10px;
+  height: 520px;
+  padding: 15px 10px;
   float: left;
+  background: #FF4E4D;
 }
 #credit_window{
   border: 3px solid gray;
   padding: 5px;
   font-size: 1.8em;
-  text-align: right;  
+  height: 25px;
+  text-align: right;
+  background: white;
 }
 #picking_box{
   border: 3px solid gray;
-  margin-top: 30px;
+  background: #fd6a6c;  
+  margin-top: 25px;
   padding: 15px 5px;
 }
 #picking_box > button{
@@ -63,6 +81,7 @@ body {
   margin-top: 30px;
   padding: 5px;
   height: 180px;
+  background: white;  
 }
 
 #wallet_box {
