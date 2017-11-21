@@ -1,23 +1,29 @@
+body {
+  font-size: 12px;
+}
+
 #item_box {
   border: 5px solid black;
   width: 420px;
-  height: 500px;
-  margin: 10px;
+  height: 530px;
+  margin-left: 20px;
+  margin-top: 20px;
   padding: 10px;
-  overflow: hidden;
   background: #06b;
   float: left;
 }
 #item_box > ul > li {
   text-align: center;
   display:inline-block;
-  margin: 10px;
+  margin: 5px;
 }
 #item_box > ul > li > button {
   border: 2px solid gray;
-  width: 80px;
-  height: 50px;
+  width: 90px;
+  height: 40px;
+  margin-bottom: 5px;
   display:block;
+  font-size: 16px;
 }
 #item_box > ul > li > span {
   background: white;
@@ -25,15 +31,17 @@
 
 #machine_controller {
   border: 5px solid black;
-  background: #06b;
+  width: 220px;
+  height: 530px;
+  margin-top: 20px;
+  padding: 10px;
   float: left;
 }
 #wallet_box {
-  border: 5px solid gray;
-  background: #06b;
+  width: 150px;
+  height: 350px;
+  margin-top: 100px;
+  margin-left: 10px;
+  border: 3px solid gray;
   float: left;
-}
-ul {
-  list-style:none;
-  padding-left:0px;
 }
