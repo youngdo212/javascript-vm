@@ -1,23 +1,19 @@
-body {
-  font-size: 12px;
-}
 button{
   cursor: pointer;
   outline: none;
-  border-radius: 7px;
+  border-radius: 7px;  
 }
 button:hover{
   cursor: pointer;
   background: #eee
 }
 
-
 .vending_machine{
   border: 5px solid #b33;
   overflow: hidden;
   margin-left: 20px;
   margin-top: 20px;
-  float: left;
+  float: left;  
 }
 
 .item_box {
@@ -30,15 +26,15 @@ button:hover{
 .item_box > ul > li {
   text-align: center;
   display:inline-block;
-  margin: 5px;
+  margin: 4px 5px;
 }
 .item_box > ul > li > button {
   border: 2px solid #b33;
   width: 90px;
   height: 36px;
-  margin-bottom: 9px;
+  margin-bottom: 7px;
   display:block;
-  font-size: 16px;
+  font-size: 1rem;
   box-shadow: 0 4px #b33;
 }
 .item_box > ul > li > button:active{
@@ -49,6 +45,7 @@ button:hover{
 .item_box > ul > li > span {
   background: white;
   border-radius: 2px;
+  font-size: 0.8rem;
   padding: 1.5px 4px 0px 4px;
 }
 
@@ -63,7 +60,7 @@ button:hover{
 .credit_window{
   border: 3px solid #b33;
   padding: 5px;
-  font-size: 1.8em;
+  font-size: 1.5rem;
   height: 25px;
   text-align: right;
   background: white;
@@ -81,11 +78,11 @@ button:hover{
   width: 55px;
   height: 40px;
   margin: 5px;
-  font-size: 20px;
+  font-size: 1.2rem;
   box-shadow: 0 4px #b33;
 }
 .picking_box > button:last-child {
-  width: 93%; 
+  width: 193px; 
 }
 
 .picking_box > button:active{
@@ -115,7 +112,7 @@ button:hover{
   border: 2px solid gray;
   height: 40px;
   margin: 5px;
-  font-size: 16px;
+  font-size: 1rem;
   display: inline-block;
 }
 .credit_box > ul > li > button:nth-child(1) {
@@ -129,7 +126,7 @@ button:hover{
   margin-top: 30px;
   padding: 5px;
   height: 30px;
-  font-size: 22px;
+  font-size: 1.4rem;
   text-align: center;
   line-height: 150%;
 }
