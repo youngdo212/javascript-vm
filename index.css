@@ -99,7 +99,7 @@ button:hover{
   border-radius: 5px;
 }
 
-.wallet_box {
+.wallet {
   width: 200px;
   height: 450px;
   margin-top: 50px;
@@ -121,7 +121,7 @@ button:hover{
 .credit_box > ul > li > button:nth-child(2) {
   width: 70px;
 }
-.total_box{
+.wallet_total{
   border: 2px solid gray;
   margin-top: 30px;
   padding: 5px;
