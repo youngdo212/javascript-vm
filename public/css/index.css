@@ -7,7 +7,6 @@ button:hover{
   cursor: pointer;
   background: #eee
 }
-
 .vending_machine{
   border: 5px solid #b33;
   overflow: hidden;
@@ -108,18 +107,23 @@ button:hover{
   padding: 20px 5px;
   float: left;
 }
-.credit_box > ul > li > button {
+.wallet_moneys > ul > li > button {
   border: 2px solid gray;
   height: 40px;
   margin: 5px;
   font-size: 1rem;
   display: inline-block;
+  box-shadow: 0 4px rgb(68, 65, 65);
 }
-.credit_box > ul > li > button:nth-child(1) {
+.wallet_moneys > ul > li > button:nth-child(1) {
   width: 100px;
 }
-.credit_box > ul > li > button:nth-child(2) {
+.wallet_moneys > ul > li > button:nth-child(2) {
   width: 70px;
+}
+.wallet_moneys > ul > li > button:active{
+  box-shadow: 0 1.5px rgb(68, 65, 65);
+  transform: translateY(2.5px);
 }
 .wallet_total{
   border: 2px solid gray;
