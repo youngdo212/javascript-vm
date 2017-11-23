@@ -16,13 +16,19 @@ window.vm = {
   },
 
   init() {
-    document.querySelectorAll(".wallet_moneys > ul > li > button:nth-child(2n)").forEach(function (button) {
-      const money = button.previousSibling.previousSibling.innerText;
-      console.log(this.wallet[money])
-    }.bind(this));
+    setMoneyAmount();
+
 
     document.querySelectorAll(".wallet_moneys > ul > li > button").forEach(function (button) {
       button.addEventListener("click", this.abc);
+    }.bind(this));
+  },
+
+  setMoneyAmount() {
+    document.querySelectorAll(".wallet_moneys > ul > li > button:nth-child(2n)").forEach(function (moneyAmount) {
+      const moneyUnit = moneyAmount.previousSibling.previousSibling.innerText;
+      moneyAmount.innerText = this.wallet[moneyUnit] + "개";
+      console.log(parseInt(moneyUnit, 10))
     }.bind(this));
   },
 
