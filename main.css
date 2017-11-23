@@ -27,7 +27,7 @@ body > div > div > div {
     text-align: center;
     width:150px;
 }
-.money_button > button {
+.money_button  button {
     margin: 5px auto;
     width:70px;
 }
