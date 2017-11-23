@@ -16,7 +16,7 @@ window.vm = {
   },
 
   init() {
-    setMoneyAmount();
+    this.setMoneyAmount();
 
 
     document.querySelectorAll(".wallet_moneys > ul > li > button").forEach(function (button) {

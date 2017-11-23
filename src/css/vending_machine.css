@@ -107,10 +107,13 @@ button:hover{
   padding: 20px 5px;
   float: left;
 }
+.wallet_moneys > ul > li{
+  margin: 0px 6px;
+}
 .wallet_moneys > ul > li > button {
   border: 2px solid gray;
   height: 40px;
-  margin: 5px;
+  margin: 6px 2px;
   font-size: 1rem;
   display: inline-block;
   box-shadow: 0 4px rgb(71, 65, 65);
