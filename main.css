@@ -1,15 +1,16 @@
 body > div {
+    border: 2px solid;
     overflow: auto;
-}
-body > div > div > div {
-    border:4px solid;
-    float:left;
-    margin:5px;            
 }
 .column_left, .column_right{
     margin:5px;
     border:1px solid;
     float: left;
+}
+body > div > div > div {
+    border:4px solid;
+    float:left;
+    margin:5px;         
 }
 .select_button{
     margin:5 auto;
@@ -33,6 +34,11 @@ body > div > div > div {
 button {
     border-radius: 5px;
 }
+.column_right span {
+    border-radius: 5px;
+    border : 1px solid;
+    padding : 0px 5px;
+}
 .status {
     margin:5px;
 }
@@ -43,13 +49,10 @@ button {
 .money_panel > input {
     margin:5px 10px;
 }
-.item_panel > div {
-    max-width: 500px;
-}
 ul{
+    max-width: 500px;
     text-align: center;
     padding: 0px;
-    overflow: auto;
 }
 li {
     text-align: center;
@@ -61,5 +64,4 @@ li {
 }
 span {
     text-align: center;
-    ldisplay: block;
 }
