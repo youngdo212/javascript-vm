@@ -167,7 +167,7 @@ li {
     border-radius: 10px;
 }
 
-div.col-4:last-child>.button {
+.button-last {
     position: relative;
     left: 100%;
 }
@@ -183,14 +183,6 @@ div.col-4:last-child>.button {
     margin-right: 10px;
 }
 
-.type {
-    background: white;
-    width: 100%;
-    padding: 10px;
-    border: 2px solid #777;
-    border-radius: 10px;
-}
-
 .amount {
     background: white;
     padding: 7px;
@@ -199,7 +191,7 @@ div.col-4:last-child>.button {
     text-align: center;
 }
 
-li.money>div {
+.type {
     padding-left: 10px;
     padding-right: 10px;
 }
