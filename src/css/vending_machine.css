@@ -113,7 +113,7 @@ button:hover{
   margin: 5px;
   font-size: 1rem;
   display: inline-block;
-  box-shadow: 0 4px rgb(68, 65, 65);
+  box-shadow: 0 4px rgb(71, 65, 65);
 }
 .wallet_moneys > ul > li > button:nth-child(1) {
   width: 100px;
@@ -122,7 +122,7 @@ button:hover{
   width: 70px;
 }
 .wallet_moneys > ul > li > button:active{
-  box-shadow: 0 1.5px rgb(68, 65, 65);
+  box-shadow: 0 1.5px rgb(71, 65, 65);
   transform: translateY(2.5px);
 }
 .wallet_total{
