@@ -87,8 +87,14 @@ window.vm = {
   },
 
   insertMoney(evt) {
-    let moneyUnit = parseInt(evt.target.parentNode.firstChild.nextSibling.innerText, 10);
+    const moneyUnit = parseInt(evt.target.parentNode.firstChild.nextSibling.innerText, 10);
+    if (this.wallet[moneyUnit] === 0) return;
     this.wallet[moneyUnit]--;
     evt.target.parentNode.lastChild.previousSibling.innerText = this.wallet[moneyUnit] + '개';
+    this.displayWalletTotal();
+  },
+
+  displayWalletTotal() {
+    document.querySelector('.wallet_total').innerText = _sum(this.wallet)
   }
 }
