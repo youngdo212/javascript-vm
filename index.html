@@ -4,280 +4,306 @@
 <head>
     <meta charset=”utf-8” />
     <title>JavaScript-VM</title>
+    <link rel=stylesheet type=text/css href=main.css />
 </head>
 
 <body>
-    <div class="vending-machine">
+    <div class="container col-12">
+        <div class="vending-machine col-8">
+            <ul class="product-list col-7">
+                <li class="product col-3">
+                    <p class="product-name">콜라</p>
+                    <span class="product-id">1.</span>
+                    <span class="product-price">500</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">사이다</p>
+                    <span class="product-id">2.</span>
+                    <span class="product-price">1000</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">파인애플맛 환타</p>
+                    <span class="product-id">3.</span>
+                    <span class="product-price">400</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">포도맛 환타</p>
+                    <span class="product-id">4.</span>
+                    <span class="product-price">300</span>
+                </li>
+
+
+                <li class="product col-3">
+                    <p class="product-name">레몬에이드</p>
+                    <span class="product-id">5.</span>
+                    <span class="product-price">900</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">봉봉</p>
+                    <span class="product-id">6.</span>
+                    <span class="product-price">1200</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">코코아주스</p>
+                    <span class="product-id">7.</span>
+                    <span class="product-price">1000</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">콜라제로</p>
+                    <span class="product-id">8.</span>
+                    <span class="product-price">1000</span>
+                </li>
+
+
+                <li class="product col-3">
+                    <p class="product-name">파워에이드</p>
+                    <span class="product-id">9.</span>
+                    <span class="product-price">2000</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">초코우유</p>
+                    <span class="product-id">10.</span>
+                    <span class="product-price">1000</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">초코우유2</p>
+                    <span class="product-id">11.</span>
+                    <span class="product-price">7000</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">초코우유3</p>
+                    <span class="product-id">12.</span>
+                    <span class="product-price">600</span>
+                </li>
+
+
+                <li class="product col-3">
+                    <p class="product-name">딸바주스</p>
+                    <span class="product-id">13.</span>
+                    <span class="product-price">1000</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">바나나우유</p>
+                    <span class="product-id">14.</span>
+                    <span class="product-price">500</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">커피우유</p>
+                    <span class="product-id">15.</span>
+                    <span class="product-price">1000</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">알로에</p>
+                    <span class="product-id">16.</span>
+                    <span class="product-price">1200</span>
+                </li>
+
+
+                <li class="product col-3">
+                    <p class="product-name">콘칩</p>
+                    <span class="product-id">17.</span>
+                    <span class="product-price">1000</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">새우깡</p>
+                    <span class="product-id">18.</span>
+                    <span class="product-price">1000</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">감자칩</p>
+                    <span class="product-id">19.</span>
+                    <span class="product-price">2000</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">칸쵸</p>
+                    <span class="product-id">20.</span>
+                    <span class="product-price">1000</span>
+                </li>
+
+
+                <li class="product col-3">
+                    <p class="product-name">아몬드</p>
+                    <span class="product-id">21.</span>
+                    <span class="product-price">450</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">다크초콜릿</p>
+                    <span class="product-id">22.</span>
+                    <span class="product-price">1500</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">가나초콜릿</p>
+                    <span class="product-id">23.</span>
+                    <span class="product-price">1200</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">견과류</p>
+                    <span class="product-id">24.</span>
+                    <span class="product-price">900</span>
+                </li>
+
+
+                <li class="product col-3">
+                    <p class="product-name">육포</p>
+                    <span class="product-id">25.</span>
+                    <span class="product-price">1000</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">오징어포</p>
+                    <span class="product-id">26.</span>
+                    <span class="product-price">900</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">미니땅콩</p>
+                    <span class="product-id">27.</span>
+                    <span class="product-price">4000</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">오징어</p>
+                    <span class="product-id">28.</span>
+                    <span class="product-price">2300</span>
+                </li>
+
+
+                <li class="product col-3">
+                    <p class="product-name">{고장}</p>
+                    <span class="product-id">29.</span>
+                    <span class="product-price">1000</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">신라면</p>
+                    <span class="product-id">30.</span>
+                    <span class="product-price">700</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">진라면</p>
+                    <span class="product-id">31.</span>
+                    <span class="product-price">800</span>
+                </li>
+
+                <li class="product col-3">
+                    <p class="product-name">포도맛 환타</p>
+                    <span class="product-id">32.</span>
+                    <span class="product-price">1000</span>
+                </li>
+            </ul>
 
 
 
-        <ul class="product-list">
-            <li class="product">
-                <p class="product-name">콜라</p>
-                <span class="product-id">1.</span>
-                <span class="product-price">500</span>
+
+            <div class="product-controller col-5">
+                <div class="amount-indicator">
+                    0원
+                </div>
+
+                <div class="button-list">
+                    <p class="col-4">
+                        <button class="button">1</button>
+                    </p>
+                    <p class="col-4">
+                        <button class="button">2</button>
+                    </p>
+                    <p class="col-4">
+                        <button class="button">3</button>
+                    </p>
+                    <p class="col-4">
+                        <button class="button">4</button>
+                    </p>
+                    <p class="col-4">
+                        <button class="button">5</button>
+                    </p>
+                    <p class="col-4">
+                        <button class="button">6</button>
+                    </p>
+                    <p class="col-4">
+                        <button class="button">7</button>
+                    </p>
+                    <p class="col-4">
+                        <button class="button">8</button>
+                    </p>
+                    <p class="col-4">
+                        <button class="button">9</button>
+                    </p>
+                    <p class="col-4">
+                        <button class="button">0</button>
+                    </p>
+                </div>
+
+                <div class="console"></div>
+            </div>
+
+        </div>
+
+        <ul class="wallet col-4">
+            <li class="money col-12">
+                <p class="col-6">
+                    <button class="button">10원</button>
+                </p>
+                <span class="amount col-5">0개</span>
             </li>
-
-            <li class="product">
-                <p class="product-name">사이다</p>
-                <span class="product-id">2.</span>
-                <span class="product-price">1000</span>
+            <li class="money col-12">
+                <p class="col-6">
+                    <button class="button">50원</button>
+                </p>
+                <span class="amount col-5">0개</span>
             </li>
-
-            <li class="product">
-                <p class="product-name">파인애플맛 환타</p>
-                <span class="product-id">3.</span>
-                <span class="product-price">400</span>
+            <li class="money col-12">
+                <p class="col-6">
+                    <button class="button">100원</button>
+                </p>
+                <span class="amount col-5">0개</span>
             </li>
-
-            <li class="product">
-                <p class="product-name">포도맛 환타</p>
-                <span class="product-id">4.</span>
-                <span class="product-price">300</span>
+            <li class="money col-12">
+                <p class="col-6">
+                    <button class="button">500원</button>
+                </p>
+                <span class="amount col-5">0개</span>
             </li>
-
-
-            <li class="product">
-                <p class="product-name">레몬에이드</p>
-                <span class="product-id">5.</span>
-                <span class="product-price">900</span>
+            <li class="money col-12">
+                <p class="col-6">
+                    <button class="button">1000원</button>
+                </p>
+                <span class="amount col-5">0개</span>
             </li>
-
-            <li class="product">
-                <p class="product-name">봉봉</p>
-                <span class="product-id">6.</span>
-                <span class="product-price">1200</span>
+            <li class="money col-12">
+                <p class="col-6">
+                    <button class="button">5000원</button>
+                </p>
+                <span class="amount col-5">0개</span>
             </li>
-
-            <li class="product">
-                <p class="product-name">코코아주스</p>
-                <span class="product-id">7.</span>
-                <span class="product-price">1000</span>
+            <li class="money col-12">
+                <p class="col-6">
+                    <button class="button">10000원</button>
+                </p>
+                <span class="amount col-5">0개</span>
             </li>
-
-            <li class="product">
-                <p class="product-name">콜라제로</p>
-                <span class="product-id">8.</span>
-                <span class="product-price">1000</span>
-            </li>
-
-
-            <li class="product">
-                <p class="product-name">파워에이드</p>
-                <span class="product-id">9.</span>
-                <span class="product-price">2000</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">초코우유</p>
-                <span class="product-id">10.</span>
-                <span class="product-price">1000</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">초코우유2</p>
-                <span class="product-id">11.</span>
-                <span class="product-price">7000</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">초코우유3</p>
-                <span class="product-id">12.</span>
-                <span class="product-price">600</span>
-            </li>
-
-
-            <li class="product">
-                <p class="product-name">딸바주스</p>
-                <span class="product-id">13.</span>
-                <span class="product-price">1000</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">바나나우유</p>
-                <span class="product-id">14.</span>
-                <span class="product-price">500</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">커피우유</p>
-                <span class="product-id">15.</span>
-                <span class="product-price">1000</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">알로에</p>
-                <span class="product-id">16.</span>
-                <span class="product-price">1200</span>
-            </li>
-
-
-            <li class="product">
-                <p class="product-name">콘칩</p>
-                <span class="product-id">17.</span>
-                <span class="product-price">1000</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">새우깡</p>
-                <span class="product-id">18.</span>
-                <span class="product-price">1000</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">감자칩</p>
-                <span class="product-id">19.</span>
-                <span class="product-price">2000</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">칸쵸</p>
-                <span class="product-id">20.</span>
-                <span class="product-price">1000</span>
-            </li>
-
-
-            <li class="product">
-                <p class="product-name">아몬드</p>
-                <span class="product-id">21.</span>
-                <span class="product-price">450</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">다크초콜릿</p>
-                <span class="product-id">22.</span>
-                <span class="product-price">1500</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">가나초콜릿</p>
-                <span class="product-id">23.</span>
-                <span class="product-price">1200</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">견과류</p>
-                <span class="product-id">24.</span>
-                <span class="product-price">900</span>
-            </li>
-
-
-            <li class="product">
-                <p class="product-name">육포</p>
-                <span class="product-id">25.</span>
-                <span class="product-price">1000</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">오징어포</p>
-                <span class="product-id">26.</span>
-                <span class="product-price">900</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">미니땅콩</p>
-                <span class="product-id">27.</span>
-                <span class="product-price">4000</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">오징어</p>
-                <span class="product-id">28.</span>
-                <span class="product-price">2300</span>
-            </li>
-
-
-            <li class="product">
-                <p class="product-name">(고장)</p>
-                <span class="product-id">29.</span>
-                <span class="product-price">1000</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">신라면</p>
-                <span class="product-id">30.</span>
-                <span class="product-price">700</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">진라면</p>
-                <span class="product-id">31.</span>
-                <span class="product-price">800</span>
-            </li>
-
-            <li class="product">
-                <p class="product-name">포도맛 환타</p>
-                <span class="product-id">32.</span>
-                <span class="product-price">1000</span>
-            </li>
-
-
-
-
+            <p class="totalAmount col-12">0원</p>
 
         </ul>
-
-
-
-
-
-        <div class="amount-indicator">
-            0원
-        </div>
-
-        <div class="button-list">
-            <button type="button">1</button>
-            <button type="button">2</button>
-            <button type="button">3</button>
-            <button type="button">4</button>
-            <button type="button">5</button>
-            <button type="button">6</button>
-            <button type="button">7</button>
-            <button type="button">8</button>
-            <button type="button">9</button>
-            <button type="button">0</button>
-        </div>
-
-        <div class="console">
-
-        </div>
-
     </div>
-
-    <ul class="wallet">
-        <li class="money">
-            <button class="type">10원</button>
-            <span class="amount">0개</span>
-        </li>
-        <li class="money">
-            <button class="type">50원</button>
-            <span class="amount">0개</span>
-        </li>
-        <li class="money">
-            <button class="type">100원</button>
-            <span class="amount">0개</span>
-        </li>
-        <li class="money">
-            <button class="type">5000원</button>
-            <span class="amount">0개</span>
-        </li>
-        <li class="money">
-            <button class="type">1000원</button>
-            <span class="amount">0개</span>
-        </li>
-        <li class="money">
-            <button class="type">5000원</button>
-            <span class="amount">0개</span>
-        </li>
-        <li class="money">
-            <button class="type">10000원</button>
-            <span class="amount">0개</span>
-        </li>
-
-        <p class="totalAmount">0원</p>
-
-    </ul>
-
 </body>
 
 </html>
