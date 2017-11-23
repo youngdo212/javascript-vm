@@ -6,13 +6,13 @@ window.wallet = {
 
 window.vm = {
   wallet: {
-    "10": 0,
-    "50": 1,
-    "100": 5,
-    "500": 2,
-    "1000": 2,
-    "5000": 2,
-    "10000": 1
+    '10': 0,
+    '50': 1,
+    '100': 5,
+    '500': 2,
+    '1000': 2,
+    '5000': 2,
+    '10000': 1
   },
 
   items: [
@@ -53,16 +53,14 @@ window.vm = {
   init() {
     this.setItems();
     this.setWalletMoneys();
+    this.setMoneyInsertEvents();
 
-
-    document.querySelectorAll(".wallet_moneys > ul > li > button").forEach(function (button) {
-      button.addEventListener("click", this.abc);
-    }.bind(this));
   },
 
   setWalletMoneys() {
     for (money in this.wallet) {
       const moneyTemplate = document.querySelector('.wallet_money');
+      moneyTemplate.content.querySelector('li > button:nth-child(1)').className = 'money_' + money;
       moneyTemplate.content.querySelector('li > button:nth-child(1)').innerText = money + "원";
       moneyTemplate.content.querySelector('li > button:nth-child(2)').innerText = this.wallet[money] + "개";
 
@@ -81,4 +79,16 @@ window.vm = {
       document.querySelector('.items > ul').appendChild(clone);
     })
   },
+
+  setMoneyInsertEvents() {
+    document.querySelectorAll(".wallet_moneys > ul > li > button").forEach(function (button) {
+      button.addEventListener("mousedown", this.insertMoney.bind(this));
+    }.bind(this));
+  },
+
+  insertMoney(evt) {
+    let moneyUnit = parseInt(evt.target.parentNode.firstChild.nextSibling.innerText, 10);
+    this.wallet[moneyUnit]--;
+    evt.target.parentNode.lastChild.previousSibling.innerText = this.wallet[moneyUnit] + '개';
+  }
 }
