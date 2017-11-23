@@ -123,6 +123,8 @@ li {
 }
 
 .product {
+    width: 25%;
+    float: left;
     text-align: center;
     padding-left: 12px;
     padding-right: 12px;
@@ -152,11 +154,8 @@ li {
 }
 
 .button-list {
-    position: relative;
-    top: 15px;
     height: 180px;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin: 50px 10px 50px 10px;
     border: 2px solid #777;
 }
 
@@ -168,15 +167,13 @@ li {
     border-radius: 10px;
 }
 
-p.col-4:last-child>.button {
+div.col-4:last-child>.button {
     position: relative;
     left: 100%;
 }
 
 .console {
-    position: relative;
-    top: 30px;
-    height: 150px;
+    height: 180px;
     background-color: black;
     color: #E1E1E1;
     overflow: scroll;
@@ -196,19 +193,19 @@ p.col-4:last-child>.button {
 
 .amount {
     background: white;
-    padding: 10px;
+    padding: 7px;
     border: 2px solid #777;
     border-radius: 10px;
     text-align: center;
 }
 
-li.money>p {
+li.money>div {
     padding-left: 10px;
     padding-right: 10px;
 }
 
 .totalAmount {
-    margin: 50px 10px 10px 0px;
+    margin: 50px 15px 0px 15px;
     border: 2px solid #777;
     border-radius: 10px;
     padding: 10px;
