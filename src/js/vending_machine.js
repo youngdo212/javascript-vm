@@ -16,7 +16,7 @@ window.vm = {
   },
 
   init() {
-    this.setMoneyAmount();
+    this.setWalletMoneys();
 
 
     document.querySelectorAll(".wallet_moneys > ul > li > button").forEach(function (button) {
@@ -24,7 +24,7 @@ window.vm = {
     }.bind(this));
   },
 
-  setMoneyAmount() {
+  setWalletMoneys() {
     for (money in this.wallet) {
       const moneyTemplate = document.querySelector('.wallet_money');
       moneyTemplate.content.querySelector('li > button:nth-child(1)').innerText = money + "원";
