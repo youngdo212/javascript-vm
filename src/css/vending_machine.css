@@ -4,8 +4,7 @@ button{
   border-radius: 7px;  
 }
 button:hover{
-  cursor: pointer;
-  background: #eee
+  background: #ddd
 }
 .vending_machine{
   border: 5px solid #b33;
