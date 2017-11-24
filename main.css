@@ -28,7 +28,8 @@ li {
 .container {
     position: relative;
     overflow: hidden;
-    width: 1140px;
+    width: 1100px;
+    background: #f2f4f7;
     margin: 0 auto;
 }
 
@@ -117,24 +118,19 @@ li {
 }
 
 .product-list {
+    text-align: center;
     padding-top: 15px;
     padding-bottom: 15px;
     border-right: 12px solid black;
-}
-
-.product {
-    width: 25%;
-    float: left;
-    text-align: center;
-    padding-left: 12px;
-    padding-right: 12px;
 }
 
 .product-name {
     height: 50px;
     border: 2px solid #777;
     border-radius: 10px;
-    padding: 5px;
+    padding: 3px;
+    margin-left: 10px;
+    margin-right: 10px;
     background-color: lightblue;
 }
 
@@ -148,13 +144,14 @@ li {
     font-size: 20px;
     text-align: right;
     padding: 10px;
+    margin-top: 15px;
     margin-left: 10px;
     margin-right: 10px;
     border: 2px solid #777;
 }
 
 .button-list {
-    height: 180px;
+    overflow: auto;
     margin: 50px 10px 50px 10px;
     border: 2px solid #777;
 }
@@ -183,23 +180,37 @@ li {
     margin-right: 10px;
 }
 
+.money-list {
+    overflow: auto;
+    text-align: center;
+}
+
+.money {
+    display: inline-block;
+    vertical-align: top;
+    width: 120px;
+    height: 42.4px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 .amount {
-    background: white;
-    padding: 7px;
+    display: inline-block;
+    vertical-align: top;
+    width: 100px;
+    height: 42.4px;
+    padding: 10px;
     border: 2px solid #777;
     border-radius: 10px;
     text-align: center;
 }
 
-.type {
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
 .totalAmount {
-    margin: 50px 15px 0px 15px;
+    position: relative;
+    clear: left;
+    margin: 50px auto;
+    width: 150px;
     border: 2px solid #777;
     border-radius: 10px;
-    padding: 10px;
     text-align: center;
 }
