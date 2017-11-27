@@ -15,6 +15,8 @@ window.vm = {
     '10000': 1
   },
 
+  inserted: 0,
+
   items: [
     { id: 1, name: "콜라", price: 500 },
     { id: 2, name: "사이다", price: 1000 },
@@ -55,7 +57,7 @@ window.vm = {
     this.setWalletMoneys();
     this.setMoneyInsertEvents();
     this.displayWalletTotal();
-
+    this.displayInserted();
   },
 
   setWalletMoneys() {
@@ -100,5 +102,9 @@ window.vm = {
       moneyTotal += value * this.wallet[value];
     }
     document.querySelector('.wallet_total').innerText = moneyTotal + '원';
+  },
+
+  displayInserted() {
+    document.querySelector('.machine_credit').innerText = moneyTotal + '원';
   }
 }
