@@ -50,15 +50,15 @@ vm.data = {
 
 vm.controller = {
   init() {
-    this.setItems();
-    this.setWalletMoneys();
+    this.setItems(vm.data.items);
+    this.setWalletMoneys(vm.data.wallet);
     this.setMoneyInsertEvents();
     this.displayWalletTotal();
     this.displayInserted();
   },
 
-  setWalletMoneys() {
-    for (const money in vm.data.wallet) {
+  setWalletMoneys(wallet) {
+    for (const money in wallet) {
       const moneyTemplate = document.querySelector('.wallet_money');
       const clone = document.importNode(moneyTemplate.content, true);
       clone.querySelector('li > button:nth-child(1)').innerText = money + "원";
@@ -69,8 +69,8 @@ vm.controller = {
     }
   },
 
-  setItems() {
-    vm.data.items.forEach(item => {
+  setItems(items) {
+    items.forEach(item => {
       const itemTemplate = document.querySelector('.item');
       const clone = document.importNode(itemTemplate.content, true);
       clone.querySelector('li > button').innerText = item.name;
