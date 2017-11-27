@@ -58,7 +58,7 @@ vm.controller = {
   },
 
   setWalletMoneys() {
-    for (money in vm.data.wallet) {
+    for (const money in vm.data.wallet) {
       const moneyTemplate = document.querySelector('.wallet_money');
       moneyTemplate.content.querySelector('li > button:nth-child(1)').className = 'money_' + money;
       moneyTemplate.content.querySelector('li > button:nth-child(1)').innerText = money + "원";
@@ -96,8 +96,8 @@ vm.controller = {
   },
 
   displayWalletTotal() {
-    var moneyTotal = 0;
-    for (let value in vm.data.wallet) {
+    let moneyTotal = 0;
+    for (const value in vm.data.wallet) {
       moneyTotal += value * vm.data.wallet[value];
     }
     document.querySelector('.wallet_total').innerText = moneyTotal + '원';
