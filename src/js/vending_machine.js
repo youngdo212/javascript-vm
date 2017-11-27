@@ -52,8 +52,8 @@ window.vm = {
     insert(money) {
       this.print(`${money}원이 투입되었습니다.`);
     },
-    refund(money) {
-      this.print(`${money}원이 반환되었습니다.`);
+    refund() {
+      this.print(`잔액이 반환되었습니다.`);
     },
     noMoney(money) {
       this.print(`잔액이 부족합니다.`);
@@ -61,7 +61,7 @@ window.vm = {
     select(item) {
       this.print(`${item}이 선택되었습니다.`);
     },
-    print(messege) {
+    print(message) {
       const logger = document.querySelector(`.machine_message`);
 
       if (logger.innerHTML !== "") {
@@ -115,10 +115,16 @@ window.vm = {
   insertMoney(evt) {
     if (evt.target.nodeName.toLowerCase() !== "button") return;
     const moneyUnit = parseInt(evt.target.parentNode.firstChild.nextSibling.innerText, 10);
-    if (this.wallet[moneyUnit] === 0) return;
+
+    if (this.wallet[moneyUnit] === 0) {
+      this.log.noMoney();
+      return;
+    }
+
     this.wallet[moneyUnit]--;
     this.inserted += moneyUnit;
     evt.target.parentNode.lastChild.previousSibling.innerText = this.wallet[moneyUnit] + '개';
+    this.log.insert(moneyUnit);
     this.displayWalletTotal();
     this.displayInserted();
     this.displayBuyables();
@@ -133,6 +139,7 @@ window.vm = {
     this.refund(100);
     this.refund(50);
     this.refund(10);
+    this.log.refund();
     this.displayWallet();
     this.displayWalletTotal();
     this.displayInserted();
