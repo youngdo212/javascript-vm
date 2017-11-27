@@ -1,6 +1,4 @@
-window.vm = window.vm || {};
-
-window.vm = {
+const vm = {
   wallet: {
     '10': 0,
     '50': 1,
