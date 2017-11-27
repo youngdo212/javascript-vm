@@ -1,9 +1,5 @@
 window.vm = window.vm || {};
 
-window.wallet = {
-
-}
-
 window.vm = {
   wallet: {
     '10': 0,
