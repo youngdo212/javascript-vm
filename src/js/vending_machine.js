@@ -54,6 +54,7 @@ window.vm = {
     this.setItems();
     this.setWalletMoneys();
     this.setMoneyInsertEvents();
+    this.displayWalletTotal();
 
   },
 
@@ -94,6 +95,10 @@ window.vm = {
   },
 
   displayWalletTotal() {
-    document.querySelector('.wallet_total').innerText = _sum(this.wallet)
+    var moneyTotal = 0;
+    for (let value in this.wallet) {
+      moneyTotal += value * this.wallet[value];
+    }
+    document.querySelector('.wallet_total').innerText = moneyTotal + '원';
   }
 }
