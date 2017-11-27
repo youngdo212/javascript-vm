@@ -77,6 +77,7 @@ window.vm = {
     this.setWalletMoneys();
     this.setInsertEvents();
     this.setRefundEvent();
+    this.setSelectEvents();
     this.displayWalletTotal();
     this.displayInserted();
   },
@@ -110,6 +111,25 @@ window.vm = {
 
   setRefundEvent() {
     document.querySelector(".machine_refund > button").addEventListener("mousedown", this.refundMoney.bind(this));
+  },
+
+  setSelectEvents() {
+    document.querySelector(".items").addEventListener("mousedown", this.selectItem.bind(this));
+  },
+
+  selectItem(evt) {
+    if (evt.target.nodeName.toLowerCase() !== "button") return;
+
+    const itemName = evt.target.innerText;
+    const item = this.items.find(function (element) {
+      return element.name === itemName;
+    });
+
+    this.inserted -= item.price;
+
+    this.log.select(item.name);
+    this.displayInserted();
+    this.displayBuyables();
   },
 
   insertMoney(evt) {
