@@ -110,9 +110,19 @@ window.vm = {
     this.refund(100);
     this.refund(50);
     this.refund(10);
+    this.displayWallet();
     this.displayWalletTotal();
     this.displayInserted();
     this.displayBuyables();
+  },
+
+  displayWallet() {
+    for (money in this.wallet) {
+      console.log(document.querySelector(`.money_${money}`));
+      // moneyTemplate.content.querySelector('li > button:nth-child(1)').innerText = money + "원";
+      // moneyTemplate.content.querySelector('li > button:nth-child(2)').innerText = this.wallet[money] + "개";
+
+    }
   },
 
   displayWalletTotal() {
