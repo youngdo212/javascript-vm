@@ -45,7 +45,12 @@ button:hover{
   font-size: 0.8rem;
   padding: 1.5px 4px 0px 4px;
 }
-
+.item_buyable > button{
+  background: black;  
+}
+.item_buyable > span{
+  background: black;  
+}
 
 .machine_panel {
   border-left: 3px solid #b33;

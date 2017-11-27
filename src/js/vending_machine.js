@@ -59,7 +59,7 @@ window.vm = {
   setWalletMoneys() {
     for (money in this.wallet) {
       const moneyTemplate = document.querySelector('.wallet_money');
-      moneyTemplate.content.querySelector('li > button:nth-child(1)').className = 'money_' + money;
+      moneyTemplate.content.querySelector('li > button:nth-child(1)').classList.add('money_' + money);
       moneyTemplate.content.querySelector('li > button:nth-child(1)').innerText = money + "원";
       moneyTemplate.content.querySelector('li > button:nth-child(2)').innerText = this.wallet[money] + "개";
 
