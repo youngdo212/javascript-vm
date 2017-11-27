@@ -1,0 +1,70 @@
+body > div {
+    border: 2px solid;
+    overflow: auto;
+}
+.column_left, .column_right{
+    margin:5px;
+    border:1px solid;
+    float: left;
+}
+body > div > div > div {
+    border:4px solid;
+    float:left;
+    margin:5px;         
+}
+.select_button{
+    margin:5 auto;
+    width:200px;
+    text-align: center;
+}
+.select_button > button{
+    width:50px;
+    height:50px;
+    margin:5px;
+}
+.money_button {
+    margin:5px auto;
+    text-align: center;
+    width:150px;
+}
+.money_button  button {
+    margin: 5px auto;
+    width:70px;
+}
+button {
+    border-radius: 5px;
+}
+.column_right span {
+    border-radius: 5px;
+    border : 1px solid;
+    padding : 0px 5px;
+}
+.status {
+    margin:5px;
+}
+input {
+    text-align: right;
+}
+.select_panel > input {
+    display: block;
+    margin:5px auto;
+}
+.money_panel > input {
+    margin:5px 10px;
+}
+ul{
+    max-width: 500px;
+    text-align: center;
+    padding: 0px;
+}
+li {
+    text-align: center;
+    width:100px;
+    border:1px solid;
+    list-style: none;
+    display: inline-block;
+    margin: 5px;
+}
+span {
+    text-align: center;
+}
