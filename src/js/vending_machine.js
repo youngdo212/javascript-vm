@@ -127,6 +127,7 @@ window.vm = {
 
     if (this.inserted < item.price) {
       this.log.noMoney();
+      return;
     }
 
     this.inserted -= item.price;
