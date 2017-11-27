@@ -60,11 +60,11 @@ vm.controller = {
   setWalletMoneys() {
     for (const money in vm.data.wallet) {
       const moneyTemplate = document.querySelector('.wallet_money');
-      moneyTemplate.content.querySelector('li > button:nth-child(1)').className = 'money_' + money;
-      moneyTemplate.content.querySelector('li > button:nth-child(1)').innerText = money + "원";
-      moneyTemplate.content.querySelector('li > button:nth-child(2)').innerText = vm.data.wallet[money] + "개";
-
       const clone = document.importNode(moneyTemplate.content, true);
+      clone.querySelector('li > button:nth-child(1)').innerText = money + "원";
+      clone.querySelector('li > button:nth-child(2)').innerText = vm.data.wallet[money] + "개";
+      clone.querySelector('li > button:nth-child(2)').classList.add('money_' + money);
+
       document.querySelector('.wallet_moneys > ul').appendChild(clone);
     }
   },
@@ -72,10 +72,10 @@ vm.controller = {
   setItems() {
     vm.data.items.forEach(item => {
       const itemTemplate = document.querySelector('.item');
-      itemTemplate.content.querySelector('li > button').innerText = item.name;
-      itemTemplate.content.querySelector('li > span').innerText = item.id + ". " + item.price;
-
       const clone = document.importNode(itemTemplate.content, true);
+      clone.querySelector('li > button').innerText = item.name;
+      clone.querySelector('li > span').innerText = item.id + ". " + item.price;
+
       document.querySelector('.items > ul').appendChild(clone);
     })
   },
