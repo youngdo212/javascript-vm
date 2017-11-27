@@ -51,7 +51,8 @@ window.vm = {
   init() {
     this.setItems();
     this.setWalletMoneys();
-    this.setMoneyInsertEvents();
+    this.setInsertEvents();
+    this.setRefundEvent();
     this.displayWalletTotal();
     this.displayInserted();
   },
@@ -79,8 +80,12 @@ window.vm = {
     })
   },
 
-  setMoneyInsertEvents() {
+  setInsertEvents() {
     document.querySelector(".wallet_moneys").addEventListener("mousedown", this.insertMoney.bind(this));
+  },
+
+  setRefundEvent() {
+    document.querySelector(".machine_refund > button").addEventListener("mousedown", this.refundMoney.bind(this));
   },
 
   insertMoney(evt) {
@@ -90,6 +95,21 @@ window.vm = {
     this.wallet[moneyUnit]--;
     this.inserted += moneyUnit;
     evt.target.parentNode.lastChild.previousSibling.innerText = this.wallet[moneyUnit] + '개';
+    this.displayWalletTotal();
+    this.displayInserted();
+    this.displayBuyables();
+  },
+
+  refundMoney(evt) {
+    if (evt.target.nodeName.toLowerCase() !== "button") return;
+
+    this.refund(10000);
+    this.refund(5000);
+    this.refund(1000);
+    this.refund(500);
+    this.refund(100);
+    this.refund(50);
+    this.refund(10);
     this.displayWalletTotal();
     this.displayInserted();
     this.displayBuyables();
@@ -114,6 +134,13 @@ window.vm = {
       } else {
         document.querySelector(`.item:nth-child(${this.items[item].id})`).classList.remove('item_buyable');
       }
+    }
+  },
+
+  refund(moneyUnit) {
+    while (this.inserted >= moneyUnit) {
+      this.inserted -= moneyUnit;
+      this.wallet[moneyUnit]++;
     }
   }
 }
