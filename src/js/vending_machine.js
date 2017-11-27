@@ -124,7 +124,10 @@ window.vm = {
     const item = this.items.find(function (element) {
       return element.name === itemName;
     });
+    this.buyItem(item);
+  },
 
+  buyItem(item) {
     if (this.inserted < item.price) {
       this.log.noMoney();
       return;
@@ -135,7 +138,7 @@ window.vm = {
     this.log.select(item.name);
     this.displayInserted();
     this.displayBuyables();
-  },
+  }
 
   insertMoney(evt) {
     if (evt.target.nodeName.toLowerCase() !== "button") return;
