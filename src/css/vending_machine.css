@@ -1,58 +1,53 @@
-body {
-  font-size: 12px;
-}
 button{
   cursor: pointer;
   outline: none;
-  border-radius: 7px;
+  border-radius: 7px;  
 }
 button:hover{
-  cursor: pointer;
-  background: #eee
+  background: #ddd
 }
-
-
 .vending_machine{
   border: 5px solid #b33;
   overflow: hidden;
   margin-left: 20px;
   margin-top: 20px;
-  float: left;
+  float: left;  
 }
 
-.item_box {
+.items {
   width: 420px;
   height: 530px;
   padding: 10px;
   background: #ed3b43;
   float: left;
 }
-.item_box > ul > li {
+.items > ul > li {
   text-align: center;
   display:inline-block;
-  margin: 5px;
+  margin: 4px 5px;
 }
-.item_box > ul > li > button {
+.items > ul > li > button {
   border: 2px solid #b33;
   width: 90px;
   height: 36px;
-  margin-bottom: 9px;
+  margin-bottom: 7px;
   display:block;
-  font-size: 16px;
+  font-size: 1rem;
   box-shadow: 0 4px #b33;
 }
-.item_box > ul > li > button:active{
+.items > ul > li > button:active{
   box-shadow: 0 1.5px rgb(150, 3, 3);
   transform: translateY(2.5px);
 }
 
-.item_box > ul > li > span {
+.items > ul > li > span {
   background: white;
   border-radius: 2px;
+  font-size: 0.8rem;
   padding: 1.5px 4px 0px 4px;
 }
 
-.machine_controller {
+.machine_panel {
   border-left: 3px solid #b33;
   width: 220px;
   height: 520px;
@@ -60,40 +55,40 @@ button:hover{
   float: left;
   background: #FF4E4D;
 }
-.credit_window{
+.machine_credit{
   border: 3px solid #b33;
   padding: 5px;
-  font-size: 1.8em;
+  font-size: 1.5rem;
   height: 25px;
   text-align: right;
   background: white;
   border-radius: 5px;
 }
-.picking_box{
+.machine_picker{
   border: 3px solid #b33;
   background: #fd6a6c;  
   margin-top: 25px;
   padding: 15px 5px;
   border-radius: 5px;
 }
-.picking_box > button{
+.machine_picker > button{
   border: 2px solid #b33;
   width: 55px;
   height: 40px;
   margin: 5px;
-  font-size: 20px;
+  font-size: 1.2rem;
   box-shadow: 0 4px #b33;
 }
-.picking_box > button:last-child {
-  width: 93%; 
+.machine_picker > button:last-child {
+  width: 193px; 
 }
 
-.picking_box > button:active{
+.machine_picker > button:active{
   box-shadow: 0 1.5px rgb(150, 3, 3);
   transform: translateY(2.5px);
 }
 
-.message_window{
+.machine_message{
   border: 3px solid #b33;
   margin-top: 30px;
   padding: 5px;
@@ -102,7 +97,7 @@ button:hover{
   border-radius: 5px;
 }
 
-.wallet_box {
+.wallet {
   width: 200px;
   height: 450px;
   margin-top: 50px;
@@ -111,25 +106,33 @@ button:hover{
   padding: 20px 5px;
   float: left;
 }
-.credit_box > ul > li > button {
+.wallet_moneys > ul > li{
+  margin: 0px 6px;
+}
+.wallet_moneys > ul > li > button {
   border: 2px solid gray;
   height: 40px;
-  margin: 5px;
-  font-size: 16px;
+  margin: 6px 2px;
+  font-size: 1rem;
   display: inline-block;
+  box-shadow: 0 4px rgb(71, 65, 65);
 }
-.credit_box > ul > li > button:nth-child(1) {
+.wallet_moneys > ul > li > button:nth-child(1) {
   width: 100px;
 }
-.credit_box > ul > li > button:nth-child(2) {
+.wallet_moneys > ul > li > button:nth-child(2) {
   width: 70px;
 }
-.total_box{
+.wallet_moneys > ul > li > button:active{
+  box-shadow: 0 1.5px rgb(71, 65, 65);
+  transform: translateY(2.5px);
+}
+.wallet_total{
   border: 2px solid gray;
   margin-top: 30px;
   padding: 5px;
   height: 30px;
-  font-size: 22px;
+  font-size: 1.4rem;
   text-align: center;
   line-height: 150%;
 }
