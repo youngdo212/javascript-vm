@@ -138,7 +138,7 @@ window.vm = {
     this.log.select(item.name);
     this.displayInserted();
     this.displayBuyables();
-  }
+  },
 
   insertMoney(evt) {
     if (evt.target.nodeName.toLowerCase() !== "button") return;
