@@ -55,7 +55,7 @@ window.vm = {
     refund() {
       this.print(`잔액이 반환되었습니다.`);
     },
-    noMoney(money) {
+    noMoney() {
       this.print(`잔액이 부족합니다.`);
     },
     select(item) {
@@ -124,6 +124,10 @@ window.vm = {
     const item = this.items.find(function (element) {
       return element.name === itemName;
     });
+
+    if (this.inserted < item.price) {
+      this.log.noMoney();
+    }
 
     this.inserted -= item.price;
 
