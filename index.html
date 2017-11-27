@@ -1,6 +1,21 @@
-<html>
+<!DOCTYPE html>
+<html lang="ko">
 <head>
+    <title>Luigi's vending machine</title>
     <link rel="stylesheet" type="text/css" href="./main.css">
+    <script>
+        function getMoneyButton(){
+            var money_button = document.querySelector(".money_button").children;
+            var temp = document.querySelector(".money_have").value;
+            for(var i = money_button.length-1;i>0;i--){
+                var button = money_button[i];
+                var span = button.children[1];
+                span.dataset.value = Math.floor(temp/button.dataset.value);
+                span.innerText = span.dataset.value + "개";
+                temp = temp % button.dataset.value;
+            }
+}
+    </script>
 </head>
 <body>
     <div class="container"><!--container 시작-->
@@ -62,9 +77,6 @@
         <div class="column_right"> <!-- 오른쪽 div 시작-->
             <div class="money_panel">
                 <div class="money_button">
-                    <!-- document.querySelector('.money_button').childNodes[1].dataset.value //#text div 순서여서 불편-->
-                    <!-- document.querySelectorAll('.money_button > div')[0].dataset.value 로 사용 index 0~7 -->
-                    <!-- document.querySelectorAll('.money_button > div > span')[0].dataset.value -->
                     <div data-value="10"><button>10원</button> <span data-value="0">0개</span></div>
                     <div data-value="50"><button>50원</button> <span data-value="0">0개</span></div>
                     <div data-value="100"><button>100원</button> <span data-value="0">0개</span></div>
@@ -73,9 +85,15 @@
                     <div data-value="5000"><button>5000원</button> <span data-value="0">0개</span></div>
                     <div data-value="10000"><button>10000원</button> <span data-value="0">0개</span></div>
                 </div>
-                <input type="text" class="money_have" data-value="22500">
+                <input type="text" class="money_have" data-value="22500" value="22500">
+                <input type="button" onclick="getMoneyButton();" value="계산">
+                <script>getMoneyButton();</script>
+                <script>
+                    
+                </script>
             </div>
         </div><!--오른쪽 div 끝-->
     </div><!--container 끝-->
+
 </body>
 </html>
