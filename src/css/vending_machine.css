@@ -47,7 +47,7 @@ button:hover{
   padding: 1.5px 4px 0px 4px;
 }
 
-.machine_controller {
+.machine_panel {
   border-left: 3px solid #b33;
   width: 220px;
   height: 520px;
@@ -55,7 +55,7 @@ button:hover{
   float: left;
   background: #FF4E4D;
 }
-.credit_window{
+.machine_credit{
   border: 3px solid #b33;
   padding: 5px;
   font-size: 1.5rem;
@@ -64,14 +64,14 @@ button:hover{
   background: white;
   border-radius: 5px;
 }
-.picking_box{
+.machine_picker{
   border: 3px solid #b33;
   background: #fd6a6c;  
   margin-top: 25px;
   padding: 15px 5px;
   border-radius: 5px;
 }
-.picking_box > button{
+.machine_picker > button{
   border: 2px solid #b33;
   width: 55px;
   height: 40px;
@@ -79,16 +79,16 @@ button:hover{
   font-size: 1.2rem;
   box-shadow: 0 4px #b33;
 }
-.picking_box > button:last-child {
+.machine_picker > button:last-child {
   width: 193px; 
 }
 
-.picking_box > button:active{
+.machine_picker > button:active{
   box-shadow: 0 1.5px rgb(150, 3, 3);
   transform: translateY(2.5px);
 }
 
-.message_window{
+.machine_message{
   border: 3px solid #b33;
   margin-top: 30px;
   padding: 5px;
