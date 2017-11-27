@@ -85,7 +85,7 @@ window.vm = {
   },
 
   insertMoney(evt) {
-    if (evt.target.nodeName !== "BUTTON") return;
+    if (evt.target.nodeName.toLowerCase() !== "button") return;
     const moneyUnit = parseInt(evt.target.parentNode.firstChild.nextSibling.innerText, 10);
     if (this.wallet[moneyUnit] === 0) return;
     this.wallet[moneyUnit]--;
