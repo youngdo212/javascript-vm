@@ -81,12 +81,11 @@ window.vm = {
   },
 
   setMoneyInsertEvents() {
-    document.querySelectorAll(".wallet_moneys > ul > li > button").forEach(function (button) {
-      button.addEventListener("mousedown", this.insertMoney.bind(this));
-    }.bind(this));
+    document.querySelector(".wallet_moneys").addEventListener("mousedown", this.insertMoney.bind(this));
   },
 
   insertMoney(evt) {
+    if (evt.target.nodeName !== "BUTTON") return;
     const moneyUnit = parseInt(evt.target.parentNode.firstChild.nextSibling.innerText, 10);
     if (this.wallet[moneyUnit] === 0) return;
     this.wallet[moneyUnit]--;
