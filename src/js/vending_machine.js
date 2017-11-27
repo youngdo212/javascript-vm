@@ -59,7 +59,7 @@ window.vm = {
       this.print(`잔액이 부족합니다.`);
     },
     select(item) {
-      this.print(`${item}이 선택되었습니다.`);
+      this.print(`${item}이(가) 선택되었습니다.`);
     },
     print(message) {
       const logger = document.querySelector(`.machine_message`);
