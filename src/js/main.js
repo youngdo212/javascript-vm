@@ -1,6 +1,6 @@
 
 function main() {
-  vm.init();
+  vm.controller.init();
 }
 
 document.addEventListener('DOMContentLoaded', main);

@@ -1,4 +1,5 @@
-const vm = {
+const vm = {};
+vm.data = {
   wallet: {
     '10': 0,
     '50': 1,
@@ -44,8 +45,10 @@ const vm = {
     { id: 30, name: "진라면", price: 1000 },
     { id: 31, name: "포도 환타", price: 500 },
     { id: 32, name: "칸쵸", price: 500 },
-  ],
+  ]
+}
 
+vm.controller = {
   init() {
     this.setItems();
     this.setWalletMoneys();
@@ -55,11 +58,11 @@ const vm = {
   },
 
   setWalletMoneys() {
-    for (money in this.wallet) {
+    for (money in vm.data.wallet) {
       const moneyTemplate = document.querySelector('.wallet_money');
       moneyTemplate.content.querySelector('li > button:nth-child(1)').className = 'money_' + money;
       moneyTemplate.content.querySelector('li > button:nth-child(1)').innerText = money + "원";
-      moneyTemplate.content.querySelector('li > button:nth-child(2)').innerText = this.wallet[money] + "개";
+      moneyTemplate.content.querySelector('li > button:nth-child(2)').innerText = vm.data.wallet[money] + "개";
 
       const clone = document.importNode(moneyTemplate.content, true);
       document.querySelector('.wallet_moneys > ul').appendChild(clone);
@@ -67,7 +70,7 @@ const vm = {
   },
 
   setItems() {
-    this.items.forEach(item => {
+    vm.data.items.forEach(item => {
       const itemTemplate = document.querySelector('.item');
       itemTemplate.content.querySelector('li > button').innerText = item.name;
       itemTemplate.content.querySelector('li > span').innerText = item.id + ". " + item.price;
@@ -84,23 +87,23 @@ const vm = {
   insertMoney(evt) {
     if (evt.target.nodeName.toLowerCase() !== "button") return;
     const moneyUnit = parseInt(evt.target.parentNode.firstChild.nextSibling.innerText, 10);
-    if (this.wallet[moneyUnit] === 0) return;
-    this.wallet[moneyUnit]--;
-    this.inserted += moneyUnit;
-    evt.target.parentNode.lastChild.previousSibling.innerText = this.wallet[moneyUnit] + '개';
+    if (vm.data.wallet[moneyUnit] === 0) return;
+    vm.data.wallet[moneyUnit]--;
+    vm.data.inserted += moneyUnit;
+    evt.target.parentNode.lastChild.previousSibling.innerText = vm.data.wallet[moneyUnit] + '개';
     this.displayWalletTotal();
     this.displayInserted();
   },
 
   displayWalletTotal() {
     var moneyTotal = 0;
-    for (let value in this.wallet) {
-      moneyTotal += value * this.wallet[value];
+    for (let value in vm.data.wallet) {
+      moneyTotal += value * vm.data.wallet[value];
     }
     document.querySelector('.wallet_total').innerText = moneyTotal + '원';
   },
 
   displayInserted() {
-    document.querySelector('.machine_credit').innerText = this.inserted + '원';
+    document.querySelector('.machine_credit').innerText = vm.data.inserted + '원';
   }
 }
