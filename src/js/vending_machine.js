@@ -61,6 +61,7 @@ vm.controller = {
     for (const money in wallet) {
       const moneyTemplate = document.querySelector('.wallet_money');
       const clone = document.importNode(moneyTemplate.content, true);
+      clone.querySelector('li').setAttribute("money", money);
       clone.querySelector('li > button:nth-child(1)').innerText = money + "원";
       clone.querySelector('li > button:nth-child(2)').innerText = vm.data.wallet[money] + "개";
       clone.querySelector('li > button:nth-child(2)').classList.add('money_' + money);
@@ -86,11 +87,16 @@ vm.controller = {
 
   insertMoney(evt) {
     if (evt.target.nodeName.toLowerCase() !== "button") return;
-    const moneyUnit = parseInt(evt.target.parentNode.firstChild.nextSibling.innerText, 10);
+
+    const parent = evt.target.parentNode;
+    const moneyUnit = parseInt(parent.getAttribute("money"), 10);
+
     if (vm.data.wallet[moneyUnit] === 0) return;
+
     vm.data.wallet[moneyUnit]--;
     vm.data.inserted += moneyUnit;
-    evt.target.parentNode.lastChild.previousSibling.innerText = vm.data.wallet[moneyUnit] + '개';
+
+    parent.querySelector('li > button:nth-child(2)').innerText = vm.data.wallet[moneyUnit] + '개';
     this.displayWalletTotal();
     this.displayInserted();
   },
