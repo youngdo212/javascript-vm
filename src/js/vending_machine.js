@@ -96,7 +96,8 @@ vm.controller = {
     vm.data.wallet[moneyUnit]--;
     vm.data.inserted += moneyUnit;
 
-    parent.querySelector('li > button:nth-child(2)').innerText = vm.data.wallet[moneyUnit] + '개';
+    const moneyAmount = parent.querySelector('li > button:nth-child(2)')
+    moneyAmount.innerText = vm.data.wallet[moneyUnit] + '개';
     this.displayWalletTotal();
     this.displayInserted();
   },
