@@ -60,11 +60,11 @@ window.vm = {
   setWalletMoneys() {
     for (money in this.wallet) {
       const moneyTemplate = document.querySelector('.wallet_money');
-      moneyTemplate.content.querySelector('li > button:nth-child(1)').classList.add('money_' + money);
-      moneyTemplate.content.querySelector('li > button:nth-child(1)').innerText = money + "원";
-      moneyTemplate.content.querySelector('li > button:nth-child(2)').innerText = this.wallet[money] + "개";
-
       const clone = document.importNode(moneyTemplate.content, true);
+      clone.querySelector('li > button:nth-child(1)').innerText = money + "원";
+      clone.querySelector('li > button:nth-child(2)').innerText = this.wallet[money] + "개";
+      clone.querySelector('li > button:nth-child(2)').classList.add('money_' + money);
+
       document.querySelector('.wallet_moneys > ul').appendChild(clone);
     }
   },
@@ -72,10 +72,10 @@ window.vm = {
   setItems() {
     this.items.forEach(item => {
       const itemTemplate = document.querySelector('.item_template');
-      itemTemplate.content.querySelector('li > button').innerText = item.name;
-      itemTemplate.content.querySelector('li > span').innerText = item.id + ". " + item.price;
-
       const clone = document.importNode(itemTemplate.content, true);
+      clone.querySelector('li > button').innerText = item.name;
+      clone.querySelector('li > span').innerText = item.id + ". " + item.price;
+
       document.querySelector('.items > ul').appendChild(clone);
     })
   },
@@ -118,10 +118,7 @@ window.vm = {
 
   displayWallet() {
     for (money in this.wallet) {
-      console.log(document.querySelector(`.money_${money}`));
-      // moneyTemplate.content.querySelector('li > button:nth-child(1)').innerText = money + "원";
-      // moneyTemplate.content.querySelector('li > button:nth-child(2)').innerText = this.wallet[money] + "개";
-
+      document.querySelector(`.money_${money}`).innerText = this.wallet[money] + "개";
     }
   },
 
