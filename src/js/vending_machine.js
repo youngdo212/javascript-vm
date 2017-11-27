@@ -108,9 +108,12 @@ window.vm = {
   },
 
   displayBuyables() {
-    const itemList = document.querySelectorAll('.item');
-    for (const item in itemList) {
-
+    for (const item in this.items) {
+      if (this.items[item].price <= this.inserted) {
+        document.querySelector(`.item:nth-child(${this.items[item].id})`).classList.add('item_buyable');
+      } else {
+        document.querySelector(`.item:nth-child(${this.items[item].id})`).classList.remove('item_buyable');
+      }
     }
   }
 }
