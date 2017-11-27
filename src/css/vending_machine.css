@@ -21,12 +21,12 @@ button:hover{
   background: #ed3b43;
   float: left;
 }
-.items > ul > li {
+.item {
   text-align: center;
   display:inline-block;
   margin: 4px 5px;
 }
-.items > ul > li > button {
+.item > button {
   border: 2px solid #b33;
   width: 90px;
   height: 36px;
@@ -35,17 +35,17 @@ button:hover{
   font-size: 1rem;
   box-shadow: 0 4px #b33;
 }
-.items > ul > li > button:active{
+.item > button:active{
   box-shadow: 0 1.5px rgb(150, 3, 3);
   transform: translateY(2.5px);
 }
-
-.items > ul > li > span {
+.item > span {
   background: white;
   border-radius: 2px;
   font-size: 0.8rem;
   padding: 1.5px 4px 0px 4px;
 }
+
 
 .machine_panel {
   border-left: 3px solid #b33;

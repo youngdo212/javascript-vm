@@ -70,7 +70,7 @@ window.vm = {
 
   setItems() {
     this.items.forEach(item => {
-      const itemTemplate = document.querySelector('.item');
+      const itemTemplate = document.querySelector('.item_template');
       itemTemplate.content.querySelector('li > button').innerText = item.name;
       itemTemplate.content.querySelector('li > span').innerText = item.id + ". " + item.price;
 
