@@ -46,10 +46,10 @@ button:hover{
   padding: 1.5px 4px 0px 4px;
 }
 .item_buyable > button{
-  background: black;  
+  background: #FCE961;  
 }
 .item_buyable > span{
-  background: black;  
+  background: #FCE961;  
 }
 
 .machine_panel {

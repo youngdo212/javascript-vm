@@ -92,11 +92,12 @@ window.vm = {
     evt.target.parentNode.lastChild.previousSibling.innerText = this.wallet[moneyUnit] + '개';
     this.displayWalletTotal();
     this.displayInserted();
+    this.displayBuyables();
   },
 
   displayWalletTotal() {
-    var moneyTotal = 0;
-    for (let value in this.wallet) {
+    let moneyTotal = 0;
+    for (const value in this.wallet) {
       moneyTotal += value * this.wallet[value];
     }
     document.querySelector('.wallet_total').innerText = moneyTotal + '원';
@@ -104,5 +105,12 @@ window.vm = {
 
   displayInserted() {
     document.querySelector('.machine_credit').innerText = this.inserted + '원';
+  },
+
+  displayBuyables() {
+    const itemList = document.querySelectorAll('.item');
+    for (const item in itemList) {
+
+    }
   }
 }
