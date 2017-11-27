@@ -134,11 +134,6 @@ li {
     background-color: lightblue;
 }
 
-.product-price,
-.product-id {
-    background: white;
-}
-
 .amount-indicator {
     height: 50px;
     font-size: 20px;
