@@ -48,6 +48,30 @@ window.vm = {
     { id: 32, name: "칸쵸", price: 500 },
   ],
 
+  log: {
+    insert(money) {
+      this.print(`${money}원이 투입되었습니다.`);
+    },
+    refund(money) {
+      this.print(`${money}원이 반환되었습니다.`);
+    },
+    noMoney(money) {
+      this.print(`잔액이 부족합니다.`);
+    },
+    select(item) {
+      this.print(`${item}이 선택되었습니다.`);
+    },
+    print(messege) {
+      const logger = document.querySelector(`.machine_message`);
+
+      if (logger.innerHTML !== "") {
+        message = '\n' + message;
+      }
+      logger.innerHTML += message;
+      logger.scrollTop = logger.scrollHeight;
+    }
+  },
+
   init() {
     this.setItems();
     this.setWalletMoneys();
@@ -102,7 +126,6 @@ window.vm = {
 
   refundMoney(evt) {
     if (evt.target.nodeName.toLowerCase() !== "button") return;
-
     this.refund(10000);
     this.refund(5000);
     this.refund(1000);
