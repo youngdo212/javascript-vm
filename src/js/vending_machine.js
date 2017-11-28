@@ -12,6 +12,8 @@ vm.data = {
 
   inserted: 0,
 
+  itemNumber: [],
+
   items: [
     { id: 1, name: "콜라", price: 500 },
     { id: 2, name: "사이다", price: 1000 },
@@ -50,21 +52,23 @@ vm.data = {
 
 vm.controller = {
   log: {
+    logger: document.querySelector(`.machine_message`),
     insert(money) {
-      this.print(`${money}원이 투입되었습니다.`);
+      this.print(`${money}원이 투입되었습니다.`, this.logger);
     },
     refund() {
-      this.print(`잔액이 반환되었습니다.`);
+      this.print(`잔액이 반환되었습니다.`, this.logger);
     },
     noMoney() {
-      this.print(`잔액이 부족합니다.`);
+      this.print(`잔액이 부족합니다.`, this.logger);
+    },
+    noItem() {
+      this.print(`해당하는 상품이 없습니다.`, this.logger);
     },
     select(item) {
-      this.print(`${item}이(가) 선택되었습니다.`);
+      this.print(`${item}이(가) 선택되었습니다.`, this.logger);
     },
-    print(message) {
-      const logger = document.querySelector(`.machine_message`);
-
+    print(message, logger) {
       if (logger.innerHTML !== "") {
         message = '\n' + message;
       }
@@ -78,7 +82,8 @@ vm.controller = {
     this.setWalletMoneys(data.wallet);
     this.setInsertEvents();
     this.setRefundEvent();
-    this.setSelectEvents();
+    this.setItemSelectEvents();
+    this.setNumberSelectEvents();
     this.displayWalletTotal();
     this.displayInserted();
   },
@@ -117,18 +122,52 @@ vm.controller = {
     el.addEventListener("mousedown", this.refundMoney.bind(this));
   },
 
-  setSelectEvents() {
+  setItemSelectEvents() {
     const el = document.querySelector(".items");
     el.addEventListener("mousedown", this.selectItem.bind(this));
+  },
+
+  setNumberSelectEvents() {
+    const el = document.querySelector(".machine_picker");
+    el.addEventListener("mousedown", this.selectNumber.bind(this));
   },
 
   selectItem(evt) {
     if (evt.target.nodeName.toLowerCase() !== "button") return;
 
     const itemName = evt.target.innerText;
-    const item = vm.data.items.find(function (element) {
-      return element.name === itemName;
-    });
+    const item = vm.data.items.find(element => element.name === itemName);
+    this.buyItem(item);
+  },
+
+  selectNumber(evt) {
+    if (evt.target.nodeName.toLowerCase() !== "button") return;
+
+    const number = evt.target.innerText;
+    this.putNumber(number);
+  },
+
+  putNumber(number) {
+    let itemNumber = vm.data.itemNumber;
+    itemNumber.push(number);
+
+    if (itemNumber.length === 2) {
+      clearTimeout(selectTimeout);
+      this.getItem(itemNumber);
+    } else {
+      selectTimeout = setTimeout(() => this.getItem(itemNumber), 3000);
+    }
+  },
+
+  getItem(itemNumber) {
+    const itemId = (_toInt(itemNumber));
+    const item = vm.data.items.find(element => element.id === itemId);
+    vm.data.itemNumber = [];
+
+    if (item === undefined) {
+      this.log.noItem();
+      return;
+    }
     this.buyItem(item);
   },
 
@@ -149,7 +188,7 @@ vm.controller = {
 
     const data = vm.data;
     const parent = evt.target.parentNode;
-    const moneyUnit = parseInt(parent.getAttribute("money"), 10);
+    const moneyUnit = _toInt(parent.getAttribute("money"));
 
     if (data.wallet[moneyUnit] === 0) {
       this.log.noMoney();
@@ -201,12 +240,13 @@ vm.controller = {
 
   displayBuyables() {
     const data = vm.data;
-    const el = document.querySelector(`.item:nth-child(${vm.data.items[item].id})`);
 
     for (const item in data.items) {
       if (data.items[item].price <= data.inserted) {
+        const el = document.querySelector(`.item:nth-child(${data.items[item].id})`);
         el.classList.add('item_buyable');
       } else {
+        const el = document.querySelector(`.item:nth-child(${data.items[item].id})`);
         el.classList.remove('item_buyable');
       }
     }
