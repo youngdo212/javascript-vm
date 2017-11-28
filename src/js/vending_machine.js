@@ -153,10 +153,10 @@ vm.controller = {
     itemNumber.push(number);
 
     if (itemNumber.length === 2) {
-      this.getItem(itemNumber);
       clearTimeout(selectTimeout);
+      this.getItem(itemNumber);
     } else {
-      selectTimeout = setTimeout(() => vm.controller.getItem(itemNumber), 3000);
+      selectTimeout = setTimeout(() => this.getItem(itemNumber), 3000);
     }
   },
 
