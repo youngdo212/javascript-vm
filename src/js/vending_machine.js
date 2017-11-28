@@ -138,8 +138,7 @@ vm.controller = {
     vm.data.inserted -= item.price;
 
     this.log.select(item.name);
-    this.displayInserted();
-    this.displayBuyables();
+    this.displayRenew();
   },
 
   insertMoney(evt) {
@@ -157,10 +156,7 @@ vm.controller = {
     vm.data.inserted += moneyUnit;
 
     this.log.insert(moneyUnit);
-    this.displayWallet();
-    this.displayWalletTotal();
-    this.displayInserted();
-    this.displayBuyables();
+    this.displayRenew();
   },
 
   refundMoney(evt) {
@@ -173,6 +169,10 @@ vm.controller = {
     this.refund(50);
     this.refund(10);
     this.log.refund();
+    this.displayRenew();
+  },
+
+  displayRenew() {
     this.displayWallet();
     this.displayWalletTotal();
     this.displayInserted();
