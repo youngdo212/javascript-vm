@@ -12,6 +12,9 @@ vm.data = {
 
   inserted: 0,
 
+  isNumbering: false,
+  previousNumber: 0,
+
   items: [
     { id: 1, name: "콜라", price: 500 },
     { id: 2, name: "사이다", price: 1000 },
@@ -78,7 +81,8 @@ vm.controller = {
     this.setWalletMoneys(data.wallet);
     this.setInsertEvents();
     this.setRefundEvent();
-    this.setSelectEvents();
+    this.setItemSelectEvents();
+    this.setNumberSelectEvents();
     this.displayWalletTotal();
     this.displayInserted();
   },
@@ -115,8 +119,12 @@ vm.controller = {
     document.querySelector(".machine_refund > button").addEventListener("mousedown", this.refundMoney.bind(this));
   },
 
-  setSelectEvents() {
+  setItemSelectEvents() {
     document.querySelector(".items").addEventListener("mousedown", this.selectItem.bind(this));
+  },
+
+  setNumberSelectEvents() {
+    document.querySelector(".machine_picker").addEventListener("mousedown", this.selectNumber.bind(this));
   },
 
   selectItem(evt) {
@@ -127,6 +135,22 @@ vm.controller = {
       return element.name === itemName;
     });
     this.buyItem(item);
+  },
+
+  selectNumber(evt) {
+    if (evt.target.nodeName.toLowerCase() !== "button") return;
+
+    const number = evt.target.innerText;
+
+    if (vm.data.isNumbering) {
+      vm.data.isNumbering = false;
+      let resultNumber = vm.data.previousNumber + number;
+      resultNumber = parseInt(resultNumber, 10);
+    } else {
+      vm.data.previousNumber = number;
+      vm.data.isNumbering = true;
+      setNumberingTimeout();
+    }
   },
 
   buyItem(item) {
