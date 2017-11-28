@@ -5,6 +5,8 @@
     <link rel="stylesheet" type="text/css" href="./main.css">
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
+            var test = "asdf";
+            
             var select_panel = {
                 timer : null,
                 event : function(){ //setSelectNumber()
@@ -22,19 +24,31 @@
                 money_button : document.querySelector(".money_button").children,
                 temp : document.querySelector(".money_have").value,
                 reset : function(){ //getMoneyButton()
-                    console.log("reset!");
                     for(var i = this.money_button.length-1;i>=0;i--){
-                        var button = this.money_button[i];
-                        var span = button.children[1];
-                        span.dataset.value = Math.floor(this.temp/button.dataset.value);
-                        span.innerText = span.dataset.value + "개";
-                        this.temp = this.temp % button.dataset.value;
-                    }    
+                        var container = this.money_button[i];
+                        var span = container.children[1];
+                        var spanData = span.dataset; //value를 저장하면 단순 값 복사가 되버림
+                        spanData.value = Math.floor(this.temp/container.dataset.value); 
+                        
+                        if(spanData.value == 0){
+                            container.children[0].disabled = true;
+                        }
+                        else{
+                            container.children[0].disabled = false;
+                        }
+        
+                        span.innerText = spanData.value + "개";
+                        this.temp = this.temp % container.dataset.value;
+                    }
+                },
+                test1 : function(){
+                    console.log(test); //전역접근
                 }
             }        
             console.log("DOM fully loaded and parsed");
             money_panel.reset();
             select_panel.event();
+            money_panel.test1();
         });
         
         
@@ -52,12 +66,29 @@
             var money_button = document.querySelector(".money_button").children;
             var temp = document.querySelector(".money_have").value;
             for(var i = money_button.length-1;i>=0;i--){
-                var button = money_button[i];
-                var span = button.children[1];
-                span.dataset.value = Math.floor(temp/button.dataset.value);
-                span.innerText = span.dataset.value + "개";
-                temp = temp % button.dataset.value;
+                var container = money_button[i];
+                var span = container.children[1];
+                var spanData = span.dataset; //value를 저장하면 단순 값 복사가 되버림
+                spanData.value = Math.floor(temp/container.dataset.value); 
+                
+                if(spanData.value == 0){
+                    container.children[0].disabled = true;
+                }
+                else{
+                    container.children[0].disabled = false;
+                }
+
+                span.innerText = spanData.value + "개";
+                temp = temp % container.dataset.value;
             }
+        }
+
+        function insertMoney(){
+            document.querySelector(".money_button").addEventListener("click",function(e){
+                if(e.target && e.target.nodeName == "BUTTON"){
+                    console.log(e.target.innerText +"clicked!!"); //disabled일때는 클릭안됨
+                }
+            });
         }
     </script>
 </head>
