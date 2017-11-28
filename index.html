@@ -4,6 +4,39 @@
     <title>Luigi's vending machine</title>
     <link rel="stylesheet" type="text/css" href="./main.css">
     <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            var select_panel = {
+                timer : null,
+                event : function(){ //setSelectNumber()
+                    console.log("select_panel event start!");
+                    document.querySelector(".select_button").addEventListener("click",function(e){
+                        if(e.target && e.target.nodeName == "BUTTON"){
+                            document.querySelector(".button_clicked").value += e.target.innerText;
+                            //setTimeout(document.querySelector(".button_clicked").value = 0,3000);
+                        }
+                    });
+                }
+            }
+
+            var money_panel = {
+                money_button : document.querySelector(".money_button").children,
+                temp : document.querySelector(".money_have").value,
+                reset : function(){ //getMoneyButton()
+                    console.log("reset!");
+                    for(var i = this.money_button.length-1;i>=0;i--){
+                        var button = this.money_button[i];
+                        var span = button.children[1];
+                        span.dataset.value = Math.floor(this.temp/button.dataset.value);
+                        span.innerText = span.dataset.value + "개";
+                        this.temp = this.temp % button.dataset.value;
+                    }    
+                }
+            }        
+            console.log("DOM fully loaded and parsed");
+            money_panel.reset();
+            select_panel.event();
+        });
+        
         
         function setSelectNumber(){
             document.querySelector(".select_button").addEventListener("click",function(e){
@@ -99,10 +132,6 @@
                 </div>
                 <input type="text" class="money_have" data-value="22500" value="22500">
                 <input type="button" onclick="getMoneyButton();" value="계산">
-                <script>
-                    getMoneyButton();
-                    setSelectNumber();
-                </script>
             </div>
         </div><!--오른쪽 div 끝-->
     </div><!--container 끝-->
