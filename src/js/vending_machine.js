@@ -189,7 +189,7 @@ vm.controller = {
 
     const data = vm.data;
     const parent = evt.target.parentNode;
-    const moneyUnit = parseInt(parent.getAttribute("money"), 10);
+    const moneyUnit = _toInt(parent.getAttribute("money"));
 
     if (data.wallet[moneyUnit] === 0) {
       this.log.noMoney();
