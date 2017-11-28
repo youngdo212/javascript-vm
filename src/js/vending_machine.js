@@ -129,16 +129,15 @@ vm.controller = {
   },
 
   setNumberSelectEvents() {
-    document.querySelector(".machine_picker").addEventListener("mousedown", this.selectNumber.bind(this));
+    const el = document.querySelector(".machine_picker");
+    el.addEventListener("mousedown", this.selectNumber.bind(this));
   },
 
   selectItem(evt) {
     if (evt.target.nodeName.toLowerCase() !== "button") return;
 
     const itemName = evt.target.innerText;
-    const item = vm.data.items.find(function (element) {
-      return element.name === itemName;
-    });
+    const item = vm.data.items.find(element => element.name === itemName);
     this.buyItem(item);
   },
 
@@ -150,21 +149,21 @@ vm.controller = {
   },
 
   putNumber(number) {
-    vm.data.itemNumber.push(number);
-    if (vm.data.itemNumber.length === 2) {
-      this.getItem(_toInt(vm.data.itemNumber));
-      vm.data.itemNumber = [];
+    let itemNumber = vm.data.itemNumber;
+    itemNumber.push(number);
+
+    if (itemNumber.length === 2) {
+      this.getItem(itemNumber);
       clearTimeout(selectTimeout);
     } else {
-      selectTimeout = setTimeout(function () {
-        vm.controller.getItem(_toInt(vm.data.itemNumber));
-        vm.data.itemNumber = [];
-      }, 3000);
+      selectTimeout = setTimeout(() => vm.controller.getItem(itemNumber), 3000);
     }
   },
 
-  getItem(itemId) {
+  getItem(itemNumber) {
+    const itemId = (_toInt(itemNumber));
     const item = vm.data.items.find(element => element.id === itemId);
+    vm.data.itemNumber = [];
 
     if (item === undefined) {
       this.log.noItem();
@@ -242,12 +241,13 @@ vm.controller = {
 
   displayBuyables() {
     const data = vm.data;
-    const el = document.querySelector(`.item:nth-child(${vm.data.items[item].id})`);
 
     for (const item in data.items) {
       if (data.items[item].price <= data.inserted) {
+        const el = document.querySelector(`.item:nth-child(${data.items[item].id})`);
         el.classList.add('item_buyable');
       } else {
+        const el = document.querySelector(`.item:nth-child(${data.items[item].id})`);
         el.classList.remove('item_buyable');
       }
     }
