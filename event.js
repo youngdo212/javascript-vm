@@ -1,17 +1,14 @@
-function $(target) {
-  return document.querySelector(target);
-}
+window.util = window.util || {};
 
-function pi(value) {
-  return parseInt(value, 10);
-}
+let $ = null;
+let pi = null;
 
 const vm = {
   inputNumber: null,
 
   nextEvent: null,
 
-  templateLiteral(input, variable) {
+  replaceStringToVariable(input, variable) {
     return input.replace(
       input.slice(input.indexOf("!"), input.indexOf("}") + 1),
       variable
@@ -19,22 +16,23 @@ const vm = {
   },
 
   joinComma(input) {
-    return input.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
+    const result = input.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
+
+    return result;
   },
 
   rightSwitch() {
     const controller__charge = $(`.controller__change`);
-    const product__info__price = document.querySelectorAll(
-      `.product__info__price`
-    );
+    const product__info__price = document.querySelectorAll(`[data-price]`);
 
     product__info__price.forEach(v => {
       const parent = v.parentElement;
       const parentBrother = parent.previousElementSibling;
+      const cousinInnerHTML = parentBrother.firstElementChild.innerHTML;
       let cmd = null;
 
       pi(v.dataset.price) <= pi(controller__charge.dataset.charge) &&
-      parentBrother.firstElementChild.innerHTML !== "{고장}"
+      cousinInnerHTML !== "{고장}"
         ? (cmd = "add")
         : (cmd = "remove");
 
@@ -57,7 +55,7 @@ const vm = {
   printMoneyIncrease(money) {
     $(`.controller__progress-box`).insertAdjacentHTML(
       `beforeend`,
-      this.templateLiteral(
+      this.replaceStringToVariable(
         `<span class="controller__progress-log">!{this.joinComma(money)}이 투입됐음.</span><br>`,
         this.joinComma(money)
       )
@@ -67,7 +65,7 @@ const vm = {
   decreaseRemain(nextElement) {
     nextElement.dataset.remain = pi(nextElement.dataset.remain) - 1;
 
-    nextElement.innerHTML = this.templateLiteral(
+    nextElement.innerHTML = this.replaceStringToVariable(
       `!{nextElement.dataset.remain}개`,
       nextElement.dataset.remain
     );
@@ -116,7 +114,10 @@ const vm = {
 
     controller__charge.dataset.charge =
       pi(controller__charge.dataset.charge) -
-      pi(productList[this.inputNumber].children[1].children[1].dataset.price);
+      pi(
+        productList[this.inputNumber].querySelector("[data-price]").dataset
+          .price
+      );
 
     controller__charge.innerHTML = this.joinComma(
       controller__charge.dataset.charge
@@ -128,21 +129,20 @@ const vm = {
 
     $(`.controller__progress-box`).insertAdjacentHTML(
       `beforeend`,
-      this.templateLiteral(
-        `<span class="controller__progress-log">!{productList[
-          this.inputNumber
-        ].children[1].children[0].innerHTML.slice(0, -1)}번 `,
-        productList[this.inputNumber].children[1].children[0].innerHTML.slice(
-          0,
-          -1
-        )
+      this.replaceStringToVariable(
+        `<span class="controller__progress-log">!{productList[this.inputNumber]
+          .querySelector(".product__info__index").innerHTML.slice(0, -1)}번 `,
+        productList[this.inputNumber]
+          .querySelector(".product__info__index")
+          .innerHTML.slice(0, -1)
       ) +
-        this.templateLiteral(
+        this.replaceStringToVariable(
           `!{
-          productList[this.inputNumber].children[0].children[0].dataset.productname
+          productList[this.inputNumber].querySelector("[data-productname]").dataset
+          .productname
         } 선택됨</span><br>`,
-          productList[this.inputNumber].children[0].children[0].dataset
-            .productname
+          productList[this.inputNumber].querySelector("[data-productname]")
+            .dataset.productname
         )
     );
   },
@@ -159,7 +159,7 @@ const vm = {
 
     $(`.controller__progress-box`).insertAdjacentHTML(
       `beforeend`,
-      this.templateLiteral(
+      this.replaceStringToVariable(
         `<span class="controller__progress-log">잔돈 !{controller__charge.dataset.charge} 반환</span><br>`,
         this.joinComma(controller__charge.dataset.charge)
       )
@@ -200,9 +200,14 @@ const vm = {
   }
 };
 
-$(`.wallet__status`).addEventListener(`click`, vm.clickWallet.bind(vm));
+document.addEventListener("DOMContentLoaded", () => {
+  $ = util.$;
+  pi = util.pi;
 
-$(`.controller__menu-select`).addEventListener(
-  `click`,
-  vm.clickButton.bind(vm)
-);
+  $(`.wallet__status`).addEventListener(`click`, vm.clickWallet.bind(vm));
+
+  $(`.controller__menu-select`).addEventListener(
+    `click`,
+    vm.clickButton.bind(vm)
+  );
+});
