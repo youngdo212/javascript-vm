@@ -114,15 +114,18 @@ vm.controller = {
   },
 
   setInsertEvents() {
-    document.querySelector(".wallet_moneys").addEventListener("mousedown", this.insertMoney.bind(this));
+    const el = document.querySelector(".wallet_moneys");
+    el.addEventListener("mousedown", this.insertMoney.bind(this));
   },
 
   setRefundEvent() {
-    document.querySelector(".machine_refund > button").addEventListener("mousedown", this.refundMoney.bind(this));
+    const el = document.querySelector(".machine_refund > button");
+    el.addEventListener("mousedown", this.refundMoney.bind(this));
   },
 
   setItemSelectEvents() {
-    document.querySelector(".items").addEventListener("mousedown", this.selectItem.bind(this));
+    const el = document.querySelector(".items");
+    el.addEventListener("mousedown", this.selectItem.bind(this));
   },
 
   setNumberSelectEvents() {
@@ -185,16 +188,17 @@ vm.controller = {
   insertMoney(evt) {
     if (evt.target.nodeName.toLowerCase() !== "button") return;
 
+    const data = vm.data;
     const parent = evt.target.parentNode;
     const moneyUnit = parseInt(parent.getAttribute("money"), 10);
 
-    if (vm.data.wallet[moneyUnit] === 0) {
+    if (data.wallet[moneyUnit] === 0) {
       this.log.noMoney();
       return;
     }
 
-    vm.data.wallet[moneyUnit]--;
-    vm.data.inserted += moneyUnit;
+    data.wallet[moneyUnit]--;
+    data.inserted += moneyUnit;
 
     this.log.insert(moneyUnit);
     this.displayRenew();
@@ -202,13 +206,7 @@ vm.controller = {
 
   refundMoney(evt) {
     if (evt.target.nodeName.toLowerCase() !== "button") return;
-    this.refund(10000);
-    this.refund(5000);
-    this.refund(1000);
-    this.refund(500);
-    this.refund(100);
-    this.refund(50);
-    this.refund(10);
+    [10000, 5000, 1000, 500, 100, 50, 10].forEach(this.refund);
     this.log.refund();
     this.displayRenew();
   },
@@ -221,15 +219,19 @@ vm.controller = {
   },
 
   displayWallet() {
-    for (money in vm.data.wallet) {
-      document.querySelector(`.money_${money}`).innerText = vm.data.wallet[money] + "개";
+    const data = vm.data;
+
+    for (money in data.wallet) {
+      document.querySelector(`.money_${money}`).innerText = data.wallet[money] + "개";
     }
   },
 
   displayWalletTotal() {
+    const data = vm.data;
     let moneyTotal = 0;
-    for (const value in vm.data.wallet) {
-      moneyTotal += value * vm.data.wallet[value];
+
+    for (const value in data.wallet) {
+      moneyTotal += value * data.wallet[value];
     }
     document.querySelector('.wallet_total').innerText = moneyTotal + '원';
   },
@@ -239,19 +241,24 @@ vm.controller = {
   },
 
   displayBuyables() {
-    for (const item in vm.data.items) {
-      if (vm.data.items[item].price <= vm.data.inserted) {
-        document.querySelector(`.item:nth-child(${vm.data.items[item].id})`).classList.add('item_buyable');
+    const data = vm.data;
+    const el = document.querySelector(`.item:nth-child(${vm.data.items[item].id})`);
+
+    for (const item in data.items) {
+      if (data.items[item].price <= data.inserted) {
+        el.classList.add('item_buyable');
       } else {
-        document.querySelector(`.item:nth-child(${vm.data.items[item].id})`).classList.remove('item_buyable');
+        el.classList.remove('item_buyable');
       }
     }
   },
 
   refund(moneyUnit) {
-    while (vm.data.inserted >= moneyUnit) {
-      vm.data.inserted -= moneyUnit;
-      vm.data.wallet[moneyUnit]++;
+    const data = vm.data;
+
+    while (data.inserted >= moneyUnit) {
+      data.inserted -= moneyUnit;
+      data.wallet[moneyUnit]++;
     }
   }
 }
