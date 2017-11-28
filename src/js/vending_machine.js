@@ -151,8 +151,9 @@ vm.controller = {
     if (vm.data.itemNumber.length === 2) {
       this.getItem(_toInt(vm.data.itemNumber));
       vm.data.itemNumber = [];
+      clearTimeout(selectTimeout);
     } else {
-      let selectTimeout = setTimeout(function () {
+      selectTimeout = setTimeout(function () {
         vm.controller.getItem(_toInt(vm.data.itemNumber));
         vm.data.itemNumber = [];
       }, 3000);
@@ -163,7 +164,7 @@ vm.controller = {
     const item = vm.data.items.find(element => element.id === itemId);
 
     if (item === undefined) {
-      this.log.noMoney();
+      this.log.noItem();
       return;
     }
     this.buyItem(item);
