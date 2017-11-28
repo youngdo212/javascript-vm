@@ -52,18 +52,7 @@
             money_panel.test1();
         });
         
-        
-        function setSelectNumber(){
-            document.querySelector(".select_button").addEventListener("click",function(e){
-                if(e.target && e.target.nodeName == "BUTTON"){
-                    document.querySelector(".button_clicked").value += e.target.innerText;
-                    //setTimeout(document.querySelector(".button_clicked").value = 0,3000);
-                    //console.log(setTimeout(function(){ document.querySelector(".button_clicked").value = "";},2000));
-                }
-            });
-        }
-
-        function getMoneyButton(){ //익명함수로 로드때 붙여두는것도 괜찮을듯
+        function refreshWallet(){ //getMoneyButton -> refreshWallet
             var money_button = document.querySelector(".money_button").children;
             var temp = document.querySelector(".money_have").value;
             for(var i = money_button.length-1;i>=0;i--){
@@ -85,6 +74,16 @@
             }
         }
 
+        function setSelectNumber(){
+            document.querySelector(".select_button").addEventListener("click",function(e){
+                if(e.target && e.target.nodeName == "BUTTON"){
+                    document.querySelector(".button_clicked").value += e.target.innerText;
+                    //setTimeout(document.querySelector(".button_clicked").value = 0,3000);
+                    //console.log(setTimeout(function(){ document.querySelector(".button_clicked").value = "";},2000));
+                }
+            });
+        }
+
         //money_button이 클릭되었을때
         // span value--, span.innerText = span.value +"개"  -> money_have를 줄이고 함수호출이 더 간편할지도?
         // 그렇게 한다면 money_have -= span.value; getMoneyButton(); 
@@ -99,11 +98,16 @@
                 if (e.target && e.target.nodeName == "BUTTON"){
                     statusLogChanger(e.target.innerText+"이 투입됨\n");
                     setHaveMoney(-e.target.parentNode.dataset.value);
-                    getMoneyButton();
+                    setInsertMoney(e.target.parentNode.dataset.value);
+                    refreshWallet();
                 }
             });
         }
         
+        function setInsertMoney(arg){
+            var money_insert = document.querySelector(".money_insert");
+            money_insert.value = parseInt(money_insert.value) + parseInt(arg);
+        }
         function setHaveMoney(arg){
             var money_have = document.querySelector(".money_have");
             money_have.value = parseInt(money_have.value) + parseInt(arg);
@@ -164,7 +168,7 @@
                 </ul>
             </div>
             <div class="select_panel">
-                <input type="text" class="money_insert">
+                <input type="text" class="money_insert" value="0";>
                 <input type="text" class="button_clicked">
                 <div class="select_button">
                     <button>1</button>
@@ -194,7 +198,7 @@
                     <div data-value="10000"><button>10000원</button> <span data-value="0">0개</span></div>
                 </div>
                 <input type="text" class="money_have" data-value="22500" value="22500">
-                <input type="button" onclick="getMoneyButton();" value="계산">
+                <input type="button" onclick="refreshWallet();" value="계산">
             </div>
             <script>
                 clickMoneyButton();
