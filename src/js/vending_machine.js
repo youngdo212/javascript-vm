@@ -61,6 +61,9 @@ vm.controller = {
     noMoney() {
       this.print(`잔액이 부족합니다.`);
     },
+    noItem() {
+      this.print(`해당하는 상품이 없습니다.`);
+    },
     select(item) {
       this.print(`${item}이(가) 선택되었습니다.`);
     },
@@ -144,7 +147,6 @@ vm.controller = {
   },
 
   putNumber(number) {
-    debugger;
     vm.data.itemNumber.push(number);
     if (vm.data.itemNumber.length === 2) {
       this.getItem(_toInt(vm.data.itemNumber));
@@ -160,16 +162,14 @@ vm.controller = {
   getItem(itemId) {
     const item = vm.data.items.find(element => element.id === itemId);
 
-    if (item === undefined) return null;
-    return item;
-  },
-
-  buyItem(item) {
-    if (item === null) {
+    if (item === undefined) {
       this.log.noMoney();
       return;
     }
+    this.buyItem(item);
+  },
 
+  buyItem(item) {
     if (vm.data.inserted < item.price) {
       this.log.noMoney();
       return;

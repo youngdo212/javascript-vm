@@ -24,6 +24,6 @@ function _sumString(obj) {
 
 function _toInt(obj) {
   if (Object.prototype.toString.call(obj) === "[object Array]")
-    return _sumString(obj);
+    return parseInt(_sumString(obj), 10);
   return parseInt(obj, 10);
 }
