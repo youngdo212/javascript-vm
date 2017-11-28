@@ -108,15 +108,18 @@ vm.controller = {
   },
 
   setInsertEvents() {
-    document.querySelector(".wallet_moneys").addEventListener("mousedown", this.insertMoney.bind(this));
+    const el = document.querySelector(".wallet_moneys");
+    el.addEventListener("mousedown", this.insertMoney.bind(this));
   },
 
   setRefundEvent() {
-    document.querySelector(".machine_refund > button").addEventListener("mousedown", this.refundMoney.bind(this));
+    const el = document.querySelector(".machine_refund > button");
+    el.addEventListener("mousedown", this.refundMoney.bind(this));
   },
 
   setSelectEvents() {
-    document.querySelector(".items").addEventListener("mousedown", this.selectItem.bind(this));
+    const el = document.querySelector(".items");
+    el.addEventListener("mousedown", this.selectItem.bind(this));
   },
 
   selectItem(evt) {
@@ -198,12 +201,13 @@ vm.controller = {
 
   displayBuyables() {
     const data = vm.data;
+    const el = document.querySelector(`.item:nth-child(${vm.data.items[item].id})`);
 
     for (const item in data.items) {
       if (data.items[item].price <= data.inserted) {
-        document.querySelector(`.item:nth-child(${vm.data.items[item].id})`).classList.add('item_buyable');
+        el.classList.add('item_buyable');
       } else {
-        document.querySelector(`.item:nth-child(${vm.data.items[item].id})`).classList.remove('item_buyable');
+        el.classList.remove('item_buyable');
       }
     }
   },
