@@ -74,6 +74,12 @@
             }
         }
 
+        //구매를 위한 숫자입력 이벤트
+        //버튼클릭 -> 3초타임아웃 -> 입력된 숫자들에 대해서 처리
+        //잘못된 번호 -> 잘못된 입력 -> 3초타임아웃
+        //올바른 번호 && 잔액 < 물품가격 -> 잔액이 부족합니다 -> 3초타임아웃
+        //올바른 번호 && 잔액 >= 물품가격 (else 조건) -> x번 y가 선택됨 -> 3초타임아웃
+        //3초타임아웃이후 버튼입력 x -> 잔돈 x원 반환
         function setSelectNumber(){
             document.querySelector(".select_button").addEventListener("click",function(e){
                 if(e.target && e.target.nodeName == "BUTTON"){
@@ -84,12 +90,6 @@
             });
         }
 
-        //money_button이 클릭되었을때
-        // span value--, span.innerText = span.value +"개"  -> money_have를 줄이고 함수호출이 더 간편할지도?
-        // 그렇게 한다면 money_have -= span.value; getMoneyButton(); 
-        // select_panel input.money_insert += button.value (산술연산)
-        // select_panel textarea.status_log 추가 (줄추가) 
-        // -> xx원 투입됨, x번 xx가 선택됨, 잔돈 x원 반환, 잔액부족, 없는 번호
         function clickMoneyButton(){ 
             var money_insert = document.querySelector(".money_insert");
             var money_have = document.querySelector(".money_have");
@@ -104,6 +104,7 @@
             });
         }
         
+        //투입금액 표시 -> 구입가능 리스트들의 변화를 보여주는 함수 호출
         function setInsertMoney(arg){
             var money_insert = document.querySelector(".money_insert");
             money_insert.value = parseInt(money_insert.value) + parseInt(arg);
@@ -111,12 +112,8 @@
         function setHaveMoney(arg){
             var money_have = document.querySelector(".money_have");
             money_have.value = parseInt(money_have.value) + parseInt(arg);
-            //"500" - 500 = 0, "500" - +500 = 0, "500" + 500 = "500500", "500" - "300" = 200
-            //문자열에 대한  + 연산에 대해서는 무조건 문자열
         }
 
-        //출력내용 xx원 투입됨, x번 xx가 선택됨, 잔돈 x원 반환, 잔액 부족, 없는 번호
-        //매개변수로 받아서 textare에만 추가
         function statusLogChanger(arg){ 
             var statusLog = document.querySelector(".status_log");
             statusLog.value += arg;
@@ -124,6 +121,25 @@
             if (statusLog.selectionStart == statusLog.selectionEnd) {
                 statusLog.scrollTop = statusLog.scrollHeight;
             }
+        }
+
+        function highLighting(){ 
+            //element.classList.add(classname); remove(className);
+            //element.className = className;
+            var list = document.querySelectorAll(".item_panel li");
+            var money_insert = parseInt(document.querySelector(".money_insert").value);
+            //물품가격 list[i].children[1].children[1].innerText //dataset으로 li에 주는게 좋을까?;;
+            list.forEach(function(value){
+                var cost = parseInt(value.children[1].children[1].innerText);
+                console.log(cost,money_insert);
+                if (money_insert >= cost) {
+                    value.classList.add("yellow");
+                    console.log(money_insert+" "+cost);
+                }
+                else value.classList.remove("yellow");
+
+            });          
+
         }
 
     </script>
