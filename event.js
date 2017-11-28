@@ -83,7 +83,7 @@ const vm = {
 
   clickWallet({ target }) {
     const nextElement = target.nextElementSibling;
-    let { dataset: { money } } = target;
+    const { dataset: { money } } = target;
 
     if (!money || nextElement.dataset.remain === "0") return;
 
@@ -155,6 +155,8 @@ const vm = {
   },
 
   printExport() {
+    const controller__charge = $(`.controller__change`);
+
     $(`.controller__progress-box`).insertAdjacentHTML(
       `beforeend`,
       this.templateLiteral(
