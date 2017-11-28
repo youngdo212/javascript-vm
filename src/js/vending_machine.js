@@ -144,20 +144,21 @@ vm.controller = {
   },
 
   putNumber(number) {
+    debugger;
     vm.data.itemNumber.push(number);
     if (vm.data.itemNumber.length === 2) {
       this.getItem(_toInt(vm.data.itemNumber));
       vm.data.itemNumber = [];
     } else {
       let selectTimeout = setTimeout(function () {
-        this.getItem(_toInt(vm.data.itemNumber));
+        vm.controller.getItem(_toInt(vm.data.itemNumber));
         vm.data.itemNumber = [];
       }, 3000);
     }
   },
 
   getItem(itemId) {
-    const item = vm.data.items.find(element => element.id === resultNumber);
+    const item = vm.data.items.find(element => element.id === itemId);
 
     if (item === undefined) return null;
     return item;
