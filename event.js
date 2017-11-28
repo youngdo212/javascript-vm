@@ -49,7 +49,7 @@ const vm = {
     controller__charge.dataset.charge =
       pi(controller__charge.dataset.charge) + pi(money);
 
-    controller__charge.innerHTML = vm.joinComma(
+    controller__charge.innerHTML = this.joinComma(
       controller__charge.dataset.charge
     );
   },
@@ -57,9 +57,9 @@ const vm = {
   printMoneyIncrease(money) {
     $(`.controller__progress-box`).insertAdjacentHTML(
       `beforeend`,
-      vm.templateLiteral(
-        `<span class="controller__progress-log">!{vm.joinComma(money)}이 투입됐음.</span><br>`,
-        vm.joinComma(money)
+      this.templateLiteral(
+        `<span class="controller__progress-log">!{this.joinComma(money)}이 투입됐음.</span><br>`,
+        this.joinComma(money)
       )
     );
   },
@@ -67,7 +67,7 @@ const vm = {
   decreaseRemain(nextElement) {
     nextElement.dataset.remain = pi(nextElement.dataset.remain) - 1;
 
-    nextElement.innerHTML = vm.templateLiteral(
+    nextElement.innerHTML = this.templateLiteral(
       `!{nextElement.dataset.remain}개`,
       nextElement.dataset.remain
     );
@@ -78,7 +78,7 @@ const vm = {
 
     wallet__amount.dataset.total = pi(wallet__amount.dataset.total) - pi(money);
 
-    wallet__amount.innerHTML = vm.joinComma(wallet__amount.dataset.total);
+    wallet__amount.innerHTML = this.joinComma(wallet__amount.dataset.total);
   },
 
   clickWallet({ target }) {
@@ -87,23 +87,23 @@ const vm = {
 
     if (!money || nextElement.dataset.remain === "0") return;
 
-    vm.increaseCharge(money);
+    this.increaseCharge(money);
 
-    vm.printMoneyIncrease(money);
+    this.printMoneyIncrease(money);
 
-    vm.decreaseRemain(nextElement);
+    this.decreaseRemain(nextElement);
 
-    vm.decreaseTotal(money);
+    this.decreaseTotal(money);
 
-    vm.rightSwitch();
+    this.rightSwitch();
   },
 
   calculateInput(target) {
-    if (!vm.inputNumber) {
-      vm.inputNumber = (pi(target.dataset.input) - 1).toString();
+    if (!this.inputNumber) {
+      this.inputNumber = (pi(target.dataset.input) - 1).toString();
     } else {
-      vm.inputNumber = (
-        (pi(vm.inputNumber) + 1) * 10 +
+      this.inputNumber = (
+        (pi(this.inputNumber) + 1) * 10 +
         pi(target.dataset.input) -
         1
       ).toString();
@@ -116,9 +116,9 @@ const vm = {
 
     controller__charge.dataset.charge =
       pi(controller__charge.dataset.charge) -
-      pi(productList[vm.inputNumber].children[1].children[1].dataset.price);
+      pi(productList[this.inputNumber].children[1].children[1].dataset.price);
 
-    controller__charge.innerHTML = vm.joinComma(
+    controller__charge.innerHTML = this.joinComma(
       controller__charge.dataset.charge
     );
   },
@@ -128,28 +128,28 @@ const vm = {
 
     $(`.controller__progress-box`).insertAdjacentHTML(
       `beforeend`,
-      vm.templateLiteral(
+      this.templateLiteral(
         `<span class="controller__progress-log">!{productList[
-          vm.inputNumber
+          this.inputNumber
         ].children[1].children[0].innerHTML.slice(0, -1)}번 `,
-        productList[vm.inputNumber].children[1].children[0].innerHTML.slice(
+        productList[this.inputNumber].children[1].children[0].innerHTML.slice(
           0,
           -1
         )
       ) +
-        vm.templateLiteral(
+        this.templateLiteral(
           `!{
-          productList[vm.inputNumber].children[0].children[0].dataset.productname
+          productList[this.inputNumber].children[0].children[0].dataset.productname
         } 선택됨</span><br>`,
-          productList[vm.inputNumber].children[0].children[0].dataset
+          productList[this.inputNumber].children[0].children[0].dataset
             .productname
         )
     );
   },
 
   isWarning(productList) {
-    if (pi(vm.inputNumber) < 0 || pi(vm.inputNumber) > productList.length) {
-      vm.inputNumber = null;
+    if (pi(this.inputNumber) < 0 || pi(this.inputNumber) > productList.length) {
+      this.inputNumber = null;
       alert(`없는 번호입니다.`);
     }
   },
@@ -157,15 +157,15 @@ const vm = {
   printExport() {
     $(`.controller__progress-box`).insertAdjacentHTML(
       `beforeend`,
-      vm.templateLiteral(
+      this.templateLiteral(
         `<span class="controller__progress-log">잔돈 !{controller__charge.dataset.charge} 반환</span><br>`,
-        vm.joinComma(controller__charge.dataset.charge)
+        this.joinComma(controller__charge.dataset.charge)
       )
     );
 
     controller__charge.dataset.charge = 0;
 
-    controller__charge.innerHTML = vm.joinComma(
+    controller__charge.innerHTML = this.joinComma(
       controller__charge.dataset.charge
     );
   },
@@ -174,30 +174,33 @@ const vm = {
     const controller__charge = $(`.controller__change`);
     const productList = document.querySelectorAll(`.product`);
 
-    vm.calculateInput(target);
+    this.calculateInput(target);
 
-    vm.isWarning(productList);
+    this.isWarning(productList);
 
-    clearTimeout(vm.nextEvent);
+    clearTimeout(this.nextEvent);
 
-    vm.nextEvent = setTimeout(() => {
-      vm.decreaseCharge();
+    this.nextEvent = setTimeout(() => {
+      this.decreaseCharge();
 
-      vm.printSelected();
+      this.printSelected();
 
-      vm.rightSwitch();
+      this.rightSwitch();
 
-      vm.inputNumber = null;
+      this.inputNumber = null;
 
       setTimeout(() => {
-        vm.printExport(controller__charge);
+        this.printExport(controller__charge);
 
-        vm.rightSwitch();
+        this.rightSwitch();
       }, 3000);
     }, 3000);
   }
 };
 
-$(`.wallet__status`).addEventListener(`click`, vm.clickWallet);
+$(`.wallet__status`).addEventListener(`click`, vm.clickWallet.bind(vm));
 
-$(`.controller__menu-select`).addEventListener(`click`, vm.clickButton);
+$(`.controller__menu-select`).addEventListener(
+  `click`,
+  vm.clickButton.bind(vm)
+);
