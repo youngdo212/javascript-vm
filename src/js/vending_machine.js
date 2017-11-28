@@ -12,8 +12,7 @@ vm.data = {
 
   inserted: 0,
 
-  isNumbering: false,
-  previousNumber: 0,
+  itemNumber: [],
 
   items: [
     { id: 1, name: "콜라", price: 500 },
@@ -141,19 +140,35 @@ vm.controller = {
     if (evt.target.nodeName.toLowerCase() !== "button") return;
 
     const number = evt.target.innerText;
+    this.putNumber(number);
+  },
 
-    if (vm.data.isNumbering) {
-      vm.data.isNumbering = false;
-      let resultNumber = vm.data.previousNumber + number;
-      resultNumber = parseInt(resultNumber, 10);
+  putNumber(number) {
+    vm.data.itemNumber.push(number);
+    if (vm.data.itemNumber.length === 2) {
+      this.getItem(_toInt(vm.data.itemNumber));
+      vm.data.itemNumber = [];
     } else {
-      vm.data.previousNumber = number;
-      vm.data.isNumbering = true;
-      setNumberingTimeout();
+      let selectTimeout = setTimeout(function () {
+        this.getItem(_toInt(vm.data.itemNumber));
+        vm.data.itemNumber = [];
+      }, 3000);
     }
   },
 
+  getItem(itemId) {
+    const item = vm.data.items.find(element => element.id === resultNumber);
+
+    if (item === undefined) return null;
+    return item;
+  },
+
   buyItem(item) {
+    if (item === null) {
+      this.log.noMoney();
+      return;
+    }
+
     if (vm.data.inserted < item.price) {
       this.log.noMoney();
       return;
