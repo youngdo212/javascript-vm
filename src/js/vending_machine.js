@@ -76,7 +76,7 @@ vm.controller = {
   init(data) {
     this.setItems(data.items);
     this.setWalletMoneys(data.wallet);
-    this.setMoneyInsertEvents();
+    this.setInsertEvents();
     this.setRefundEvent();
     this.setSelectEvents();
     this.displayWalletTotal();
@@ -98,7 +98,7 @@ vm.controller = {
 
   setItems(items) {
     items.forEach(item => {
-      const itemTemplate = document.querySelector('.item');
+      const itemTemplate = document.querySelector('.item_template');
       const clone = document.importNode(itemTemplate.content, true);
       clone.querySelector('li > button').innerText = item.name;
       clone.querySelector('li > span').innerText = item.id + ". " + item.price;
@@ -123,19 +123,19 @@ vm.controller = {
     if (evt.target.nodeName.toLowerCase() !== "button") return;
 
     const itemName = evt.target.innerText;
-    const item = this.items.find(function (element) {
+    const item = vm.data.items.find(function (element) {
       return element.name === itemName;
     });
     this.buyItem(item);
   },
 
   buyItem(item) {
-    if (this.inserted < item.price) {
+    if (vm.data.inserted < item.price) {
       this.log.noMoney();
       return;
     }
 
-    this.inserted -= item.price;
+    vm.data.inserted -= item.price;
 
     this.log.select(item.name);
     this.displayInserted();
@@ -148,7 +148,7 @@ vm.controller = {
     const parent = evt.target.parentNode;
     const moneyUnit = parseInt(parent.getAttribute("money"), 10);
 
-    if (this.wallet[moneyUnit] === 0) {
+    if (vm.data.wallet[moneyUnit] === 0) {
       this.log.noMoney();
       return;
     }
@@ -157,6 +157,7 @@ vm.controller = {
     vm.data.inserted += moneyUnit;
 
     this.log.insert(moneyUnit);
+    this.displayWallet();
     this.displayWalletTotal();
     this.displayInserted();
     this.displayBuyables();
@@ -179,8 +180,8 @@ vm.controller = {
   },
 
   displayWallet() {
-    for (money in this.wallet) {
-      document.querySelector(`.money_${money}`).innerText = this.wallet[money] + "개";
+    for (money in vm.data.wallet) {
+      document.querySelector(`.money_${money}`).innerText = vm.data.wallet[money] + "개";
     }
   },
 
