@@ -161,13 +161,7 @@ vm.controller = {
 
   refundMoney(evt) {
     if (evt.target.nodeName.toLowerCase() !== "button") return;
-    this.refund(10000);
-    this.refund(5000);
-    this.refund(1000);
-    this.refund(500);
-    this.refund(100);
-    this.refund(50);
-    this.refund(10);
+    [10000, 5000, 1000, 500, 100, 50, 10].forEach(this.refund);
     this.log.refund();
     this.displayRenew();
   },
