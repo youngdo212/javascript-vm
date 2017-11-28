@@ -14,7 +14,9 @@
     </div>
 
     <div class="machine_panel">
-      <div class="machine_credit">
+      <div class="machine_credit"></div>
+      <div class="machine_refund">
+        <button>반환</button>
       </div>
       <div class="machine_picker">
         <button>1</button>
@@ -28,7 +30,7 @@
         <button>9</button>
         <button>0</button>
       </div>
-      <div class="machine_message"></div>
+      <textarea class="machine_message" readonly></textarea>
     </div>
   </div>
 
@@ -41,8 +43,8 @@
     </div>
   </div>
 
-  <template class="item">
-    <li>
+  <template class="item_template">
+    <li class="item">
       <button></button>
       <span></span>
     </li>

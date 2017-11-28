@@ -1,6 +1,8 @@
+* {
+  outline: none;  
+}
 button{
   cursor: pointer;
-  outline: none;
   border-radius: 7px;  
 }
 button:hover{
@@ -21,12 +23,12 @@ button:hover{
   background: #ed3b43;
   float: left;
 }
-.items > ul > li {
+.item {
   text-align: center;
   display:inline-block;
   margin: 4px 5px;
 }
-.items > ul > li > button {
+.item > button {
   border: 2px solid #b33;
   width: 90px;
   height: 36px;
@@ -35,16 +37,21 @@ button:hover{
   font-size: 1rem;
   box-shadow: 0 4px #b33;
 }
-.items > ul > li > button:active{
+.item > button:active{
   box-shadow: 0 1.5px rgb(150, 3, 3);
   transform: translateY(2.5px);
 }
-
-.items > ul > li > span {
+.item > span {
   background: white;
   border-radius: 2px;
   font-size: 0.8rem;
   padding: 1.5px 4px 0px 4px;
+}
+.item_buyable > button{
+  background: #FCE961;  
+}
+.item_buyable > span{
+  background: #FCE961;  
 }
 
 .machine_panel {
@@ -64,11 +71,26 @@ button:hover{
   background: white;
   border-radius: 5px;
 }
+.machine_refund{
+  margin-top: 1px;
+  text-align: right;
+}
+.machine_refund > button{
+  border: 2px solid #b33;
+  width: 120px;
+  height: 30px;
+  font-size: 1.2rem;
+  box-shadow: 0 4px #b33;
+}
+.machine_refund > button:active{
+  box-shadow: 0 1.5px rgb(150, 3, 3);
+  transform: translateY(2.5px);
+}
 .machine_picker{
   border: 3px solid #b33;
   background: #fd6a6c;  
-  margin-top: 25px;
-  padding: 15px 5px;
+  margin-top: 15px;
+  padding: 10px 5px;
   border-radius: 5px;
 }
 .machine_picker > button{
@@ -82,19 +104,22 @@ button:hover{
 .machine_picker > button:last-child {
   width: 193px; 
 }
-
 .machine_picker > button:active{
   box-shadow: 0 1.5px rgb(150, 3, 3);
   transform: translateY(2.5px);
 }
-
 .machine_message{
   border: 3px solid #b33;
-  margin-top: 30px;
+  margin-top: 20px;
+  width: 100%;
   padding: 5px;
   height: 180px;
-  background: white;  
+  background: #fd6a6c;
   border-radius: 5px;
+  resize: none;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  font-size: 15px;  
 }
 
 .wallet {
