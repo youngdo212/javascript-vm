@@ -52,24 +52,23 @@ vm.data = {
 
 vm.controller = {
   log: {
+    logger: document.querySelector(`.machine_message`),
     insert(money) {
-      this.print(`${money}원이 투입되었습니다.`);
+      this.print(`${money}원이 투입되었습니다.`, this.logger);
     },
     refund() {
-      this.print(`잔액이 반환되었습니다.`);
+      this.print(`잔액이 반환되었습니다.`, this.logger);
     },
     noMoney() {
-      this.print(`잔액이 부족합니다.`);
+      this.print(`잔액이 부족합니다.`, this.logger);
     },
     noItem() {
-      this.print(`해당하는 상품이 없습니다.`);
+      this.print(`해당하는 상품이 없습니다.`, this.logger);
     },
     select(item) {
-      this.print(`${item}이(가) 선택되었습니다.`);
+      this.print(`${item}이(가) 선택되었습니다.`, this.logger);
     },
-    print(message) {
-      const logger = document.querySelector(`.machine_message`);
-
+    print(message, logger) {
       if (logger.innerHTML !== "") {
         message = '\n' + message;
       }
