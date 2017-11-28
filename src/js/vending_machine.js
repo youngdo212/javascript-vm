@@ -144,16 +144,17 @@ vm.controller = {
   insertMoney(evt) {
     if (evt.target.nodeName.toLowerCase() !== "button") return;
 
+    const data = vm.data;
     const parent = evt.target.parentNode;
     const moneyUnit = parseInt(parent.getAttribute("money"), 10);
 
-    if (vm.data.wallet[moneyUnit] === 0) {
+    if (data.wallet[moneyUnit] === 0) {
       this.log.noMoney();
       return;
     }
 
-    vm.data.wallet[moneyUnit]--;
-    vm.data.inserted += moneyUnit;
+    data.wallet[moneyUnit]--;
+    data.inserted += moneyUnit;
 
     this.log.insert(moneyUnit);
     this.displayRenew();
@@ -174,15 +175,19 @@ vm.controller = {
   },
 
   displayWallet() {
-    for (money in vm.data.wallet) {
-      document.querySelector(`.money_${money}`).innerText = vm.data.wallet[money] + "개";
+    const data = vm.data;
+
+    for (money in data.wallet) {
+      document.querySelector(`.money_${money}`).innerText = data.wallet[money] + "개";
     }
   },
 
   displayWalletTotal() {
+    const data = vm.data;
     let moneyTotal = 0;
-    for (const value in vm.data.wallet) {
-      moneyTotal += value * vm.data.wallet[value];
+
+    for (const value in data.wallet) {
+      moneyTotal += value * data.wallet[value];
     }
     document.querySelector('.wallet_total').innerText = moneyTotal + '원';
   },
@@ -192,8 +197,10 @@ vm.controller = {
   },
 
   displayBuyables() {
-    for (const item in vm.data.items) {
-      if (vm.data.items[item].price <= vm.data.inserted) {
+    const data = vm.data;
+
+    for (const item in data.items) {
+      if (data.items[item].price <= data.inserted) {
         document.querySelector(`.item:nth-child(${vm.data.items[item].id})`).classList.add('item_buyable');
       } else {
         document.querySelector(`.item:nth-child(${vm.data.items[item].id})`).classList.remove('item_buyable');
@@ -202,9 +209,11 @@ vm.controller = {
   },
 
   refund(moneyUnit) {
-    while (vm.data.inserted >= moneyUnit) {
-      vm.data.inserted -= moneyUnit;
-      vm.data.wallet[moneyUnit]++;
+    const data = vm.data;
+
+    while (data.inserted >= moneyUnit) {
+      data.inserted -= moneyUnit;
+      data.wallet[moneyUnit]++;
     }
   }
 }
