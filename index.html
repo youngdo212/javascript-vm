@@ -28,18 +28,19 @@
                         if(e.target && e.target.nodeName == "BUTTON"){
                             document.querySelector(".button_clicked").value += e.target.innerText;
                             clearTimeout(this.timer);
+                            //this.timer = setTimeout(this.executeSelection.bind(this,"test"),3000);
                             this.timer = setTimeout(this.executeSelection,3000);
                         }
                     }.bind(this)); //timer에 대한 접근을 위해 bind
                 },
-                executeSelection : function(){
-                    //clearTimeout(this.timer);
-                    //this.timer = setTimeout(this.executeSelection,3000);
+                executeSelection : function(arg){
+                    arg && console.log(arg);
                     if(document.querySelector(".button_clicked").value == ""){
                         console.log("반환")
                     }
                     else console.log("계산!");
-                    //document.querySelector(".button_clicked").value = "";
+                    
+                    document.querySelector(".button_clicked").value = "";
                 }.bind(this)
                 
             }
@@ -50,6 +51,7 @@
                 run : function() {
                     this.reset();
                     this.input();
+                    document.querySelector(".refreshWallet").addEventListener("click",this.refreshWallet);
                 },
                 reset : function(){ //refreshWallet()
                     for(var i = this.money_button.length-1;i>=0;i--){
@@ -282,7 +284,7 @@
                     <div data-value="10000"><button>10000원</button> <span data-value="0">0개</span></div>
                 </div>
                 <input type="text" class="money_have" data-value="22500" value="22500">
-                <input type="button" onclick="refreshWallet();" value="계산">
+                <input type="button" class="refreshWallet" value="계산">
             </div>
             <script>
                 //clickMoneyButton();
