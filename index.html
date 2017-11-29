@@ -6,6 +6,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
             var item_panel = {
+                li : document.querySelectorAll(".item_panel li"),
                 highLighting :  function(){ //highLighting()
                     var list = document.querySelectorAll(".item_panel li");
                     var money_insert = parseInt(document.querySelector(".money_insert").value);
@@ -18,30 +19,64 @@
                         else value.classList.remove("yellow");
                     });
 
+                },
+                buyable : function(money_insert,index){
+                    //없는번호 , 잔액 부족 , 구매가능  -> 잔액부족은 class(yello)보고 판단할까..
+                    if(this.li.length < index || index <= 0){
+                        return "없는번호\n";
+                    }
+                    else if(this.li[index-1].className !== "yellow"){
+                        //var cost = this.li[index-1].children[1].children[1].innerText;
+                        //money_insert >= cost ? result = "enable" : result = "disable"
+                        return "잔액부족\n";
+                    }
+                    else return "구매가능\n";
                 }
             }
 
             var select_panel = {
                 timer : null,
+                button_clicked  : document.querySelector(".button_clicked"),
+                money_insert : document.querySelector(".money_insert"),
                 event : function(){ //setSelectNumber()
                     document.querySelector(".select_button").addEventListener("click",function(e){
                         if(e.target && e.target.nodeName == "BUTTON"){
-                            document.querySelector(".button_clicked").value += e.target.innerText;
+                            this.button_clicked.value += e.target.innerText;
                             clearTimeout(this.timer);
-                            //this.timer = setTimeout(this.executeSelection.bind(this,"test"),3000);
-                            this.timer = setTimeout(this.executeSelection,3000);
+                            this.timer = setTimeout(this.executeSelection.bind(this,this.button_clicked.value),3000);
                         }
                     }.bind(this)); //timer에 대한 접근을 위해 bind
                 },
-                executeSelection : function(arg){
-                    arg && console.log(arg);
-                    if(document.querySelector(".button_clicked").value == ""){
-                        console.log("반환")
-                    }
-                    else console.log("계산!");
+                 statusLogChanger : function(arg){ 
+                    var statusLog = document.querySelector(".status_log");
+                    statusLog.value += arg;
                     
-                    document.querySelector(".button_clicked").value = "";
-                }.bind(this)
+                    if (statusLog.selectionStart == statusLog.selectionEnd) {
+                        statusLog.scrollTop = statusLog.scrollHeight;
+                    }
+                },
+
+                executeSelection : function(index){
+                    //console.log(item_panel.buyable(this.money_insert.value,index)); //없는번호 , 잔액부족 , 구매가능
+                    var flag = item_panel.buyable(this.money_insert.value,index);
+                    if(document.querySelector(".button_clicked").value == ""){
+                        console.log("반환");
+                    }
+                    else {
+                        // if(flag == "없는번호"){
+                        //     this.statusLogChanger(flag);
+                        // }
+                        // else if(flag == "잔액부족"){
+                        //     this.statusLogChanger(flag);
+                        // }
+                        // else this.statusLogChanger(flag);
+                        // console.log("계산!");
+                        this.statusLogChanger(flag);
+                        document.querySelector(".button_clicked").value = "";
+                        //타이머 3초
+                    }
+                    
+                }
                 
             }
 
@@ -78,7 +113,7 @@
             
                     document.querySelector(".money_button").addEventListener("click",function(e){
                         if (e.target && e.target.nodeName == "BUTTON"){
-                            statusLogChanger(e.target.innerText+"이 투입됨\n");
+                            select_panel.statusLogChanger(e.target.innerText+"이 투입됨\n");
                             setHaveMoney(-e.target.parentNode.dataset.value);
                             setInsertMoney(e.target.parentNode.dataset.value);
                             this.refreshWallet();
@@ -185,6 +220,7 @@
             money_have.value = parseInt(money_have.value) + parseInt(arg);
         }
 
+        /*
         function statusLogChanger(arg){ 
             var statusLog = document.querySelector(".status_log");
             statusLog.value += arg;
@@ -193,6 +229,7 @@
                 statusLog.scrollTop = statusLog.scrollHeight;
             }
         }
+        */
 
         /*
         function highLighting(){ 
