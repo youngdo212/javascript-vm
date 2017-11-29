@@ -98,7 +98,7 @@
                 run : function() {
                     this.reset();
                     this.input();
-                    document.querySelector(".refreshWallet").addEventListener("click",this.refreshWallet);
+                    document.querySelector(".refreshWallet").addEventListener("click",this.refreshWallet.bind(this));
                 },
                 reset : function(){ //refreshWallet()
                     var temp = this.money_have.value;
@@ -135,7 +135,7 @@
                 },
                 refreshWallet : function(){
                     var money_button = document.querySelector(".money_button").children;
-                    temp = this.money_have.value;
+                    var temp = this.money_have.value;
                     for(var i = money_button.length-1;i>=0;i--){
                         var container = money_button[i];
                         var button = container.children[0];
