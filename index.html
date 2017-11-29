@@ -5,25 +5,53 @@
     <link rel="stylesheet" type="text/css" href="./main.css">
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
-            var test = "asdf";
-            
+            var item_panel = {
+                highLighting :  function(){ //highLighting()
+                    var list = document.querySelectorAll(".item_panel li");
+                    var money_insert = parseInt(document.querySelector(".money_insert").value);
+                    
+                    list.forEach(function(value){
+                        var cost = parseInt(value.children[1].children[1].innerText);
+                        if (money_insert >= cost) {
+                            value.classList.add("yellow");
+                        }
+                        else value.classList.remove("yellow");
+                    });
+
+                }
+            }
+
             var select_panel = {
                 timer : null,
                 event : function(){ //setSelectNumber()
-                    console.log("select_panel event start!");
                     document.querySelector(".select_button").addEventListener("click",function(e){
                         if(e.target && e.target.nodeName == "BUTTON"){
                             document.querySelector(".button_clicked").value += e.target.innerText;
-                            //setTimeout(document.querySelector(".button_clicked").value = 0,3000);
+                            clearTimeout(this.timer);
+                            this.timer = setTimeout(this.executeSelection,3000);
                         }
-                    });
-                }
+                    }.bind(this)); //timer에 대한 접근을 위해 bind
+                },
+                executeSelection : function(){
+                    //clearTimeout(this.timer);
+                    //this.timer = setTimeout(this.executeSelection,3000);
+                    if(document.querySelector(".button_clicked").value == ""){
+                        console.log("반환")
+                    }
+                    else console.log("계산!");
+                    //document.querySelector(".button_clicked").value = "";
+                }.bind(this)
+                
             }
 
             var money_panel = {
                 money_button : document.querySelector(".money_button").children,
                 temp : document.querySelector(".money_have").value,
-                reset : function(){ //getMoneyButton()
+                run : function() {
+                    this.reset();
+                    this.input();
+                },
+                reset : function(){ //refreshWallet()
                     for(var i = this.money_button.length-1;i>=0;i--){
                         var container = this.money_button[i];
                         var button = container.children[0];
@@ -42,16 +70,52 @@
                         this.temp = this.temp % container.dataset.value;
                     }
                 },
-                test1 : function(){
-                    console.log(test); //전역접근
+                input : function(){ //clickMoneyButton(){ 
+                    var money_insert = document.querySelector(".money_insert");
+                    var money_have = document.querySelector(".money_have");
+            
+                    document.querySelector(".money_button").addEventListener("click",function(e){
+                        if (e.target && e.target.nodeName == "BUTTON"){
+                            statusLogChanger(e.target.innerText+"이 투입됨\n");
+                            setHaveMoney(-e.target.parentNode.dataset.value);
+                            setInsertMoney(e.target.parentNode.dataset.value);
+                            this.refreshWallet();
+                            item_panel.highLighting();
+                        }
+                    }.bind(this)); //refreshWallet에 대한 접근을 위한 bind
+                },
+                refreshWallet : function(){
+                    var money_button = document.querySelector(".money_button").children;
+                    var temp = document.querySelector(".money_have").value;
+                    for(var i = money_button.length-1;i>=0;i--){
+                        var container = money_button[i];
+                        var button = container.children[0];
+                        var span = container.children[1];
+                        var spanData = span.dataset; //value를 저장하면 단순 값 복사가 되버림
+                        spanData.value = Math.floor(temp/container.dataset.value); 
+                        
+                        if(spanData.value == 0){
+                            button.disabled = true;
+                        }
+                        else{
+                            button.disabled = false;
+                        }
+
+                        span.innerText = spanData.value + "개";
+                        temp = temp % container.dataset.value;
+                    }
                 }
             }        
             console.log("DOM fully loaded and parsed");
-            money_panel.reset();
+            money_panel.run(); //money_panel.reset(); money_panel.input();
             select_panel.event();
-            money_panel.test1();
         });
         
+        function executeSelection(){
+            document.querySelector(".button_clicked").value = "";
+        }
+
+        /*
         function refreshWallet(){ //getMoneyButton -> refreshWallet
             var money_button = document.querySelector(".money_button").children;
             var temp = document.querySelector(".money_have").value;
@@ -73,6 +137,7 @@
                 temp = temp % container.dataset.value;
             }
         }
+        */
 
         //구매를 위한 숫자입력 이벤트
         //버튼클릭 -> 3초타임아웃 -> 입력된 숫자들에 대해서 처리
@@ -80,16 +145,19 @@
         //올바른 번호 && 잔액 < 물품가격 -> 잔액이 부족합니다 -> 3초타임아웃
         //올바른 번호 && 잔액 >= 물품가격 (else 조건) -> x번 y가 선택됨 -> 3초타임아웃
         //3초타임아웃이후 버튼입력 x -> 잔돈 x원 반환
+        /*
         function setSelectNumber(){
             document.querySelector(".select_button").addEventListener("click",function(e){
                 if(e.target && e.target.nodeName == "BUTTON"){
                     document.querySelector(".button_clicked").value += e.target.innerText;
-                    //setTimeout(document.querySelector(".button_clicked").value = 0,3000);
-                    //console.log(setTimeout(function(){ document.querySelector(".button_clicked").value = "";},2000));
+                    clearTimeout(timer);
+                    timer = setTimeout(executeSelection,3000);
                 }
             });
         }
+        */
 
+        /*
         function clickMoneyButton(){ 
             var money_insert = document.querySelector(".money_insert");
             var money_have = document.querySelector(".money_have");
@@ -100,11 +168,12 @@
                     setHaveMoney(-e.target.parentNode.dataset.value);
                     setInsertMoney(e.target.parentNode.dataset.value);
                     refreshWallet();
+                    highLighting();
                 }
             });
         }
-        
-        //투입금액 표시 -> 구입가능 리스트들의 변화를 보여주는 함수 호출
+        */
+
         function setInsertMoney(arg){
             var money_insert = document.querySelector(".money_insert");
             money_insert.value = parseInt(money_insert.value) + parseInt(arg);
@@ -123,6 +192,7 @@
             }
         }
 
+        /*
         function highLighting(){ 
             //element.classList.add(classname); remove(className);
             //element.className = className;
@@ -137,11 +207,9 @@
                     console.log(money_insert+" "+cost);
                 }
                 else value.classList.remove("yellow");
-
             });          
-
         }
-
+        */
     </script>
 </head>
 <body>
@@ -217,7 +285,7 @@
                 <input type="button" onclick="refreshWallet();" value="계산">
             </div>
             <script>
-                clickMoneyButton();
+                //clickMoneyButton();
             </script>
         </div><!--오른쪽 div 끝-->
     </div><!--container 끝-->
