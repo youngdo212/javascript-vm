@@ -114,6 +114,7 @@
 
 
     function renderWallet() {
+        VM.totalMoney = 0;
         Array.from(moneyEl).forEach(function (element) {
             const amountEl = element.children[1];
             const moneyType = element.getAttribute('data-money');
@@ -153,7 +154,7 @@
     function returnChanges() {
         clearEvent();
 
-        const changes = VM.indicatorMoney;
+        let changes = VM.indicatorMoney;
         VM.indicatorMoney = 0;
         VM.totalMoney += changes;
 
@@ -161,6 +162,18 @@
 
         write(changes + '원을 반환함.');
         renderPurchasableProducts();
+
+        Object.keys(data.wallet).reverse().forEach((moneyType) => {
+            const moneyTypeNum = +moneyType.slice(0, -1);
+            const addAmount = Math.floor(changes / moneyTypeNum);
+
+            if (addAmount) {
+                data.wallet[moneyType] += addAmount;
+                changes -= moneyTypeNum * addAmount;
+            }
+        })
+
+        renderWallet();
 
     }
 
