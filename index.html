@@ -35,7 +35,10 @@
                 timer : null,
                 button_clicked  : document.querySelector(".button_clicked"),
                 money_insert : document.querySelector(".money_insert"),
-                event : function(){ //setSelectNumber()
+                run : function(){
+                    this.setSelectNumber();
+                },
+                setSelectNumber : function(){ 
                     document.querySelector(".select_button").addEventListener("click",function(e){
                         if(e.target && e.target.nodeName == "BUTTON"){
                             this.button_clicked.value += e.target.innerText;
@@ -65,6 +68,7 @@
                         money_have.value = parseInt(money_have.value)+ parseInt(money_insert.value);
                         money_insert.value = "0";
                         item_panel.highLighting();
+                        money_panel.refreshWallet();
                     }
                     else if(flag == "구매가능"){//구매
                         var li = document.querySelectorAll(".item_panel li")[index-1];
@@ -96,31 +100,11 @@
                 money_button : document.querySelector(".money_button").children,
                 money_have : document.querySelector(".money_have"),
                 run : function() {
-                    this.reset();
-                    this.input();
+                    this.refreshWallet();
+                    this.clickMoneyButton();
                     document.querySelector(".refreshWallet").addEventListener("click",this.refreshWallet.bind(this));
                 },
-                reset : function(){ //refreshWallet()
-                    var temp = this.money_have.value;
-                    for(var i = this.money_button.length-1;i>=0;i--){
-                        var container = this.money_button[i];
-                        var button = container.children[0];
-                        var span = container.children[1];
-                        var spanData = span.dataset; //value를 저장하면 단순 값 복사가 되버림
-                        spanData.value = Math.floor(temp/container.dataset.value); 
-                        
-                        if(spanData.value == 0){
-                            button.disabled = true;
-                        }
-                        else{
-                            button.disabled = false;
-                        }
-        
-                        span.innerText = spanData.value + "개";
-                        temp = temp % container.dataset.value;
-                    }
-                },
-                input : function(){ //clickMoneyButton(){ 
+                clickMoneyButton : function(){
                     var money_insert = document.querySelector(".money_insert");
             
                     document.querySelector(".money_button").addEventListener("click",function(e){
@@ -140,7 +124,7 @@
                         var container = money_button[i];
                         var button = container.children[0];
                         var span = container.children[1];
-                        var spanData = span.dataset; //value를 저장하면 단순 값 복사가 되버림
+                        var spanData = span.dataset;
                         spanData.value = Math.floor(temp/container.dataset.value); 
                         
                         if(spanData.value == 0){
@@ -156,73 +140,10 @@
                 }
             }        
             console.log("DOM fully loaded and parsed");
-            money_panel.run(); //money_panel.reset(); money_panel.input();
-            select_panel.event();
+            money_panel.run();
+            select_panel.run();
         });
         
-        function executeSelection(){
-            document.querySelector(".button_clicked").value = "";
-        }
-
-        /*
-        function refreshWallet(){ //getMoneyButton -> refreshWallet
-            var money_button = document.querySelector(".money_button").children;
-            var temp = document.querySelector(".money_have").value;
-            for(var i = money_button.length-1;i>=0;i--){
-                var container = money_button[i];
-                var button = container.children[0];
-                var span = container.children[1];
-                var spanData = span.dataset; //value를 저장하면 단순 값 복사가 되버림
-                spanData.value = Math.floor(temp/container.dataset.value); 
-                
-                if(spanData.value == 0){
-                    button.disabled = true;
-                }
-                else{
-                    button.disabled = false;
-                }
-
-                span.innerText = spanData.value + "개";
-                temp = temp % container.dataset.value;
-            }
-        }
-        */
-
-        //구매를 위한 숫자입력 이벤트
-        //버튼클릭 -> 3초타임아웃 -> 입력된 숫자들에 대해서 처리
-        //잘못된 번호 -> 잘못된 입력 -> 3초타임아웃
-        //올바른 번호 && 잔액 < 물품가격 -> 잔액이 부족합니다 -> 3초타임아웃
-        //올바른 번호 && 잔액 >= 물품가격 (else 조건) -> x번 y가 선택됨 -> 3초타임아웃
-        //3초타임아웃이후 버튼입력 x -> 잔돈 x원 반환
-        /*
-        function setSelectNumber(){
-            document.querySelector(".select_button").addEventListener("click",function(e){
-                if(e.target && e.target.nodeName == "BUTTON"){
-                    document.querySelector(".button_clicked").value += e.target.innerText;
-                    clearTimeout(timer);
-                    timer = setTimeout(executeSelection,3000);
-                }
-            });
-        }
-        */
-
-        /*
-        function clickMoneyButton(){ 
-            var money_insert = document.querySelector(".money_insert");
-            var money_have = document.querySelector(".money_have");
-            
-            document.querySelector(".money_button").addEventListener("click",function(e){
-                if (e.target && e.target.nodeName == "BUTTON"){
-                    statusLogChanger(e.target.innerText+"이 투입됨\n");
-                    setHaveMoney(-e.target.parentNode.dataset.value);
-                    setInsertMoney(e.target.parentNode.dataset.value);
-                    refreshWallet();
-                    highLighting();
-                }
-            });
-        }
-        */
-
         function setInsertMoney(arg){
             var money_insert = document.querySelector(".money_insert");
             money_insert.value = parseInt(money_insert.value) + parseInt(arg);
@@ -232,35 +153,6 @@
             money_have.value = parseInt(money_have.value) + parseInt(arg);
         }
 
-        /*
-        function statusLogChanger(arg){ 
-            var statusLog = document.querySelector(".status_log");
-            statusLog.value += arg;
-            
-            if (statusLog.selectionStart == statusLog.selectionEnd) {
-                statusLog.scrollTop = statusLog.scrollHeight;
-            }
-        }
-        */
-
-        /*
-        function highLighting(){ 
-            //element.classList.add(classname); remove(className);
-            //element.className = className;
-            var list = document.querySelectorAll(".item_panel li");
-            var money_insert = parseInt(document.querySelector(".money_insert").value);
-            //물품가격 list[i].children[1].children[1].innerText //dataset으로 li에 주는게 좋을까?;;
-            list.forEach(function(value){
-                var cost = parseInt(value.children[1].children[1].innerText);
-                console.log(cost,money_insert);
-                if (money_insert >= cost) {
-                    value.classList.add("yellow");
-                    console.log(money_insert+" "+cost);
-                }
-                else value.classList.remove("yellow");
-            });          
-        }
-        */
     </script>
 </head>
 <body>
@@ -335,9 +227,6 @@
                 <input type="text" class="money_have" data-value="22500" value="22500">
                 <input type="button" class="refreshWallet" value="계산">
             </div>
-            <script>
-                //clickMoneyButton();
-            </script>
         </div><!--오른쪽 div 끝-->
     </div><!--container 끝-->
 
