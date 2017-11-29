@@ -94,6 +94,7 @@
   padding-left: 20px;
   margin: 10px;
   margin-bottom: 25px;
+  overflow-y: scroll;
 }
 
 .controller__change-box {
