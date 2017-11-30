@@ -1,13 +1,14 @@
 const vm = {
   inputNumber: null,
-
   nextEvent: null,
 
   calculateInput(target) {
+    let calculatedInput = null;
+
     if (this.inputNumber === null) {
       this.inputNumber = pi(target.dataset.input) - 1;
     } else {
-      const calculatedInput =
+      calculatedInput =
         (this.inputNumber + 1) * 10 + pi(target.dataset.input) - 1;
 
       this.inputNumber = calculatedInput;
@@ -15,105 +16,82 @@ const vm = {
   },
 
   clickButton({ target }) {
-    const controller__charge = $(`.controller__change`);
-
     this.calculateInput(target);
-
     clearTimeout(this.nextEvent);
-
     if (this.isWarning()) return;
 
     this.nextEvent = setTimeout(() => {
       this.decreaseCharge();
-
-      this.printSelected();
-
-      this.rightSwitch();
-
+      this.printSelectedProduct();
+      this.lightSwitch();
       this.inputNumber = null;
 
       this.nextEvent = setTimeout(() => {
-        this.printExport(controller__charge);
-
-        this.rightSwitch();
+        this.printExport(this.controller__charge);
+        this.lightSwitch();
       }, 3000);
     }, 3000);
   },
 
   clickWallet({ target }) {
     const nextElement = target.nextElementSibling;
-    let { dataset: { money } } = target;
+    const { dataset: { money: stringifyMoney } } = target;
+    const money = pi(stringifyMoney);
 
-    money = pi(money);
-
-    if (!money || nextElement.dataset.remain === "0") return;
+    if (!money || nextElement.dataset.remain === `0`) return;
 
     this.increaseCharge(money);
-
     this.printMoneyIncrease(money);
-
     this.decreaseRemain(nextElement, money);
-
     this.decreaseTotal(money);
-
-    this.rightSwitch();
+    this.lightSwitch();
   },
 
   decreaseCharge() {
-    const controller__charge = $(`.controller__change`);
-    const presentCharge = pi(controller__charge.dataset.charge);
-    const productList = document.querySelectorAll(`.product`);
+    const presentCharge = pi(this.controller__charge.dataset.charge);
     const selectedProductPrice = pi(
-      productList[this.inputNumber].querySelector("[data-price]").dataset.price
+      this.productList[this.inputNumber].querySelector(`[data-price]`).dataset
+        .price
     );
     const calculatedCharge = presentCharge - selectedProductPrice;
     let commaedCharge = null;
 
-    controller__charge.dataset.charge = calculatedCharge;
-
+    this.controller__charge.dataset.charge = calculatedCharge;
     commaedCharge = this.joinComma(calculatedCharge);
-
-    controller__charge.innerHTML = commaedCharge;
+    this.controller__charge.innerHTML = commaedCharge;
   },
 
   decreaseRemain(nextElement, money) {
     const calculatedRemain = pi(nextElement.dataset.remain) - 1;
-    const wallet__amount = $(`.wallet__amount`);
     let replacedRemain = null;
 
     nextElement.dataset.remain = calculatedRemain;
-
-    nextElement.innerHTML = calculatedRemain + "개";
+    nextElement.innerHTML = calculatedRemain + `개`;
   },
 
   decreaseTotal(money) {
-    const wallet__amount = $(`.wallet__amount`);
-    let presentWalletTotal = pi(wallet__amount.dataset.total);
+    const presentWalletTotal = pi(this.wallet__amount.dataset.total);
     const calculatedTotal = presentWalletTotal - money;
     let commedTotal = null;
 
-    wallet__amount.dataset.total = calculatedTotal;
-
+    this.wallet__amount.dataset.total = calculatedTotal;
     commaedTotal = this.joinComma(calculatedTotal);
-
-    wallet__amount.innerHTML = commaedTotal;
+    this.wallet__amount.innerHTML = commaedTotal;
   },
 
   isWarning() {
     const { inputNumber } = this;
-    const controller__charge = $(`.controller__change`);
-    const presentCharge = pi(controller__charge.dataset.charge);
-    const productList = document.querySelectorAll(`.product`);
-    const selectedProductDom = productList[inputNumber];
+    const presentCharge = pi(this.controller__charge.dataset.charge);
+    const selectedProductDom = this.productList[inputNumber];
     const selectedProductPrice = selectedProductDom.querySelector(
-      "[data-price]"
+      `[data-price]`
     ).dataset.price;
     const isBroken =
-      selectedProductDom.querySelector("[data-productname]").dataset
-        .productname === "{고장}";
+      selectedProductDom.querySelector(`[data-productname]`).dataset
+        .productname === `{고장}`;
     let isError = true;
 
-    if (inputNumber < 0 || inputNumber > productList.length) {
+    if (inputNumber < 0 || inputNumber > this.productList.length) {
       alert(`없는 번호입니다.`);
     } else if (selectedProductPrice > presentCharge) {
       alert(`현재 잔액으로 구매할 수 없는 상품입니다.`);
@@ -129,23 +107,19 @@ const vm = {
   },
 
   increaseCharge(money) {
-    const controller__charge = $(`.controller__change`);
-    const calculatedCharge = pi(controller__charge.dataset.charge) + money;
+    const calculatedCharge = pi(this.controller__charge.dataset.charge) + money;
     let commaedCharge = null;
 
-    controller__charge.dataset.charge = calculatedCharge;
-
+    this.controller__charge.dataset.charge = calculatedCharge;
     commaedCharge = this.joinComma(calculatedCharge);
-
-    controller__charge.innerHTML = commaedCharge;
+    this.controller__charge.innerHTML = commaedCharge;
   },
 
   increaseRemain(presentCharge) {
     const units = Array.from(
       document.querySelectorAll(`.wallet__status > li > [data-money]`)
     ).reverse();
-    const wallet__amount = $(`.wallet__amount`);
-    const presentTotal = pi(wallet__amount.dataset.total);
+    const presentTotal = pi(this.wallet__amount.dataset.total);
     let copiedPresentCharge = presentCharge;
     let calculatedTotal = null;
     let commaedCharge = null;
@@ -161,32 +135,26 @@ const vm = {
           const calculatedRemain = pi(nextBrother.dataset.remain) + quotient;
 
           copiedPresentCharge -= quotient * money;
-
           nextBrother.dataset.remain = calculatedRemain;
-
-          nextBrother.innerHTML = calculatedRemain + "개";
+          nextBrother.innerHTML = calculatedRemain + `개`;
         }
       }
     });
 
     calculatedTotal = presentTotal + presentCharge;
-
     commaedCharge = this.joinComma(calculatedTotal);
-
-    wallet__amount.innerHTML = commaedCharge;
-
-    wallet__amount.dataset.total = calculatedTotal;
+    this.wallet__amount.innerHTML = commaedCharge;
+    this.wallet__amount.dataset.total = calculatedTotal;
   },
 
   joinComma(input) {
-    const result = input.toLocaleString().toString() + "원";
+    const result = input.toLocaleString() + `원`;
 
     return result;
   },
 
   printExport() {
-    const controller__charge = $(`.controller__change`);
-    const presentCharge = pi(controller__charge.dataset.charge);
+    const presentCharge = pi(this.controller__charge.dataset.charge);
     const commaedCharge = this.joinComma(presentCharge);
     const replaceCommaedCharge = this.replaceStringToVariable(
       `<span class="controller__progress-log">잔돈 !{commaedCharge} 반환</span><br>`,
@@ -197,13 +165,13 @@ const vm = {
       this.increaseRemain(presentCharge);
     }
 
-    $(`.controller__progress-box`).insertAdjacentHTML(
+    this["controller__progress-box"].insertAdjacentHTML(
       `beforeend`,
       replaceCommaedCharge
     );
 
-    controller__charge.dataset.charge = 0;
-    controller__charge.innerHTML = "0원";
+    this.controller__charge.dataset.charge = 0;
+    this.controller__charge.innerHTML = `0원`;
   },
 
   printMoneyIncrease(money) {
@@ -213,20 +181,19 @@ const vm = {
       commaedMoney
     );
 
-    $(`.controller__progress-box`).insertAdjacentHTML(
+    this["controller__progress-box"].insertAdjacentHTML(
       `beforeend`,
       replacedCommedMoney
     );
   },
 
-  printSelected() {
-    const productList = document.querySelectorAll(`.product`);
-    const selectedProductId = productList[this.inputNumber]
-      .querySelector(".product__info__index")
+  printSelectedProduct() {
+    const selectedProductId = this.productList[this.inputNumber]
+      .querySelector(`.product__info__index`)
       .innerHTML.slice(0, -1);
-    const selectedProductName = productList[this.inputNumber].querySelector(
-      "[data-productname]"
-    ).dataset.productname;
+    const selectedProductName = this.productList[
+      this.inputNumber
+    ].querySelector(`[data-productname]`).dataset.productname;
     const templatedId = this.replaceStringToVariable(
       `<span class="controller__progress-log">!{selectedProductId}번 `,
       selectedProductId
@@ -244,15 +211,14 @@ const vm = {
 
   replaceStringToVariable(input, variable) {
     const result = input.replace(
-      input.slice(input.indexOf("!"), input.indexOf("}") + 1),
+      input.slice(input.indexOf(`!`), input.indexOf(`}`) + 1),
       variable
     );
 
     return result;
   },
 
-  rightSwitch() {
-    const controller__charge = $(`.controller__change`);
+  lightSwitch() {
     const product__info__price = document.querySelectorAll(`[data-price]`);
 
     product__info__price.forEach(v => {
@@ -260,20 +226,24 @@ const vm = {
       const parentBrother = parent.previousElementSibling;
       const cousinInnerHTML = parentBrother.firstElementChild.innerHTML;
       const isError =
-        pi(v.dataset.price) > pi(controller__charge.dataset.charge) ||
-        cousinInnerHTML === "{고장}";
+        pi(v.dataset.price) > pi(this.controller__charge.dataset.charge) ||
+        cousinInnerHTML === `{고장}`;
       let cmd = null;
 
-      isError ? (cmd = "remove") : (cmd = "add");
-
+      isError ? (cmd = `remove`) : (cmd = `add`);
       parent.classList[cmd](`purchasable`);
       parentBrother.classList[cmd](`purchasable`);
     });
   }
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(`DOMContentLoaded`, () => {
   Object.assign(window, util);
+
+  vm.controller__charge = $(`.controller__change`);
+  vm.wallet__amount = $(`.wallet__amount`);
+  vm[`controller__progress-box`] = $(`.controller__progress-box`);
+  vm.productList = document.querySelectorAll(`.product`);
 
   $(`.wallet__status`).addEventListener(`click`, vm.clickWallet.bind(vm));
 
