@@ -32,3 +32,13 @@ var item_list = [
     {name:"진라면",cost:800},
     {name:"환타포도",cost:1000}
 ]
+var button_list = [
+    {value:10,count:0},
+    {value:50,count:0},
+    {value:100,count:0},
+    {value:500,count:0},
+    {value:1000,count:0},
+    {value:5000,count:0},
+    {value:10000,count:0},
+
+]

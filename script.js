@@ -1,14 +1,24 @@
 document.addEventListener("DOMContentLoaded", function(event) {
+    //태그 생성함수 -> 매개변수 : 받아올 데이터(data.js) , 부모태그 , innerHTML요소(배열로 받아서 처리)
     (function() { //make item list
         var ul = document.querySelector(".item_panel ul");
-        item_list.forEach(function(value,index){
+        item_list.forEach(function(key,index){
             var node = document.createElement("li");
             node.innerHTML = 
-            "<div>"+value.name+"</div><div><span>"+(index+1)+"</span>. <span>"+value.cost+"</span></div>";
+            "<div>"+key.name+"</div><div><span>"+(index+1)+"</span>. <span>"+key.cost+"</span></div>";
             ul.appendChild(node);
         });
     })();
 
+    (function(){ //make money_button list
+        var buttonDiv = document.querySelector(".money_button");
+        button_list.forEach(function(key){
+            var node = document.createElement("div");
+            node.innerHTML = "<button>"+key.value+"원</button><span>"+key.count+"개</span>";
+            buttonDiv.appendChild(node);
+        });
+    }());
+    
     var elements = { //전역으로 사용하지만 뭔가 코드들이 길어지는 느낌
         money_button : document.querySelector(".money_button"),
         money_have : document.querySelector(".money_have"),
