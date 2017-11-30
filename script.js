@@ -20,13 +20,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     var item_panel = {
-        li : document.querySelectorAll(".item_panel li"),
         highLighting :  function(){ //highLighting()
             var list = document.querySelectorAll(".item_panel li");
-            // var money_insert = parseInt(document.querySelector(".money_insert").value);
             
-            list.forEach(function(value){
-                var cost = parseInt(value.children[1].children[1].innerText);
+            list.forEach(function(value,index){
+                var cost = item_list[index].cost;
                 if (elements.money_insert.value >= cost) {
                     value.classList.add("yellow");
                 }
@@ -35,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
         },
         buyable : function(money_insert,index){
-            console.log(money_insert);
             if(item_list.length < index || index <= 0){
                 return "없는번호";
             }
@@ -48,13 +45,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     var select_panel = {
         timer : null,
-        //button_clicked  : document.querySelector(".button_clicked"),
-        //money_insert : document.querySelector(".money_insert"),
         run : function(){
             this.setSelectNumber();
         },
         setSelectNumber : function(){ 
-            //document.querySelector(".select_button").addEventListener("click",function(e){
             elements.select_button.addEventListener("click",function(e){
                 if(e.target && e.target.nodeName == "BUTTON"){
                     elements.button_clicked.value += e.target.innerText;
@@ -63,8 +57,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 }
             }.bind(this)); //timer에 대한 접근을 위해 bind
         },
-         statusLogChanger : function(arg){ 
-            // var statusLog = document.querySelector(".status_log");
+         addLog : function(arg){ 
             elements.status_log.value += arg;
             
             if (elements.status_log.selectionStart == elements.status_log.selectionEnd) {
@@ -73,14 +66,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
         },
 
         executeSelection : function(index){
-            //console.log(item_panel.buyable(this.money_insert.value,index)); //없는번호 , 잔액부족 , 구매가능
-            //var money_insert = this.money_insert;
-            //var money_have = money_panel.money_have;
             var flag;
             index && (flag = item_panel.buyable(elements.money_insert.value,index));
 
             if(elements.button_clicked.value == ""){//반환
-                this.statusLogChanger(elements.money_insert.value + "원 반환\n");
+                this.addLog(elements.money_insert.value + "원 반환\n");
                 elements.money_have.value = parseInt(elements.money_have.value)+ parseInt(elements.money_insert.value);
                 elements.money_insert.value = "0";
                 item_panel.highLighting();
@@ -89,15 +79,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
             else if(flag == "구매가능"){//구매
                 elements.money_insert.value -= item_list[index-1].cost;
                 elements.button_clicked.value = "";
-                this.statusLogChanger(item_list[index-1].name + "선택됨\n");
+                this.addLog(item_list[index-1].name + "선택됨\n");
                 item_panel.highLighting();
 
                 clearTimeout(this.timer);
                 this.timer = setTimeout(this.executeSelection.bind(this), 3000);
             }
             else {//없는번호 , 잔액부족
-                this.statusLogChanger(flag+"\n");
-                //document.querySelector(".button_clicked").value = "";
+                this.addLog(flag+"\n");
                 elements.button_clicked.value = "";
                 
                 clearTimeout(this.timer);
@@ -109,30 +98,26 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     var money_panel = {
-        //money_button : document.querySelector(".money_button").children,
-        //money_have : document.querySelector(".money_have"),
         run : function() {
             this.refreshWallet();
             this.clickMoneyButton();
-            //document.querySelector(".refreshWallet").addEventListener("click",this.refreshWallet.bind(this));
             elements.refresh_wallet.addEventListener("click",this.refreshWallet.bind(this));
         },
         clickMoneyButton : function(){
-            //var money_insert = document.querySelector(".money_insert");
     
-            //document.querySelector(".money_button").addEventListener("click",function(e){
             elements.money_button.addEventListener("click",function(e){
                 if (e.target && e.target.nodeName == "BUTTON"){
-                    select_panel.statusLogChanger(e.target.innerText+"이 투입됨\n");
-                    setHaveMoney(-e.target.parentNode.dataset.value);
-                    setInsertMoney(e.target.parentNode.dataset.value);
+                    var value = e.target.parentNode.dataset.value;
+                    select_panel.addLog(e.target.innerText+"이 투입됨\n");
+                    
+                    setHaveMoney(-value);
+                    setInsertMoney(value);
                     this.refreshWallet();
                     item_panel.highLighting();
                 }
             }.bind(this)); //refreshWallet에 대한 접근을 위한 bind
         },
         refreshWallet : function(){
-            //var money_button = document.querySelector(".money_button").children;
             var money_button = elements.money_button.children;
             var temp = elements.money_have.value;
             for(var i = money_button.length-1;i>=0;i--){
@@ -154,7 +139,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
             }
         }
     }        
-    console.log("DOM fully loaded and parsed");
     money_panel.run();
     select_panel.run();
 });
