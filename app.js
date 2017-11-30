@@ -23,25 +23,23 @@
     const consoleEl = qs('.console');
     const totalMoneyEl = qs('.totalMoney');
     const indicatorEl = qs('.amount-indicator');
+    const moneyList = qs('.money-list');
+    const buttonList = qs('.button-list');
     const moneyEl = qsa('.money-list > li');
-    const buttonNumEl = qsa('.button-list .button');
 
     function setView() {
         productListEl.innerHTML += VM.template.show(data.products);
 
         renderWallet();
 
-        Array.from(buttonNumEl).forEach(function (btn) {
-            $on(btn, 'click', () => {
-                inputProductId(btn.textContent);
-            });
+        $delegate(moneyList, '.money .button', 'click', function () {
+            withdrawMoney(this.parentNode.nextElementSibling, this.textContent);
         });
 
-        Array.from(moneyEl).forEach(function (element) {
-            $on(element, 'click', () => {
-                withdrawMoney(element.children[1], element.getAttribute('data-money'))
-            });
+        $delegate(buttonList, '.button-list .button', 'click', function () {
+            inputProductId(this.textContent);
         });
+
 
     }
 
@@ -157,8 +155,6 @@
         let changes = VM.indicatorMoney;
         VM.indicatorMoney = 0;
         VM.totalMoney += changes;
-
-
 
         write(changes + '원을 반환함.');
         renderPurchasableProducts();
