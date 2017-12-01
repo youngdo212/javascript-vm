@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", setLoad);
 
 function setLoad() {
-    //태그 생성함수 -> 매개변수 : 받아올 데이터(data.js) , 부모태그 , innerHTML요소(배열로 받아서 처리)
     (function() { //make item list
         var ul = document.querySelector(".item_panel ul");
         item_list.forEach(function(key,index){
@@ -20,8 +19,9 @@ function setLoad() {
             buttonDiv.appendChild(node);
         });
     }());
-
-    var elements = { //전역으로 사용하지만 뭔가 코드들이 길어지는 느낌
+    
+    var message = ["구매가능","없는번호","잔액부족"];
+    var elements = { 
         money_button : document.querySelector(".money_button"),
         money_have : document.querySelector(".money_have"),
         money_insert : document.querySelector(".money_insert"),
@@ -32,7 +32,7 @@ function setLoad() {
     }
 
     var item_panel = {
-        highLighting :  function(){ //highLighting()
+        highLighting :  function(){
             var list = document.querySelectorAll(".item_panel li");
             
             list.forEach(function(value,index){
@@ -46,12 +46,12 @@ function setLoad() {
         },
         buyable : function(money_insert,index){
             if(item_list.length < index || index <= 0){
-                return "없는번호";
+                return message[1];
             }
             else if(item_list[index-1].price > money_insert){
-                return "잔액부족";
+                return message[2];
             }
-            else return "구매가능";
+            else return message[0];
         }
     }
 
@@ -67,7 +67,7 @@ function setLoad() {
                     clearTimeout(this.timer);
                     this.timer = setTimeout(this.executeSelection.bind(this,elements.button_clicked.value),3000);
                 }
-            }.bind(this)); //timer에 대한 접근을 위해 bind
+            }.bind(this)); 
         },
          addLog : function(arg){ 
             elements.status_log.value += arg;
@@ -88,7 +88,7 @@ function setLoad() {
                 item_panel.highLighting();
                 money_panel.refreshWallet();
             }
-            else if(flag == "구매가능"){//구매
+            else if(!message.indexOf(flag)){//구매가능
                 elements.money_insert.value -= item_list[index-1].price;
                 elements.button_clicked.value = "";
                 this.addLog(item_list[index-1].name + " 선택됨\n");
@@ -125,9 +125,9 @@ function setLoad() {
                     this.refreshWallet();
                     item_panel.highLighting();
                 }
-            }.bind(this)); //refreshWallet에 대한 접근을 위한 bind
+            }.bind(this)); 
         },
-        refreshWallet : function(){//money_have 에서 button_list 를 순차적으로 나눠나감 -> 몫은 count에 저장
+        refreshWallet : function(){
             var money_button = elements.money_button.children;
             var temp = elements.money_have.value;
             
