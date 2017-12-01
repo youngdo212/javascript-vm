@@ -105,24 +105,30 @@ const vm = {
 
   isWarning() {
     const { inputNumber } = this;
+    console.log(inputNumber);
     const presentCharge = pi(this.controller__charge.dataset.charge);
-    const selectedProductDom = this.productList[inputNumber];
-    const selectedProductPrice = selectedProductDom.querySelector(
-      `[data-price]`
-    ).dataset.price;
-    const isBroken =
-      selectedProductDom.querySelector(`[data-productname]`).dataset
-        .productname === `{고장}`;
+    let selectedProductDom = null;
+    let selectedProductPrice = null;
+    let isBroken = null;
     let isError = true;
 
-    if (inputNumber < 0 || inputNumber > this.productList.length) {
+    if (inputNumber > this.productList.length) {
       alert(`없는 번호입니다.`);
-    } else if (selectedProductPrice > presentCharge) {
-      alert(`현재 잔액으로 구매할 수 없는 상품입니다.`);
-    } else if (isBroken) {
-      alert(`고장으로 인해 구매할 수 없는 상품입니다.`);
     } else {
-      isError = false;
+      selectedProductDom = selectedProductDom = this.productList[inputNumber];
+      selectedProductPrice = selectedProductDom.querySelector(`[data-price]`)
+        .dataset.price;
+      isBroken =
+        selectedProductDom.querySelector(`[data-productname]`).dataset
+          .productname === `{고장}`;
+
+      if (selectedProductPrice > presentCharge) {
+        alert(`현재 잔액으로 구매할 수 없는 상품입니다.`);
+      } else if (isBroken) {
+        alert(`고장으로 인해 구매할 수 없는 상품입니다.`);
+      } else {
+        isError = false;
+      }
     }
 
     if (isError) this.inputNumber = null;
