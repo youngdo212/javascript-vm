@@ -29,7 +29,7 @@
 	};
 
 	View.prototype.render = function (viewCmd, parameter) {
-		var viewCommands = {
+		const viewCommands = {
 			showProducts: () => {
 				this.$productList.innerHTML = this.template.show(parameter);
 			},

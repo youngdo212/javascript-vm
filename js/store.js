@@ -16,7 +16,7 @@
         this._dbName = name;
 
         if (!localStorage[name]) {
-            var data = {
+            const data = {
                 wallet: {
                     '10원': 0,
                     '50원': 2,

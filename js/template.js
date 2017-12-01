@@ -13,11 +13,11 @@
     }
 
     Template.prototype.show = function (data) {
-        var i, l;
-        var view = '';
+        let i, l;
+        let view = '';
 
         for (i = 0, l = data.length; i < l; i++) {
-            var template = this.defaultTemplate;
+            let template = this.defaultTemplate;
 
             template = template.replace('{{name}}', data[i].name);
             template = template.replace('{{id}}', data[i].id);

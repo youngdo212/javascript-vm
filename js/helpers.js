@@ -14,29 +14,18 @@
 
     window.$delegate = function (target, selector, type, handler) {
         function dispatchEvent(event) {
-            var targetElement = event.target;
-            var potentialElements = window.qsa(selector, target);
-            var hasMatch = Array.prototype.indexOf.call(potentialElements, targetElement) >= 0;
+            const targetElement = event.target;
+            const potentialElements = window.qsa(selector, target);
+            const hasMatch = Array.prototype.indexOf.call(potentialElements, targetElement) >= 0;
 
             if (hasMatch) {
                 handler.call(targetElement, event);
             }
         }
 
-        var useCapture = type === 'blur' || type === 'focus';
+        const useCapture = type === 'blur' || type === 'focus';
 
         window.$on(target, type, dispatchEvent, useCapture);
     };
 
-    window.$parent = function (element, tagName) {
-        if (!element.parentNode) {
-            return;
-        }
-        if (element.parentNode.tagName.toLowerCase() === tagName.toLowerCase()) {
-            return element.parentNode;
-        }
-        return window.$parent(element.parentNode, tagName);
-    };
-
-    NodeList.prototype.forEach = Array.prototype.forEach;
 })(window);
