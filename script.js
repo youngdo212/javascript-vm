@@ -5,20 +5,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
         item_list.forEach(function(key,index){
             var node = document.createElement("li");
             node.innerHTML = 
-            "<div>"+key.name+"</div><div><span>"+(index+1)+"</span>. <span>"+key.cost+"</span></div>";
+            "<div>"+key.name+"</div><div><span>"+(index+1)+"</span>. <span>"+key.price+"</span></div>";
             ul.appendChild(node);
         });
     })();
 
     (function(){ //make money_button list
         var buttonDiv = document.querySelector(".money_button");
-        button_list.forEach(function(key){
+        button_list.forEach(function(key,index){
             var node = document.createElement("div");
-            node.innerHTML = "<button>"+key.value+"원</button><span>"+key.count+"개</span>";
+            node.innerHTML = "<button data-value="+index+">"+key.value+"원</button> <span>"+key.count+"개</span>";
             buttonDiv.appendChild(node);
         });
     }());
-    
+
     var elements = { //전역으로 사용하지만 뭔가 코드들이 길어지는 느낌
         money_button : document.querySelector(".money_button"),
         money_have : document.querySelector(".money_have"),
@@ -34,8 +34,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
             var list = document.querySelectorAll(".item_panel li");
             
             list.forEach(function(value,index){
-                var cost = item_list[index].cost;
-                if (elements.money_insert.value >= cost) {
+                var price = item_list[index].price;
+                if (elements.money_insert.value >= price) {
                     value.classList.add("yellow");
                 }
                 else value.classList.remove("yellow");
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             if(item_list.length < index || index <= 0){
                 return "없는번호";
             }
-            else if(item_list[index-1].cost > money_insert){
+            else if(item_list[index-1].price > money_insert){
                 return "잔액부족";
             }
             else return "구매가능";
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 money_panel.refreshWallet();
             }
             else if(flag == "구매가능"){//구매
-                elements.money_insert.value -= item_list[index-1].cost;
+                elements.money_insert.value -= item_list[index-1].price;
                 elements.button_clicked.value = "";
                 this.addLog(item_list[index-1].name + "선택됨\n");
                 item_panel.highLighting();
@@ -114,10 +114,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
             elements.refresh_wallet.addEventListener("click",this.refreshWallet.bind(this));
         },
         clickMoneyButton : function(){
-    
             elements.money_button.addEventListener("click",function(e){
                 if (e.target && e.target.nodeName == "BUTTON"){
-                    var value = e.target.parentNode.dataset.value;
+                    var value = button_list[e.target.dataset.value].value;
                     select_panel.addLog(e.target.innerText+"이 투입됨\n");
                     
                     setHaveMoney(-value);
@@ -127,25 +126,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 }
             }.bind(this)); //refreshWallet에 대한 접근을 위한 bind
         },
-        refreshWallet : function(){
+        refreshWallet : function(){//money_have 에서 button_list 를 순차적으로 나눠나감 -> 몫은 count에 저장
             var money_button = elements.money_button.children;
             var temp = elements.money_have.value;
-            for(var i = money_button.length-1;i>=0;i--){
-                var container = money_button[i];
-                var button = container.children[0];
-                var span = container.children[1];
-                var spanData = span.dataset;
-                spanData.value = Math.floor(temp/container.dataset.value); 
-                
-                if(spanData.value == 0){
-                    button.disabled = true;
-                }
-                else{
-                    button.disabled = false;
-                }
-
-                span.innerText = spanData.value + "개";
-                temp = temp % container.dataset.value;
+            
+            for(var i = button_list.length-1;i>=0;i--){
+                button_list[i].count = Math.floor(temp/button_list[i].value);
+                temp = temp % button_list[i].value;
+                //button -> money_button[i].children[0]
+                //span ->money_button[i].children[1]
+                money_button[i].children[1].innerHTML =  button_list[i].count+"개";
+                //길다
+                button_list[i].count == 0 ?
+                 money_button[i].children[0].disabled = true : money_button[i].children[0].disabled = false;
             }
         }
     }        
