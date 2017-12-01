@@ -1,4 +1,6 @@
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", setLoad);
+
+function setLoad() {
     //태그 생성함수 -> 매개변수 : 받아올 데이터(data.js) , 부모태그 , innerHTML요소(배열로 받아서 처리)
     (function() { //make item list
         var ul = document.querySelector(".item_panel ul");
@@ -78,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         executeSelection : function(index){
             var flag;
             index && (flag = item_panel.buyable(elements.money_insert.value,index));
-
+            
             if(elements.button_clicked.value == ""){//반환
                 this.addLog(elements.money_insert.value + "원 반환\n");
                 elements.money_have.value = parseInt(elements.money_have.value)+ parseInt(elements.money_insert.value);
@@ -89,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             else if(flag == "구매가능"){//구매
                 elements.money_insert.value -= item_list[index-1].price;
                 elements.button_clicked.value = "";
-                this.addLog(item_list[index-1].name + "선택됨\n");
+                this.addLog(item_list[index-1].name + " 선택됨\n");
                 item_panel.highLighting();
 
                 clearTimeout(this.timer);
@@ -102,7 +104,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 clearTimeout(this.timer);
                 this.timer = setTimeout(this.executeSelection.bind(this), 3000);
             }
-            
         }
         
     }
@@ -133,10 +134,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             for(var i = button_list.length-1;i>=0;i--){
                 button_list[i].count = Math.floor(temp/button_list[i].value);
                 temp = temp % button_list[i].value;
-                //button -> money_button[i].children[0]
-                //span ->money_button[i].children[1]
                 money_button[i].children[1].innerHTML =  button_list[i].count+"개";
-                //길다
                 button_list[i].count == 0 ?
                  money_button[i].children[0].disabled = true : money_button[i].children[0].disabled = false;
             }
@@ -144,8 +142,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }        
     money_panel.run();
     select_panel.run();
-});
-
+}
 function setInsertMoney(arg){
     var money_insert = document.querySelector(".money_insert");
     money_insert.value = parseInt(money_insert.value) + parseInt(arg);
