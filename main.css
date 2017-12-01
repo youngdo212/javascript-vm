@@ -65,10 +65,7 @@ li {
     display: inline-block;
     margin: 5px;
 }
-span {
-    text-align: center;
-}
-textarea{
+.status_log{
     text-align: center;
 }
 .yellow{
