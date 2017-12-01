@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <title>Luigi's vending machine</title>
+    <link rel="stylesheet" type="text/css" href="./main.css">
+</head>
+<body>
+    <div class="container"><!--container 시작-->
+        <div class="column_left"><!-- 왼쪽 div 시작-->
+            <div class="item_panel">
+                <ul class="item_list"></ul>
+            </div>
+            <div class="select_panel">
+                <input type="text" class="money_insert" value="0";>
+                <input type="text" class="button_clicked">
+                <div class="select_button">
+                    <button>1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button>4</button>
+                    <button>5</button>
+                    <button>6</button>
+                    <button>7</button>
+                    <button>8</button>
+                    <button>9</button>
+                    <button>0</button>
+                </div>
+                <div class="status"><textarea class="status_log" cols="30" rows="10"></textarea></div>
+            </div>
+        </div><!-- 왼쪽 div 끝-->
+
+        <div class="column_right"> <!-- 오른쪽 div 시작-->
+            <div class="money_panel">
+                <div class="money_button"></div>
+                <input type="text" class="money_have" data-value="22500" value="22500">
+                <input type="button" class="refreshWallet" value="계산">
+            </div>
+        </div><!--오른쪽 div 끝-->
+    </div><!--container 끝-->
+    <script type="text/javascript" src="./data.js"></script>
+    <script type="text/javascript" src="./script.js"></script>
+
+</body>
+</html>
