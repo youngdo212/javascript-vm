@@ -3,8 +3,8 @@
 (function (window) {
 	'use strict';
 
-	function View(template) {
-		this.template = template;
+	function View() {
+
 
 		this.$productList = qs('.product-list');
 		this.$console = qs('.console');
@@ -31,7 +31,7 @@
 	View.prototype.render = function (viewCmd, parameter) {
 		const viewCommands = {
 			showProducts: () => {
-				this.$productList.innerHTML = this.template.show(parameter);
+				this.$productList.innerHTML = this._showProductTemplate(parameter);
 			},
 			renderWallet: () => {
 				this._renderWallet(parameter);
@@ -52,6 +52,30 @@
 
 		viewCommands[viewCmd]();
 	};
+
+	View.prototype._showProductTemplate = function (products) {
+		let i, l;
+		let view = '';
+		const defaultTemplate = '<li class="col-3">' +
+			'<div class="product-name">{{name}}</div>' +
+			'<div class="product-info">' +
+			'<span class="product-id">{{id}}.</span> ' +
+			'<span class="product-price">{{price}}</span>' +
+			'</div>' +
+			'</li>';
+
+		for (i = 0, l = products.length; i < l; i++) {
+			let template = defaultTemplate;
+
+			template = template.replace('{{name}}', products[i].name);
+			template = template.replace('{{id}}', products[i].id);
+			template = template.replace('{{price}}', products[i].price);
+
+			view = view + template;
+		}
+
+		return view;
+	}
 
 	View.prototype._writeLog = function (text) {
 		const line = document.createElement('p');

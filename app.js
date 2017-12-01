@@ -4,10 +4,8 @@
 
     function VendingMachine(name) {
         this.storage = new app.Store(name);
-        this.template = new app.Template();
-        this.view = new app.View(this.template);
+        this.view = new app.View();
         this.controller = new app.Controller(this.storage, this.view);
-
     }
 
     const VM = new VendingMachine('codesquad');
