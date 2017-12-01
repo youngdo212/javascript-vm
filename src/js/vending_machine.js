@@ -12,6 +12,8 @@ vm.data = {
 
   inserted: 0,
 
+  itemNumber: [],
+
   items: [
     { id: 1, name: "콜라", price: 500 },
     { id: 2, name: "사이다", price: 1000 },
@@ -49,10 +51,39 @@ vm.data = {
 }
 
 vm.controller = {
+  log: {
+    logger: document.querySelector(`.machine_message`),
+    insert(money) {
+      this.print(`${money}원이 투입되었습니다.`, this.logger);
+    },
+    refund() {
+      this.print(`잔액이 반환되었습니다.`, this.logger);
+    },
+    noMoney() {
+      this.print(`잔액이 부족합니다.`, this.logger);
+    },
+    noItem() {
+      this.print(`해당하는 상품이 없습니다.`, this.logger);
+    },
+    select(item) {
+      this.print(`${item}이(가) 선택되었습니다.`, this.logger);
+    },
+    print(message, logger) {
+      if (logger.innerHTML !== "") {
+        message = '\n' + message;
+      }
+      logger.innerHTML += message;
+      logger.scrollTop = logger.scrollHeight;
+    }
+  },
+
   init(data) {
     this.setItems(data.items);
     this.setWalletMoneys(data.wallet);
-    this.setMoneyInsertEvents();
+    this.setInsertEvents();
+    this.setRefundEvent();
+    this.setItemSelectEvents();
+    this.setNumberSelectEvents();
     this.displayWalletTotal();
     this.displayInserted();
   },
@@ -72,7 +103,7 @@ vm.controller = {
 
   setItems(items) {
     items.forEach(item => {
-      const itemTemplate = document.querySelector('.item');
+      const itemTemplate = document.querySelector('.item_template');
       const clone = document.importNode(itemTemplate.content, true);
       clone.querySelector('li > button').innerText = item.name;
       clone.querySelector('li > span').innerText = item.id + ". " + item.price;
@@ -81,36 +112,152 @@ vm.controller = {
     })
   },
 
-  setMoneyInsertEvents() {
-    document.querySelector(".wallet_moneys").addEventListener("mousedown", this.insertMoney.bind(this));
+  setInsertEvents() {
+    const el = document.querySelector(".wallet_moneys");
+    el.addEventListener("mousedown", this.insertMoney.bind(this));
+  },
+
+  setRefundEvent() {
+    const el = document.querySelector(".machine_refund > button");
+    el.addEventListener("mousedown", this.refundMoney.bind(this));
+  },
+
+  setItemSelectEvents() {
+    const el = document.querySelector(".items");
+    el.addEventListener("mousedown", this.selectItem.bind(this));
+  },
+
+  setNumberSelectEvents() {
+    const el = document.querySelector(".machine_picker");
+    el.addEventListener("mousedown", this.selectNumber.bind(this));
+  },
+
+  selectItem(evt) {
+    if (evt.target.nodeName.toLowerCase() !== "button") return;
+
+    const itemName = evt.target.innerText;
+    const item = vm.data.items.find(element => element.name === itemName);
+    this.buyItem(item);
+  },
+
+  selectNumber(evt) {
+    if (evt.target.nodeName.toLowerCase() !== "button") return;
+
+    const number = evt.target.innerText;
+    this.putNumber(number);
+  },
+
+  putNumber(number) {
+    let itemNumber = vm.data.itemNumber;
+    itemNumber.push(number);
+
+    if (itemNumber.length === 2) {
+      clearTimeout(selectTimeout);
+      this.getItem(itemNumber);
+    } else {
+      selectTimeout = setTimeout(() => this.getItem(itemNumber), 3000);
+    }
+  },
+
+  getItem(itemNumber) {
+    const itemId = (_toInt(itemNumber));
+    const item = vm.data.items.find(element => element.id === itemId);
+    vm.data.itemNumber = [];
+
+    if (item === undefined) {
+      this.log.noItem();
+      return;
+    }
+    this.buyItem(item);
+  },
+
+  buyItem(item) {
+    if (vm.data.inserted < item.price) {
+      this.log.noMoney();
+      return;
+    }
+
+    vm.data.inserted -= item.price;
+
+    this.log.select(item.name);
+    this.displayRenew();
   },
 
   insertMoney(evt) {
     if (evt.target.nodeName.toLowerCase() !== "button") return;
 
+    const data = vm.data;
     const parent = evt.target.parentNode;
-    const moneyUnit = parseInt(parent.getAttribute("money"), 10);
+    const moneyUnit = _toInt(parent.getAttribute("money"));
 
-    if (vm.data.wallet[moneyUnit] === 0) return;
+    if (data.wallet[moneyUnit] === 0) {
+      this.log.noMoney();
+      return;
+    }
 
-    vm.data.wallet[moneyUnit]--;
-    vm.data.inserted += moneyUnit;
+    data.wallet[moneyUnit]--;
+    data.inserted += moneyUnit;
 
-    const moneyAmount = parent.querySelector('li > button:nth-child(2)')
-    moneyAmount.innerText = vm.data.wallet[moneyUnit] + '개';
+    this.log.insert(moneyUnit);
+    this.displayRenew();
+  },
+
+  refundMoney(evt) {
+    if (evt.target.nodeName.toLowerCase() !== "button") return;
+    [10000, 5000, 1000, 500, 100, 50, 10].forEach(this.refund);
+    this.log.refund();
+    this.displayRenew();
+  },
+
+  displayRenew() {
+    this.displayWallet();
     this.displayWalletTotal();
     this.displayInserted();
+    this.displayBuyables();
+  },
+
+  displayWallet() {
+    const data = vm.data;
+
+    for (money in data.wallet) {
+      document.querySelector(`.money_${money}`).innerText = data.wallet[money] + "개";
+    }
   },
 
   displayWalletTotal() {
+    const data = vm.data;
     let moneyTotal = 0;
-    for (const value in vm.data.wallet) {
-      moneyTotal += value * vm.data.wallet[value];
+
+    for (const value in data.wallet) {
+      moneyTotal += value * data.wallet[value];
     }
     document.querySelector('.wallet_total').innerText = moneyTotal + '원';
   },
 
   displayInserted() {
     document.querySelector('.machine_credit').innerText = vm.data.inserted + '원';
+  },
+
+  displayBuyables() {
+    const data = vm.data;
+
+    for (const item in data.items) {
+      if (data.items[item].price <= data.inserted) {
+        const el = document.querySelector(`.item:nth-child(${data.items[item].id})`);
+        el.classList.add('item_buyable');
+      } else {
+        const el = document.querySelector(`.item:nth-child(${data.items[item].id})`);
+        el.classList.remove('item_buyable');
+      }
+    }
+  },
+
+  refund(moneyUnit) {
+    const data = vm.data;
+
+    while (data.inserted >= moneyUnit) {
+      data.inserted -= moneyUnit;
+      data.wallet[moneyUnit]++;
+    }
   }
 }

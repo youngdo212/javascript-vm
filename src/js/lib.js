@@ -1,5 +1,5 @@
-function _sum(obj) {
-  var result = 0;
+function _sum(obj, memo) {
+  let result = 0;
   if (Object.prototype.toString.call(obj) === '[object Array]') {
     for (let value of obj) {
       result += value;
@@ -12,6 +12,18 @@ function _sum(obj) {
   return result;
 }
 
-function _add(a, b) {
-  return a + b;
+function _sumString(obj) {
+  let result = "";
+  if (Object.prototype.toString.call(obj) === '[object Array]') {
+    for (let value of obj) {
+      result += value;
+    }
+  }
+  return result;
+}
+
+function _toInt(obj) {
+  if (Object.prototype.toString.call(obj) === "[object Array]")
+    return parseInt(_sumString(obj), 10);
+  return parseInt(obj, 10);
 }
