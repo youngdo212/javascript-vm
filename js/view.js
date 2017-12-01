@@ -42,8 +42,8 @@
 			renderPurchasableProducts: () => {
 				this._renderPurchasableProducts(parameter);
 			},
-			renderMoney: () => {
-				this._renderMoney(parameter);
+			renderWithdrawMoney: () => {
+				this._renderWithdrawMoney(parameter);
 			},
 			renderIndicatorMoney: () => {
 				this._renderIndicatorMoney(parameter);
@@ -73,7 +73,7 @@
 		this._renderTotalMoney(totalMoney);
 	};
 
-	View.prototype._renderMoney = function ({
+	View.prototype._renderWithdrawMoney = function ({
 		$amount,
 		moneyAmount,
 		indicatorMoney,

@@ -87,7 +87,7 @@
 
 		this.calculateMoney(moneyType);
 		this.view.render('renderPurchasableProducts', this.indicatorMoney);
-		this.view.render('renderMoney', {
+		this.view.render('renderWithdrawMoney', {
 			$amount,
 			moneyAmount: this.data.wallet[moneyType],
 			totalMoney: this.totalMoney,
