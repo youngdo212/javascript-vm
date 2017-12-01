@@ -1,4 +1,4 @@
-/*global qs, qsa, $on, $parent, $delegate */
+/*global app.qs, app.qsa, $on, $parent, $delegate */
 
 (function (window) {
 	'use strict';
@@ -6,23 +6,23 @@
 	function View() {
 
 
-		this.$productList = qs('.product-list');
-		this.$console = qs('.console');
-		this.$totalMoney = qs('.totalMoney');
-		this.$indicator = qs('.amount-indicator');
-		this.$moneyList = qs('.money-list');
-		this.$buttonList = qs('.button-list');
-		this.$amountList = qsa('.amount');
+		this.$productList = app.qs('.product-list');
+		this.$console = app.qs('.console');
+		this.$totalMoney = app.qs('.totalMoney');
+		this.$indicator = app.qs('.amount-indicator');
+		this.$moneyList = app.qs('.money-list');
+		this.$buttonList = app.qs('.button-list');
+		this.$amountList = app.qsa('.amount');
 	}
 
 	View.prototype.bind = function (event, handler) {
 		if (event === 'withdrawMoney') {
-			$delegate(this.$moneyList, '.money .button', 'click', function () {
+			app.$delegate(this.$moneyList, '.money .button', 'click', function () {
 				handler(this.parentNode.nextElementSibling, this.textContent);
 			});
 
 		} else if (event === 'inputProductId') {
-			$delegate(this.$buttonList, '.button-list .button', 'click', function () {
+			app.$delegate(this.$buttonList, '.button-list .button', 'click', function () {
 				handler(this.textContent);
 			});
 		}
@@ -122,7 +122,7 @@
 	}
 
 	View.prototype._renderPurchasableProducts = function (indicatorMoney) {
-		const $productPrice = qsa('.product-price');
+		const $productPrice = app.qsa('.product-price');
 		Array.from($productPrice).forEach(function (el) {
 			if (el.textContent <= indicatorMoney) {
 				el.parentNode.previousSibling.style.backgroundColor = "yellow";

@@ -15,5 +15,5 @@
         VM.controller.setView();
     }
 
-    $on(window, 'load', setView);
+    app.$on(window, 'load', setView);
 })();
