@@ -2,6 +2,30 @@ const vm = {
   inputNumber: null,
   nextEvent: null,
 
+  template: {
+    printExport(commaedCharge) {
+      const result = `<span class="controller__progress-log">잔돈 ${
+        commaedCharge
+      } 반환</span><br>`;
+
+      return result;
+    },
+    printMoneyIncrease(commaedMoney) {
+      const result = `<span class="controller__progress-log">${
+        commaedMoney
+      }이 투입됐음.</span><br>`;
+
+      return result;
+    },
+    printSelectedProduct(selectedProductId, selectedProductName) {
+      const result = `<span class="controller__progress-log">${
+        selectedProductId
+      }번 ${selectedProductName} 선택됨</span><br>`;
+
+      return result;
+    }
+  },
+
   calculateInput(target) {
     let calculatedInput = null;
 
@@ -123,16 +147,20 @@ const vm = {
     let copiedPresentCharge = presentCharge;
     let calculatedTotal = null;
     let commaedCharge = null;
+    let money = null;
+    let quotient = null;
+    let nextBrother = null;
+    let calculatedRemain = null;
 
     units.forEach(v => {
-      const money = pi(v.dataset.money);
+      money = pi(v.dataset.money);
 
       if (money > 0) {
-        const quotient = pi(copiedPresentCharge / money);
-        const nextBrother = v.nextElementSibling;
+        quotient = pi(copiedPresentCharge / money);
+        nextBrother = v.nextElementSibling;
 
         if (quotient > 0) {
-          const calculatedRemain = pi(nextBrother.dataset.remain) + quotient;
+          calculatedRemain = pi(nextBrother.dataset.remain) + quotient;
 
           copiedPresentCharge -= quotient * money;
           nextBrother.dataset.remain = calculatedRemain;
@@ -156,10 +184,6 @@ const vm = {
   printExport() {
     const presentCharge = pi(this.controller__charge.dataset.charge);
     const commaedCharge = this.joinComma(presentCharge);
-    const replaceCommaedCharge = this.replaceStringToVariable(
-      `<span class="controller__progress-log">잔돈 !{commaedCharge} 반환</span><br>`,
-      commaedCharge
-    );
 
     if (presentCharge > 0) {
       this.increaseRemain(presentCharge);
@@ -167,7 +191,7 @@ const vm = {
 
     this["controller__progress-box"].insertAdjacentHTML(
       `beforeend`,
-      replaceCommaedCharge
+      this.template.printExport(commaedCharge)
     );
 
     this.controller__charge.dataset.charge = 0;
@@ -176,14 +200,10 @@ const vm = {
 
   printMoneyIncrease(money) {
     const commaedMoney = this.joinComma(money);
-    const replacedCommedMoney = this.replaceStringToVariable(
-      `<span class="controller__progress-log">!{commaedMoney}이 투입됐음.</span><br>`,
-      commaedMoney
-    );
 
     this["controller__progress-box"].insertAdjacentHTML(
       `beforeend`,
-      replacedCommedMoney
+      this.template.printMoneyIncrease(commaedMoney)
     );
   },
 
@@ -194,28 +214,11 @@ const vm = {
     const selectedProductName = this.productList[
       this.inputNumber
     ].querySelector(`[data-productname]`).dataset.productname;
-    const templatedId = this.replaceStringToVariable(
-      `<span class="controller__progress-log">!{selectedProductId}번 `,
-      selectedProductId
-    );
-    const templatedName = this.replaceStringToVariable(
-      `!{selectedProductName} 선택됨</span><br>`,
-      selectedProductName
-    );
 
     $(`.controller__progress-box`).insertAdjacentHTML(
       `beforeend`,
-      templatedId + templatedName
+      this.template.printSelectedProduct(selectedProductId, selectedProductName)
     );
-  },
-
-  replaceStringToVariable(input, variable) {
-    const result = input.replace(
-      input.slice(input.indexOf(`!`), input.indexOf(`}`) + 1),
-      variable
-    );
-
-    return result;
   },
 
   lightSwitch() {
