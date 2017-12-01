@@ -12,7 +12,7 @@
 		this.$indicator = qs('.amount-indicator');
 		this.$moneyList = qs('.money-list');
 		this.$buttonList = qs('.button-list');
-		this.$money = qsa('.money-list > li');
+		this.$amountList = qsa('.amount');
 	}
 
 	View.prototype.bind = function (event, handler) {
@@ -65,9 +65,9 @@
 		totalMoney,
 		indicatorMoney
 	}) {
-		Array.from(this.$money).forEach((element) => {
-			const moneyType = element.getAttribute('data-money');
-			this._renderMoneyAmount(element.children[1], wallet[moneyType]);
+		Array.from(this.$amountList).forEach(($amount) => {
+			const moneyType = $amount.getAttribute('data-money');
+			this._renderMoneyAmount($amount, wallet[moneyType]);
 		});
 		this._renderIndicatorMoney(indicatorMoney);
 		this._renderTotalMoney(totalMoney);
