@@ -77,7 +77,7 @@
 	}
 
 
-	Controller.prototype.withdrawMoney = function ($amount, moneyType) {
+	Controller.prototype.withdrawMoney = function (amountEl, moneyType) {
 		this.clearEvent();
 
 		if (this.wallet[moneyType] <= 0) {
@@ -89,7 +89,7 @@
 		this.calculateMoney(moneyType);
 		this.view.render('renderPurchasableProducts', this.indicatorMoney);
 		this.view.render('renderWithdrawMoney', {
-			$amount,
+			amountEl,
 			moneyAmount: this.wallet[moneyType],
 			totalMoney: this.totalMoney,
 			indicatorMoney: this.indicatorMoney
