@@ -67,12 +67,12 @@
         callback.call(this, JSON.parse(localStorage[name]));
     }
 
-    Store.prototype.findAll = function () {
-        return JSON.parse(localStorage[this._dbName]);
+    Store.prototype.find = function (key) {
+        return JSON.parse(localStorage[this._dbName])[key];
     };
 
     Store.prototype.getTotalMoney = function () {
-        const wallet = this.findAll().wallet;
+        const wallet = this.find('wallet');
         const totalMoney = Object.keys(wallet).map((key) => wallet[key] * key.slice(0, -1)).reduce((prev, curr) => prev + curr);
 
         return totalMoney;

@@ -11,7 +11,8 @@
 	function Controller(store, view) {
 		this.store = store;
 		this.view = view;
-		this.data = this.store.findAll();
+		this.wallet = this.store.find('wallet');
+		this.products = this.store.find('products');
 		this.nextEvent = null;
 		this.indicatorMoney = 0;
 		this.totalMoney = this.store.getTotalMoney();
@@ -50,7 +51,7 @@
 	Controller.prototype.itemSelected = function () {
 		this.clearEvent();
 
-		const item = this.data.products.filter(({
+		const item = this.products.filter(({
 			id
 		}) => id == this.id)[0];
 
@@ -79,7 +80,7 @@
 	Controller.prototype.withdrawMoney = function ($amount, moneyType) {
 		this.clearEvent();
 
-		if (this.data.wallet[moneyType] <= 0) {
+		if (this.wallet[moneyType] <= 0) {
 			this.view.render('writeLog', moneyType + '이 없음.');
 			return this;
 		}
@@ -89,7 +90,7 @@
 		this.view.render('renderPurchasableProducts', this.indicatorMoney);
 		this.view.render('renderWithdrawMoney', {
 			$amount,
-			moneyAmount: this.data.wallet[moneyType],
+			moneyAmount: this.wallet[moneyType],
 			totalMoney: this.totalMoney,
 			indicatorMoney: this.indicatorMoney
 		});
@@ -111,18 +112,18 @@
 		this.view.render('writeLog', changes + '원을 반환함.');
 		this.view.render('renderPurchasableProducts', this.indicatorMoney);
 
-		Object.keys(this.data.wallet).reverse().forEach((moneyType) => {
+		Object.keys(this.wallet).reverse().forEach((moneyType) => {
 			const moneyTypeNum = +moneyType.slice(0, -1);
 			const addAmount = Math.floor(changes / moneyTypeNum);
 
 			if (addAmount) {
-				this.data.wallet[moneyType] += addAmount;
+				this.wallet[moneyType] += addAmount;
 				changes -= moneyTypeNum * addAmount;
 			}
 		})
 
 		this.view.render('renderWallet', {
-			wallet: this.data.wallet,
+			wallet: this.wallet,
 			totalMoney: this.totalMoney,
 			indicatorMoney: this.indicatorMoney
 		});
@@ -138,16 +139,16 @@
 
 	Controller.prototype.calculateMoney = function (moneyType) {
 		const moneyTypeNum = +moneyType.slice(0, -1);
-		this.data.wallet[moneyType]--;
+		this.wallet[moneyType]--;
 		this.indicatorMoney += moneyTypeNum;
 		this.totalMoney -= moneyTypeNum;
 	};
 
 
 	Controller.prototype._updateState = function () {
-		this.view.render('showProducts', this.data.products);
+		this.view.render('showProducts', this.products);
 		this.view.render('renderWallet', {
-			wallet: this.data.wallet,
+			wallet: this.wallet,
 			totalMoney: this.totalMoney,
 			indicatorMoney: this.indicatorMoney
 		});
