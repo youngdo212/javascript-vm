@@ -108,7 +108,7 @@ li {
 
 .vending-machine {
     margin-top: 15px;
-    border: 12px solid black;
+    border: 12px solid #000;
 }
 
 .wallet {
@@ -121,7 +121,7 @@ li {
     text-align: center;
     padding-top: 15px;
     padding-bottom: 15px;
-    border-right: 12px solid black;
+    border-right: 12px solid #000;
 }
 
 .product-name {
@@ -132,11 +132,6 @@ li {
     margin-left: 10px;
     margin-right: 10px;
     background-color: lightblue;
-}
-
-.product-price,
-.product-id {
-    background: white;
 }
 
 .amount-indicator {
@@ -152,8 +147,7 @@ li {
 
 .button-list {
     overflow: auto;
-    margin: 50px 10px 50px 10px;
-    border: 2px solid #777;
+    margin: 50px 10px;
 }
 
 .button {
@@ -171,7 +165,7 @@ li {
 
 .console {
     height: 180px;
-    background-color: black;
+    background-color: #000;
     color: #E1E1E1;
     overflow: scroll;
     overflow-x: hidden;
@@ -189,7 +183,6 @@ li {
     display: inline-block;
     vertical-align: top;
     width: 120px;
-    height: 42.4px;
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -198,14 +191,14 @@ li {
     display: inline-block;
     vertical-align: top;
     width: 100px;
-    height: 42.4px;
+    height: 42px;
     padding: 10px;
     border: 2px solid #777;
     border-radius: 10px;
     text-align: center;
 }
 
-.totalAmount {
+.totalMoney {
     position: relative;
     clear: left;
     margin: 50px auto;
