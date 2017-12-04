@@ -1,28 +1,26 @@
-/*global app.qs, app.qsa, $on, $parent, $delegate */
-
 (function (window) {
 	'use strict';
 
 	function View() {
 
 
-		this.$productList = app.qs('.product-list');
-		this.$console = app.qs('.console');
-		this.$totalMoney = app.qs('.totalMoney');
-		this.$indicator = app.qs('.amount-indicator');
-		this.$moneyList = app.qs('.money-list');
-		this.$buttonList = app.qs('.button-list');
-		this.$amountList = app.qsa('.amount');
+		this.productListEl = app.qs('.product-list');
+		this.consoleEl = app.qs('.console');
+		this.totalMoneyEl = app.qs('.totalMoney');
+		this.indicatorEl = app.qs('.amount-indicator');
+		this.moneyListEl = app.qs('.money-list');
+		this.buttonListEl = app.qs('.button-list');
+		this.amountListEl = app.qsa('.amount');
 	}
 
 	View.prototype.bind = function (event, handler) {
 		if (event === 'withdrawMoney') {
-			app.$delegate(this.$moneyList, '.money .button', 'click', function () {
+			app.$delegate(this.moneyListEl, '.money .button', 'click', function () {
 				handler(this.parentNode.nextElementSibling, this.textContent);
 			});
 
 		} else if (event === 'inputProductId') {
-			app.$delegate(this.$buttonList, '.button-list .button', 'click', function () {
+			app.$delegate(this.buttonListEl, '.button-list .button', 'click', function () {
 				handler(this.textContent);
 			});
 		}
@@ -31,7 +29,7 @@
 	View.prototype.render = function (viewCmd, parameter) {
 		const viewCommands = {
 			showProducts: () => {
-				this.$productList.innerHTML = this._showProductTemplate(parameter);
+				this.productListEl.innerHTML = this._showProductTemplate(parameter);
 			},
 			renderWallet: () => {
 				this._renderWallet(parameter);
@@ -54,8 +52,6 @@
 	};
 
 	View.prototype._showProductTemplate = function (products) {
-		let i, l;
-		let view = '';
 		const defaultTemplate = '<li class="col-3">' +
 			'<div class="product-name">{{name}}</div>' +
 			'<div class="product-info">' +
@@ -64,15 +60,13 @@
 			'</div>' +
 			'</li>';
 
-		for (i = 0, l = products.length; i < l; i++) {
+		const view = products.map((product) => {
 			let template = defaultTemplate;
-
-			template = template.replace('{{name}}', products[i].name);
-			template = template.replace('{{id}}', products[i].id);
-			template = template.replace('{{price}}', products[i].price);
-
-			view = view + template;
-		}
+			template = template.replace('{{name}}', product.name);
+			template = template.replace('{{id}}', product.id);
+			template = template.replace('{{price}}', product.price);
+			return template;
+		}).reduce((prev, curr) => prev + curr);
 
 		return view;
 	}
@@ -80,8 +74,8 @@
 	View.prototype._writeLog = function (text) {
 		const line = document.createElement('p');
 		line.innerHTML = text;
-		this.$console.appendChild(line);
-		this.$console.scrollTop = this.$console.offsetHeight;
+		this.consoleEl.appendChild(line);
+		this.consoleEl.scrollTop = this.consoleEl.offsetHeight;
 	};
 
 	View.prototype._renderWallet = function ({
@@ -89,41 +83,41 @@
 		totalMoney,
 		indicatorMoney
 	}) {
-		Array.from(this.$amountList).forEach(($amount) => {
-			const moneyType = $amount.getAttribute('data-money');
-			this._renderMoneyAmount($amount, wallet[moneyType]);
+		Array.from(this.amountListEl).forEach((amountEl) => {
+			const moneyType = amountEl.getAttribute('data-money');
+			this._renderMoneyAmount(amountEl, wallet[moneyType]);
 		});
 		this._renderIndicatorMoney(indicatorMoney);
 		this._renderTotalMoney(totalMoney);
 	};
 
 	View.prototype._renderWithdrawMoney = function ({
-		$amount,
+		amountEl,
 		moneyAmount,
 		indicatorMoney,
 		totalMoney
 	}) {
-		this._renderMoneyAmount($amount, moneyAmount);
+		this._renderMoneyAmount(amountEl, moneyAmount);
 		this._renderIndicatorMoney(indicatorMoney);
 		this._renderTotalMoney(totalMoney);
 	};
 
 
-	View.prototype._renderMoneyAmount = function ($amount, moneyAmount) {
-		$amount.textContent = moneyAmount + '개';
+	View.prototype._renderMoneyAmount = function (amountEl, moneyAmount) {
+		amountEl.textContent = moneyAmount + '개';
 	}
 
 	View.prototype._renderTotalMoney = function (totalMoney) {
-		this.$totalMoney.textContent = totalMoney + '원';
+		this.totalMoneyEl.textContent = totalMoney + '원';
 	}
 
 	View.prototype._renderIndicatorMoney = function (indicatorMoney) {
-		this.$indicator.textContent = indicatorMoney + '원';
+		this.indicatorEl.textContent = indicatorMoney + '원';
 	}
 
 	View.prototype._renderPurchasableProducts = function (indicatorMoney) {
-		const $productPrice = app.qsa('.product-price');
-		Array.from($productPrice).forEach(function (el) {
+		const productPriceEl = app.qsa('.product-price');
+		Array.from(productPriceEl).forEach(function (el) {
 			if (el.textContent <= indicatorMoney) {
 				el.parentNode.previousSibling.style.backgroundColor = "yellow";
 			} else {
