@@ -12,23 +12,23 @@
         target.addEventListener(type, callback, !!useCapture);
     };
 
-    app.$delegate = function (target, selector, type, handler) {
-        function dispatchEvent(event) {
+    app.$delegate = function (target, selector, type, handler, capture) {
+        const dispatchEvent = event => {
             const targetElement = event.target;
-            const potentialElements = app.qsa(selector, target);
-            const hasMatch = Array.prototype.indexOf.call(potentialElements, targetElement) >= 0;
+            const potentialElements = target.querySelectorAll(selector);
+            let i = potentialElements.length;
 
-            if (hasMatch) {
-                handler.call(targetElement, event);
+            while (i--) {
+                if (potentialElements[i] === targetElement) {
+                    handler.call(targetElement, event);
+                    break;
+                }
             }
-        }
-
-        const useCapture = type === 'blur' || type === 'focus';
-
-        app.$on(target, type, dispatchEvent, useCapture);
+        };
+        app.$on(target, type, dispatchEvent, !!capture);
     };
 
-    
-	// Export to window
-	window.app = window.app || {};
+
+    // Export to window
+    window.app = window.app || {};
 })(window);
