@@ -1,0 +1,44 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+body {
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 10px 10px 10px;
+}
+
+.content-item {
+    height: calc(100vh - 20px);
+    margin : 0 10px 0 10px;
+    border: solid 1px;
+}
+
+.machine {
+    flex: 1;
+    display: flex;
+
+}
+
+.machine-item {
+
+}
+
+.menu-list {
+    flex: 2;
+}
+
+.moniter {
+    flex: 1;
+}
+
+.wallet {
+    width: 300px;
+}
