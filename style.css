@@ -73,6 +73,7 @@
 
 .selector_console {
 	border: 3px solid grey;
+  height: 200px;
 }
 
 .wallet {
