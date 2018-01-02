@@ -58,6 +58,8 @@
 .selector_number_buttons {
   width: 80%;
   background-color:yellow;
+  overflow: auto;
+  margin: auto;
 }
 
 .selector_number_buttons div {
