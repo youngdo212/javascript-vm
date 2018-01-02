@@ -15,6 +15,30 @@
 	height: 100%;
 }
 
+.menu_table {
+  width: 100%;
+  /* margin-left:auto;
+  margin-right:auto; */
+}
+
+.menu_table td {
+  text-align: center;
+  width: 25%;
+}
+
+.menu_table div {
+  background-color: yellow;
+  border: 1px solid grey;
+  float: top;
+
+}
+
+.menu_table span {
+  background-color: white;
+  float: bottom;
+  margin-bottom: 0;
+}
+
 .selector {
 	background-color: blue;
 	border: 4px;
@@ -23,7 +47,27 @@
 	border-color: gray;
 	float: left;
 	width: 32%;
-	height: 100%;
+}
+
+.selector div {
+  margin-left: auto;
+  margin-right: auto;
+  border: 3px solid grey;
+  width: 90%;
+}
+
+.selector_inserted_amount {
+  text-align: right;
+}
+
+.selector_number_buttons table {
+  width: 100%;
+}
+
+.selector_number_buttons td {
+  border: 3px solid grey;
+  /* width: 25%; */
+  text-align: center;
 }
 
 .wallet {
@@ -48,24 +92,7 @@
 
 .total_amount {
 	border: 1px solid gray;
-	width: 100%; 
-	text-align: center; 
-
-}
-
-
-.menu_table td {
+	width: 100%;
 	text-align: center;
-	width: 25%;
-}
-.menu_table div { 
-	background-color: yellow;
-	float: top;
 
 }
-.menu_table span {
-	background-color: white;
-	float: bottom;
-	margin-bottom: 0; 
-}
-
