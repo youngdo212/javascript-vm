@@ -3,17 +3,18 @@
 	border: 10px;
 	/* height: 100px; */
 	/*width: 600px; */
+	min-width: 1100px;
 }
 
 .menu {
+	width: 450px;
 	background-color: green;
-	border: 4px;
-	border-right:2px;
+	border: 2.5px;
+	border-right: 0px;
 	border-style: solid;
 	border-color: gray;
 	float: left;
-	width: 32%;
-	height: 100%;
+	height: 500px;
 }
 
 .menu_table {
@@ -28,6 +29,7 @@
 }
 
 .menu_table div {
+	height: 35px;
   background-color: yellow;
   border: 1px solid grey;
   float: top;
@@ -42,17 +44,21 @@
 
 .selector {
 	background-color: blue;
-	border: 4px;
-	border-left: 2px;
-	border-style: solid;
-	border-color: gray;
+	border-top:2.5px;
+	border-bottom:2.5px;
+	border-right:2.5px;
+	border-style:solid;
+	border-color:gray;
 	float: left;
-	width: 32%;
+	width: 350px;
+	height: 500px;
+	margin-right:100px;
 }
 
 .selector_inserted_amount {
   text-align: right;
-  border: 3px solid grey;
+  border-bottom: 2.5px solid grey;
+  height: 97.5px;
 }
 
 .selector_number_buttons {
@@ -60,6 +66,7 @@
   background-color:yellow;
   overflow: auto;
   margin: auto;
+  height: 200px;
 }
 
 .selector_number_buttons div {
@@ -72,7 +79,7 @@
 }
 
 .selector_console {
-	border: 3px solid grey;
+	border-top: 2.5px solid grey;
   height: 200px;
 }
 
@@ -81,9 +88,8 @@
 	border-style: solid;
 	border-color: gray;
 	background-color: red;
-	float: right;
-	width: 30%;
-	height: 100%;
+	float: left;
+	width: 200px;
 }
 
 .wallet_table {
