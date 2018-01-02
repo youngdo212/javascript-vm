@@ -1,12 +1,39 @@
 .container {
 	border: 10px;
-	background-color: red; 
+	height: 100px; 
+	/*width: 600px; */
 }
 
 .menu {
-	border: 10px; 
+	background-color: green;
+	border: 10px;
+	border-right:5px;
 	border-style: solid;
-	border-color: blue;
+	border-color: gray;
+	float: left; 
+	width: 32%; 
+	height: 100%;
+}
+
+.selector { 
+	background-color: blue;
+	border: 10px;
+	border-left: 5px;
+	border-style: solid;
+	border-color: gray;
+	float: left; 
+	width: 32%; 
+	height: 100%;
+}
+
+.wallet {
+	border: 10px;
+	border-style: solid;
+	border-color: gray;
+	background-color: red;
+	float: right;
+	width: 30%;
+	height: 100%;
 }
 
 
