@@ -20,7 +20,7 @@ body {
 
 .content-item {
     height: calc(100vh - 20px);
-    margin : 0 10px 0 10px;
+    margin: 0 10px 0 10px;
     border: solid 1px;
 }
 
@@ -81,7 +81,7 @@ body {
     margin-left: 5%;
     background-color: aqua;
     margin-bottom: 20px;
-    border : solid 1px;
+    border: solid 1px;
 }
 
 .monitor > .inserted-amount {
@@ -103,8 +103,8 @@ body {
 
 .menu-number-monitor {
     height: 40px;
-    margin : 10px 10px 10px 10px;
-    width: calc(100%-20px;);
+    margin: 10px 10px 10px 10px;
+    width: calc(100% - 20px);
     background-color: aliceblue;
     font-size: 35px;
 }

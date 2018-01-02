@@ -13,7 +13,7 @@ for (var i = 0; i < moneyNumbers.length; i++) {
     //동전을 자판기에 넣는 기능
     moneyNames[i].addEventListener('click', function (e) {
         var target = e.target;
-        if(target.parentNode.childNodes[3].childNodes[1].innerHTML > 0){
+        if (target.parentNode.childNodes[3].childNodes[1].innerHTML > 0) {
             target.parentNode.childNodes[3].childNodes[1].innerHTML = parseInt(target.parentNode.childNodes[3].childNodes[1].innerHTML) - 1;
             totalInsertedAmount.innerHTML = parseInt(totalInsertedAmount.innerHTML) + parseInt(target.parentNode.dataset.amount)
             totalAmount.innerHTML = parseInt(totalAmount.innerHTML) - parseInt(target.parentNode.dataset.amount)
@@ -29,26 +29,26 @@ for (var i = 0; i < moneyNumbers.length; i++) {
 //모니터 부분 로직
 var menuMonitor = document.querySelector('.menu-number-monitor')
 var numberButtons = document.querySelector('.number-buttons');
-numberButtons.addEventListener('click', function(e){
-    if(e.target.className === 'number-button' && parseInt(e.target.innerHTML) >= 0){
+numberButtons.addEventListener('click', function (e) {
+    if (e.target.className === 'number-button' && parseInt(e.target.innerHTML) >= 0) {
         menuMonitor.innerHTML += e.target.innerHTML;
-    } else if (e.target.innerHTML === '정정'){
-        var len =  menuMonitor.innerHTML.length - 1
+    } else if (e.target.innerHTML === '정정') {
+        var len = menuMonitor.innerHTML.length - 1
         menuMonitor.innerHTML = menuMonitor.innerHTML.slice(0, len)
-    } else if (e.target.innerHTML === '구매'){
+    } else if (e.target.innerHTML === '구매') {
         //구매 로직 필요
         checkOrder(menuMonitor.innerHTML);
     }
 })
 
-function clearMonitor(){
+function clearMonitor() {
     menuMonitor.innerHTML = '';
 }
 
 
 var consoleMonitor = document.querySelector('.console')
 
-function consoleNoti(consoleCase, detail){
+function consoleNoti(consoleCase, detail) {
     var message = '';
     switch (consoleCase) {
         case "insert":
@@ -84,7 +84,7 @@ var food = document.querySelector('.food');
 //json을 통해 음식 리스트를 가져옴
 function getData(url) {
     var openRequest = new XMLHttpRequest();
-    openRequest.addEventListener("load", function(e) {
+    openRequest.addEventListener("load", function (e) {
         var data = JSON.parse(openRequest.responseText);
         console.log(data)
         setFoodList(data)
@@ -96,9 +96,9 @@ function getData(url) {
 var foodPriceArr = [];
 console.log(food)
 
-function setFoodList(data){
+function setFoodList(data) {
     var list = ''
-    for(var key in data){
+    for (var key in data) {
         var template = food
         var foodName = key
         foodPriceArr.push(data[key])
@@ -109,15 +109,15 @@ function setFoodList(data){
     foodList.innerHTML = list
 }
 
-function checkOrder(num){
+function checkOrder(num) {
     var productNumber = parseInt(num)
     console.log()
-    if(productNumber === 0 || productNumber > foodPriceArr.length){
+    if (productNumber === 0 || productNumber > foodPriceArr.length) {
         consoleNoti('noProduct', productNumber)
         return false
-    } else if (parseInt(totalInsertedAmount.innerHTML) < foodPriceArr[productNumber-1]){
+    } else if (parseInt(totalInsertedAmount.innerHTML) < foodPriceArr[productNumber - 1]) {
         console.log("overprice")
-        consoleNoti('overPrice', (foodPriceArr[productNumber-1] - parseInt(totalInsertedAmount.innerHTML)));
+        consoleNoti('overPrice', (foodPriceArr[productNumber - 1] - parseInt(totalInsertedAmount.innerHTML)));
         return false
     } else {
         buyProduct(productNumber)
@@ -126,7 +126,7 @@ function checkOrder(num){
     }
 }
 
-function buyProduct(productNumber){
+function buyProduct(productNumber) {
     var foodPrice = parseInt(foodPriceArr[productNumber - 1]);
     var targetFood = document.querySelectorAll('.food-name')[productNumber - 1].innerHTML
     totalInsertedAmount.innerHTML = parseInt(totalInsertedAmount.innerHTML) - foodPrice;
@@ -134,10 +134,8 @@ function buyProduct(productNumber){
 }
 
 
-
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function () {
 
     var foodList = getData('foodList.json')
-
 
 });
