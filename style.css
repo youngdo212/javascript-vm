@@ -1,3 +1,12 @@
 .container {
-  border: 10px;
+	border: 10px;
+	background-color: red; 
 }
+
+.menu {
+	border: 10px; 
+	border-style: solid;
+	border-color: blue;
+}
+
+
