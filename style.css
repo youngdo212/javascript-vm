@@ -1,8 +1,6 @@
 
 .container {
 	border: 10px;
-	/* height: 100px; */
-	/*width: 600px; */
 	min-width: 1100px;
 }
 
@@ -19,8 +17,6 @@
 
 .menu_table {
   width: 100%;
-  /* margin-left:auto;
-  margin-right:auto; */
 }
 
 .menu_table td {
@@ -44,15 +40,15 @@
 
 .selector {
 	background-color: blue;
-	border-top:2.5px;
-	border-bottom:2.5px;
-	border-right:2.5px;
-	border-style:solid;
-	border-color:gray;
+	border-top: 2.5px;
+	border-bottom: 2.5px;
+	border-right: 2.5px;
+	border-style: solid;
+	border-color: gray;
 	float: left;
 	width: 350px;
 	height: 500px;
-	margin-right:100px;
+	margin-right: 100px;
 }
 
 .selector_inserted_amount {
@@ -64,7 +60,7 @@
 
 .selector_number_buttons {
   width: 80%;
-  background-color:yellow;
+  background-color: yellow;
   overflow: auto;
   margin: auto;
   height: 200px;
