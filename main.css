@@ -6,6 +6,7 @@ html, body {
 }
 
 body {
+    list-style: none;
 }
 
 /* 전체적인 구조 */
@@ -116,7 +117,6 @@ body {
     margin-left: 2%;
     margin-bottom: 10px;
     width: 30%;
-    flex: 1;
     float: left;
     height: 50px;
     justify-content: center;
@@ -125,4 +125,21 @@ body {
     border: solid 1px;
 
 }
+
+.food-list {
+    display: inline;
+}
+
+.food {
+    margin-bottom: 10px;
+    width: 100px;
+    float: left;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    border: solid 1px;
+}
+
 
