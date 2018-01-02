@@ -134,7 +134,8 @@ body {
     margin-bottom: 10px;
     width: 100px;
     float: left;
-    height: 50px;
+    height: 80px;
+    font-size: 20px;
     justify-content: center;
     align-items: center;
     display: flex;

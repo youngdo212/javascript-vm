@@ -55,7 +55,7 @@ function consoleNoti(consoleCase, detail){
             message += detail + '원 동전을 자판기에 넣으셨습니다.';
             break;
         case "noProduct" :
-            message += detail + '번의 상품이 존재하지않습니다.'
+            message += detail + '번 상품이 존재하지않습니다.'
             break;
         case "overPrice" :
             message += detail + "원이 모자랍니다. 자판기에 돈을 더 넣어주세요."
@@ -66,14 +66,11 @@ function consoleNoti(consoleCase, detail){
         case "lessCoin" :
             message += detail + "이 지갑에 없습니다."
             break;
+        case "buy" :
+            message += detail[1] + "원을 지불하여 " + detail[0] + "를 구매하셨습니다."
+            break;
     }
-    // if (consoleCase === "insert"){
-    //     message += detail + '원 동전을 자판기에 넣으셨습니다.'
-    // } else if (consoleCase === 'noProduct'){
-    //     message += detail + '번의 상품이 존재하지않습니다.'
-    // } else if (consoleCase === "overPrice") {
-    //     message += detail + "원이 모자랍니다. 자판기에 돈을 더 넣어주세요."
-    // }
+    clearMonitor();
     consoleMonitor.innerHTML += '<p> >' + message + '</p>'
     consoleMonitor.scrollTop = consoleMonitor.scrollHeight;
 }
@@ -117,24 +114,25 @@ function checkOrder(num){
     console.log()
     if(productNumber === 0 || productNumber > foodPriceArr.length){
         consoleNoti('noProduct', productNumber)
-        clearMonitor();
         return false
     } else if (parseInt(totalInsertedAmount.innerHTML) < foodPriceArr[productNumber-1]){
         console.log("overprice")
         consoleNoti('overPrice', (foodPriceArr[productNumber-1] - parseInt(totalInsertedAmount.innerHTML)));
-        clearMonitor();
         return false
     } else {
-        consoleNoti('buy')
-        clearMonitor();
+        buyProduct(productNumber)
         return true
 
     }
 }
 
 function buyProduct(productNumber){
-
+    var foodPrice = parseInt(foodPriceArr[productNumber - 1]);
+    var targetFood = document.querySelectorAll('.food-name')[productNumber - 1].innerHTML
+    totalInsertedAmount.innerHTML = parseInt(totalInsertedAmount.innerHTML) - foodPrice;
+    consoleNoti('buy', [targetFood, foodPrice])
 }
+
 
 
 document.addEventListener('DOMContentLoaded', function(){
