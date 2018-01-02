@@ -1,6 +1,6 @@
 .container {
 	border: 10px;
-	height: 100px; 
+	/* height: 100px; */
 	/*width: 600px; */
 }
 
@@ -10,19 +10,19 @@
 	border-right:5px;
 	border-style: solid;
 	border-color: gray;
-	float: left; 
-	width: 32%; 
+	float: left;
+	width: 32%;
 	height: 100%;
 }
 
-.selector { 
+.selector {
 	background-color: blue;
 	border: 10px;
 	border-left: 5px;
 	border-style: solid;
 	border-color: gray;
-	float: left; 
-	width: 32%; 
+	float: left;
+	width: 32%;
 	height: 100%;
 }
 
@@ -36,4 +36,12 @@
 	height: 100%;
 }
 
+.table {
+  width: 100%;
+  text-align: center;
+}
 
+td {
+  width: 50%;
+  border: 1px solid gray;
+}
