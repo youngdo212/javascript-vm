@@ -6,8 +6,8 @@
 
 .menu {
 	background-color: green;
-	border: 10px;
-	border-right:5px;
+	border: 4px;
+	border-right:2px;
 	border-style: solid;
 	border-color: gray;
 	float: left;
@@ -17,8 +17,8 @@
 
 .selector {
 	background-color: blue;
-	border: 10px;
-	border-left: 5px;
+	border: 4px;
+	border-left: 2px;
 	border-style: solid;
 	border-color: gray;
 	float: left;
@@ -27,7 +27,7 @@
 }
 
 .wallet {
-	border: 10px;
+	border: 4px;
 	border-style: solid;
 	border-color: gray;
 	background-color: red;
@@ -36,12 +36,36 @@
 	height: 100%;
 }
 
-.table {
+.wallet_table {
   width: 100%;
   text-align: center;
 }
 
-td {
+.wallet_table td {
   width: 50%;
   border: 1px solid gray;
 }
+
+.total_amount {
+	border: 1px solid gray;
+	width: 100%; 
+	text-align: center; 
+
+}
+
+
+.menu_table td {
+	text-align: center;
+	width: 25%;
+}
+.menu_table div { 
+	background-color: yellow;
+	float: top;
+
+}
+.menu_table span {
+	background-color: white;
+	float: bottom;
+	margin-bottom: 0; 
+}
+
