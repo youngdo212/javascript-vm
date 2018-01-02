@@ -57,6 +57,7 @@
 
 .selector_inserted_amount {
   text-align: right;
+  color: white;
   border-bottom: 2.5px solid grey;
   height: 97.5px;
 }
