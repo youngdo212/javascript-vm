@@ -84,6 +84,8 @@
 }
 
 .wallet {
+  position: absolute;
+  left: 900px;
 	border: 4px;
 	border-style: solid;
 	border-color: gray;
