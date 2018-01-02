@@ -18,9 +18,9 @@ for (var i = 0; i < moneyNumbers.length; i++) {
             totalInsertedAmount.innerHTML = parseInt(totalInsertedAmount.innerHTML) + parseInt(target.parentNode.dataset.amount)
             totalAmount.innerHTML = parseInt(totalAmount.innerHTML) - parseInt(target.parentNode.dataset.amount)
             consoleNoti('insert', target.parentNode.dataset.amount)
-            //TODO:콘솔에서 동전을 넣었다는 안내를 줘야함
         } else {
             //동전이 모자라다는 에러코드
+            consoleNoti('lessCoin', target.childNodes[1].innerHTML)
         }
 
     })
@@ -37,8 +37,7 @@ numberButtons.addEventListener('click', function(e){
         menuMonitor.innerHTML = menuMonitor.innerHTML.slice(0, len)
     } else if (e.target.innerHTML === '구매'){
         //구매 로직 필요
-        console.log(menuMonitor.childNodes[1]);
-        checkOrder(menuMonitor.childNodes[1].innerHTML);
+        checkOrder(menuMonitor.innerHTML);
     }
 })
 
@@ -51,12 +50,32 @@ var consoleMonitor = document.querySelector('.console')
 
 function consoleNoti(consoleCase, detail){
     var message = '';
-    if (consoleCase === "insert"){
-        message += detail + '원 동전을 자판기에 넣으셨습니다.'
-    } else if (consoleCase === 'noProduct'){
-        message += detail + '번의 상품이 존재하지않습니다.'
+    switch (consoleCase) {
+        case "insert":
+            message += detail + '원 동전을 자판기에 넣으셨습니다.';
+            break;
+        case "noProduct" :
+            message += detail + '번의 상품이 존재하지않습니다.'
+            break;
+        case "overPrice" :
+            message += detail + "원이 모자랍니다. 자판기에 돈을 더 넣어주세요."
+            break;
+        case "noSelect" :
+            message += "제품을 선택하지 않으셨습니다. 구매하고자 하는 제품번호를 입력하세요"
+            break;
+        case "lessCoin" :
+            message += detail + "이 지갑에 없습니다."
+            break;
     }
+    // if (consoleCase === "insert"){
+    //     message += detail + '원 동전을 자판기에 넣으셨습니다.'
+    // } else if (consoleCase === 'noProduct'){
+    //     message += detail + '번의 상품이 존재하지않습니다.'
+    // } else if (consoleCase === "overPrice") {
+    //     message += detail + "원이 모자랍니다. 자판기에 돈을 더 넣어주세요."
+    // }
     consoleMonitor.innerHTML += '<p> >' + message + '</p>'
+    consoleMonitor.scrollTop = consoleMonitor.scrollHeight;
 }
 
 
@@ -95,11 +114,14 @@ function setFoodList(data){
 
 function checkOrder(num){
     var productNumber = parseInt(num)
+    console.log()
     if(productNumber === 0 || productNumber > foodPriceArr.length){
         consoleNoti('noProduct', productNumber)
         clearMonitor();
         return false
-    } else if (totalInsertedAmount < foodPriceArr[productNumber-1]){
+    } else if (parseInt(totalInsertedAmount.innerHTML) < foodPriceArr[productNumber-1]){
+        console.log("overprice")
+        consoleNoti('overPrice', (foodPriceArr[productNumber-1] - parseInt(totalInsertedAmount.innerHTML)));
         clearMonitor();
         return false
     } else {
