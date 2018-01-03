@@ -1,42 +1,63 @@
-
 .container {
-	border: 10px;
 	min-width: 1100px;
 }
 
 .menu {
-	width: 450px;
-	background-color: green;
-	border: 2.5px;
-	border-right: 0px;
-	border-style: solid;
-	border-color: gray;
-	float: left;
+	width: 500px;
 	height: 500px;
+	border: 2.5px solid #222222;
+	border-right: 0px;
+	float: left;
 }
 
-.menu_table {
-  width: 100%;
+.menu div {
+	float: left;
+	margin: 2%;
+	width: 21%;
+	height: 62px;
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
 
-.menu_table td {
-  text-align: center;
-  width: 25%;
+.menu #name {
+	display: flex;
+	justify-content: center;
+	border: 2px solid #222222;
+	text-align: center;
+	height: 40%;
+	padding-top: 10%;
 }
 
-.menu_table div {
+.menu #price {
+	display: table;
+	margin: 0 auto;
+	border: 2px solid #222222;
+	border-top: 0px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+/* .menu_table {
+  	width: 100%;
+} */
+
+/* .menu_table td {
+	text-align: center;
+	width: 25%;
+} */
+
+/* .menu_table div {
 	height: 35px;
-  background-color: yellow;
-  border: 1px solid grey;
-  float: top;
+  	border: 1px solid #222222;
+  	float: top;
 
-}
+} */
 
-.menu_table span {
+/* .menu_table span {
   background-color: white;
   float: bottom;
   margin-bottom: 0;
-}
+} */
 
 .monitor {
 	background-color: blue;
@@ -46,7 +67,7 @@
 	border-style: solid;
 	border-color: gray;
 	float: left;
-	width: 350px;
+	width: 300px;
 	height: 500px;
 	margin-right: 100px;
 }
@@ -59,7 +80,7 @@
 }
 
 .monitor_number_buttons {
-  width: 80%;
+  width: 90%;
   background-color: yellow;
   overflow: auto;
   margin: auto;

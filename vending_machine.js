@@ -14,7 +14,8 @@ let moneyCounts = document.querySelector(".money_counts").childNodes
 let moneyCountsContainer = document.querySelector(".money_counts")
 
 let selected = ""
-let time
+let selectTimer
+let returnTimer
 
 function initMenu() {
 	for(let i = 0; i < menu.length; i++) {
@@ -22,9 +23,9 @@ function initMenu() {
 
 		let itemContainer = document.createElement("div")
 		let namefield = document.createElement("span")
-		namefield.id = "item" + (i + 1)
+		namefield.id = "name"
 		let pricefield = document.createElement("span")
-		pricefield.id = "item" + (i + 1)
+		pricefield.id = "price"
 
 		namefield.textContent = item.name;
 		pricefield.textContent = (i + 1) + ". " + item.price
@@ -43,23 +44,24 @@ function initMonitor() {
 		let currButton = buttons[i]
 
 		currButton.addEventListener("click", function() {
-            clearTimeout(time)
+            clearTimeout(selectTimer)
+			clearTimeout(returnTimer)
 			let currValue = parseInt(this.textContent)
 			selected += currValue
-			monitorCurrSelected.textContent = selected 
+			monitorCurrSelected.textContent = selected
 
             if(parseInt(selected) > menu.length || parseInt(selected) < 1) {
                 addLog("입력한 번호의 메뉴가 없습니다.")
                 selected = ""
-                monitorCurrSelected.textContent = selected 
-			
-                return
-            } 
+                monitorCurrSelected.textContent = selected
 
-            time = setTimeout(function() {
+                return
+            }
+
+            selectTimer = setTimeout(function() {
                 selectMenuItem()
+				updateAffordableItems()
             }, 3000)
-            
 		})
 	}
 }
@@ -74,29 +76,32 @@ function selectMenuItem() {
         addLog("잔액이 부족합니다.")
     } else {
     	addLog(selected + "번 " + menuName + " 선택됨.")
-    	monitorInsertedAmount.textContent = insertedAmount - menuPrice 
+    	monitorInsertedAmount.textContent = insertedAmount - menuPrice
     }
-    
-    selected = ""
-    monitorCurrSelected.textContent = selected 
 
-    changeObj = getReturnChange(parseInt(monitorInsertedAmount.textContent))
-    applyChange(changeObj)
+    selected = ""
+    monitorCurrSelected.textContent = selected
+
+	returnTimer = setTimeout(function() {
+		changeObj = getReturnChange(parseInt(monitorInsertedAmount.textContent))
+	    applyChange(changeObj)
+		updateAffordableItems()
+	}, 3000)
 }
 
 function applyChange(change) {
 	for(var key in change) {
-		walletMoneyCount = document.getElementById(key + "type") 
+		walletMoneyCount = document.getElementById(key + "type")
 		if (change[key]) {
 			walletMoneyCount.textContent = (parseInt(walletMoneyCount.textContent) + change[key]) + " 개"
-		} 
+		}
 	}
 
 	walletTotalAmount.textContent = getWalletTotalAmount() + " 원"
 }
 
 function getReturnChange(amount) {
-	let initialAmount = amount 
+	let initialAmount = amount
 	let retval = {}
 	for(let i = moneyTypes.length - 1; i >= 0; i--) {
 		while(parseInt(moneyTypes[i]) <= amount) {
@@ -113,7 +118,7 @@ function getReturnChange(amount) {
 	addLog(initialAmount + "원 반환됨.")
 	monitorInsertedAmount.textContent = 0 + " 원"
 
-	return retval 
+	return retval
 }
 
 function initWallet() {
@@ -122,23 +127,7 @@ function initWallet() {
 	    let moneyCount = document.createElement("span")
 	    button.textContent = moneyTypes[i]
 	    button.addEventListener("click", function() {
-	    	let currType = parseInt(this.innerHTML)
-	    	let currCountContainer = document.getElementById(currType + "type")
-	    	let currCount = parseInt(currCountContainer.textContent)
-
-	    	if(currCount > 0) {
-	    		let currInsertedAmount = parseInt(monitorInsertedAmount.textContent)
-		    	let newInsertedAmount = currType + currInsertedAmount
-				monitorInsertedAmount.textContent = newInsertedAmount + " 원"
-
-				let currWalletAmount = parseInt(walletTotalAmount.textContent)
-				let newWalletAmount = currWalletAmount - currType
-				walletTotalAmount.textContent = newWalletAmount + " 원"
-
-				currCountContainer.textContent = (currCount - 1) + " 개"
-
-				addLog(currType + "원 투입됨.")
-	    	}
+	    	walletButtonEventListener(this)
 	    })
 	    moneyCount.textContent = "1 개"
 	    moneyCount.id = moneyTypes[i] + "type";
@@ -146,6 +135,45 @@ function initWallet() {
 	    moneyCountsContainer.appendChild(moneyCount)
 	}
     walletTotalAmount.textContent = getWalletTotalAmount() + " 원"
+}
+
+function updateAffordableItems() {
+	let insertedAmount = parseInt(monitorInsertedAmount.textContent)
+	let menuSpanTag = menuContainer.querySelectorAll("span")
+
+	for(var i = 0; i < menu.length; i++) {
+		if(menu[i].price <= insertedAmount) {
+			menuSpanTag[i*2].style.backgroundColor = "#f4f142";
+			menuSpanTag[i * 2 + 1].style.backgroundColor = "#f4f142";
+		} else {
+			menuSpanTag[i*2].style.backgroundColor = "#ffffff";
+			menuSpanTag[i * 2 + 1].style.backgroundColor = "#ffffff";
+		}
+	}
+}
+
+function walletButtonEventListener(button) {
+	let currType = parseInt(button.innerHTML)
+	let currCountContainer = document.getElementById(currType + "type")
+	let currCount = parseInt(currCountContainer.textContent)
+
+	if(currCount > 0) {
+		updateInsertedAmount(currType)
+		updateAffordableItems()
+		let currWalletAmount = parseInt(walletTotalAmount.textContent)
+		let newWalletAmount = currWalletAmount - currType
+		walletTotalAmount.textContent = newWalletAmount + " 원"
+
+		currCountContainer.textContent = (currCount - 1) + " 개"
+
+		addLog(currType + "원 투입됨.")
+	}
+}
+
+function updateInsertedAmount(currType) {
+	let currInsertedAmount = parseInt(monitorInsertedAmount.textContent)
+	let newInsertedAmount = currType + currInsertedAmount
+	monitorInsertedAmount.textContent = newInsertedAmount + " 원"
 }
 
 function addLog(message) {
