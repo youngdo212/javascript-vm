@@ -12,7 +12,8 @@ let moneyButtonsContainer = document.querySelector(".money_buttons")
 let moneyCounts = document.querySelector(".money_counts").childNodes
 let moneyCountsContainer = document.querySelector(".money_counts")
 
-let selected = "" 
+let selected = ""
+let time
 
 function initMenu() {
 	for(let i = 0; i < menu.length; i++) {
@@ -38,13 +39,22 @@ function initMonitor() {
 	let buttons = monitorButtons.children
 
 	for(let i = 0; i < buttons.length; i++) {
-		let currButton = buttons[i] 
+		let currButton = buttons[i]
 
 		currButton.addEventListener("click", function() {
-			let currValue = this.innerHTML 
-			selected += currValue 
+            clearTimeout(time)
+			let currValue = parseInt(this.textContent)
+			selected += currValue
 
-			addLog(selected)
+            if(parseInt(selected) > menu.length || parseInt(selected) < 1) {
+                addLog("입력한 번호의 메뉴가 없습니다.")
+                selected = ""
+            } else {
+                time = setTimeout(function() {
+                    addLog(selected + "선택됨.")
+                    selected = ""
+                }, 3000)
+            }
 		})
 	}
 }
@@ -65,13 +75,13 @@ function initWallet() {
 				monitorInsertedAmount.textContent = newInsertedAmount + " 원"
 
 				let currWalletAmount = parseInt(walletTotalAmount.textContent)
-				let newWalletAmount = currWalletAmount - currType 
-				walletTotalAmount.textContent = newWalletAmount 
+				let newWalletAmount = currWalletAmount - currType
+				walletTotalAmount.textContent = newWalletAmount
 
 				currCountContainer.textContent = (currCount - 1) + " 개"
 
 				addLog(currType + "원 투입됨.")
-	    	}	    	
+	    	}
 	    })
 	    moneyCount.textContent = "1 개"
 	    moneyCount.id = moneyTypes[i] + "type";
@@ -84,7 +94,7 @@ function initWallet() {
 function addLog(message) {
 	monitorConsole.appendChild(document.createTextNode(message))
 	monitorConsole.appendChild(document.createElement("br"))
-}	
+}
 
 function getWalletTotalAmount() {
     let totalAmount = 0
