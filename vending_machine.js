@@ -1,29 +1,51 @@
-let menu = data.menu;
+let menu = data.menu
 let moneyTypes = data.moneyTypes
+
 let menuContainer = document.querySelector(".menu")
-let moneyButtonsContainer = document.querySelector(".money_buttons")
-let moneyCountsContainer = document.querySelector(".money_counts")
-let monitorInsertedAmount = document.querySelector(".monitor_inserted_amount");
+
+let monitorConsole = document.querySelector(".monitor_console")
+let monitorInsertedAmount = document.querySelector(".monitor_inserted_amount")
+let monitorButtons = document.querySelector(".monitor_number_buttons")
+
 let walletTotalAmount = document.querySelector(".total_amount");
+let moneyButtonsContainer = document.querySelector(".money_buttons")
 let moneyCounts = document.querySelector(".money_counts").childNodes
+let moneyCountsContainer = document.querySelector(".money_counts")
+
+let selected = "" 
 
 function initMenu() {
 	for(let i = 0; i < menu.length; i++) {
-		item = menu[i];
+		item = menu[i]
 
-		let itemContainer = document.createElement("div");
-		let namefield = document.createElement("span");
-		namefield.id = "item" + (i + 1);
-		let pricefield = document.createElement("span");
-		pricefield.id = "item" + (i + 1);
+		let itemContainer = document.createElement("div")
+		let namefield = document.createElement("span")
+		namefield.id = "item" + (i + 1)
+		let pricefield = document.createElement("span")
+		pricefield.id = "item" + (i + 1)
 
 		namefield.textContent = item.name;
-		pricefield.textContent = (i + 1) + ". " + item.price;
+		pricefield.textContent = (i + 1) + ". " + item.price
 
-		itemContainer.appendChild(namefield);
-		itemContainer.appendChild(pricefield);
+		itemContainer.appendChild(namefield)
+		itemContainer.appendChild(pricefield)
 
-		menuContainer.appendChild(itemContainer);
+		menuContainer.appendChild(itemContainer)
+	}
+}
+
+function initMonitor() {
+	let buttons = monitorButtons.children
+
+	for(let i = 0; i < buttons.length; i++) {
+		let currButton = buttons[i] 
+
+		currButton.addEventListener("click", function() {
+			let currValue = this.innerHTML 
+			selected += currValue 
+
+			addLog(selected)
+		})
 	}
 }
 
@@ -33,22 +55,24 @@ function initWallet() {
 	    let moneyCount = document.createElement("span")
 	    button.textContent = moneyTypes[i]
 	    button.addEventListener("click", function() {
-	    	let thisType = parseInt(this.innerHTML)
-	    	let thisCountContainer = document.getElementById(thisType + "type")
-	    	let thisCount = parseInt(thisCountContainer.textContent)
+	    	let currType = parseInt(this.innerHTML)
+	    	let currCountContainer = document.getElementById(currType + "type")
+	    	let currCount = parseInt(currCountContainer.textContent)
 
-	    	if(thisCount > 0) {
+	    	if(currCount > 0) {
 	    		let currInsertedAmount = parseInt(monitorInsertedAmount.textContent)
-		    	let newInsertedAmount = thisType + currInsertedAmount
-				monitorInsertedAmount.textContent = newInsertedAmount + " 원";
+		    	let newInsertedAmount = currType + currInsertedAmount
+				monitorInsertedAmount.textContent = newInsertedAmount + " 원"
 
 				let currWalletAmount = parseInt(walletTotalAmount.textContent)
-				let newWalletAmount = currWalletAmount - thisType 
+				let newWalletAmount = currWalletAmount - currType 
 				walletTotalAmount.textContent = newWalletAmount 
 
-				thisCountContainer.textContent = (thisCount - 1) + " 개"
+				currCountContainer.textContent = (currCount - 1) + " 개"
+
+				addLog(currType + "원 투입됨.")
 	    	}	    	
-	    });
+	    })
 	    moneyCount.textContent = "1 개"
 	    moneyCount.id = moneyTypes[i] + "type";
 	    moneyButtonsContainer.appendChild(button)
@@ -56,6 +80,11 @@ function initWallet() {
 	}
     walletTotalAmount.textContent = getWalletTotalAmount() + " 원"
 }
+
+function addLog(message) {
+	monitorConsole.appendChild(document.createTextNode(message))
+	monitorConsole.appendChild(document.createElement("br"))
+}	
 
 function getWalletTotalAmount() {
     let totalAmount = 0
@@ -67,5 +96,6 @@ function getWalletTotalAmount() {
     return totalAmount
 }
 
-initMenu();
-initWallet();
+initMenu()
+initMonitor()
+initWallet()
