@@ -129,7 +129,7 @@ let data = {
 			"price" : "1000"
 		}
 	],
-	"money_types" : [
+	"moneyTypes" : [
 		"10",
 		"50",
 		"100",
