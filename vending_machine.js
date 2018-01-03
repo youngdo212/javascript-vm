@@ -23,9 +23,9 @@ function initMenu() {
 
 		let itemContainer = document.createElement("div")
 		let namefield = document.createElement("span")
-		namefield.id = "item" + (i + 1)
+		namefield.id = "name"
 		let pricefield = document.createElement("span")
-		pricefield.id = "item" + (i + 1)
+		pricefield.id = "price"
 
 		namefield.textContent = item.name;
 		pricefield.textContent = (i + 1) + ". " + item.price
