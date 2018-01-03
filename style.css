@@ -35,13 +35,21 @@ body {
   border-style: dotted;
   padding: 5px;
   margin: 5px;
+  background-color: yellow;
 }
 
-.menu_list li button {
+.menu_list li[disabled="disabled"] {
+  background-color: gray;
+}
+
+.menu_list li h3 {
   display: inline-block;
   width: 100%;
-  font-size: 14px;
-  height: 40px;
+  text-align: center;
+  vertical-align:  middle;
+  margin: 0;
+  padding: 0;
+  height: 46px;
 }
 
 .menu_list li span {
@@ -60,7 +68,7 @@ body {
   margin-right: 5px;
 }
 
-.slot .amount {
+.slot .keypad {
   width: 100%;
   border: 3px dotted black;
   text-align: center;
@@ -68,16 +76,18 @@ body {
   padding:
 }
 
-.slot .amount button {
+.slot .keypad button {
   width: 50px;
   height: 50px;
   box-sizing: border-box;
   margin: 3px auto;
   padding: 3px;
+  font-size: 14px;
 }
 
 .slot textarea {
   width: 100%;
+  font-size: 13px;
 }
 
 .wallet {

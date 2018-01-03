@@ -12,191 +12,33 @@
   <div class="machine">
     <!-- 메뉴 -->
     <div class="menu_board">
-      <ul class="menu_list">
-        <li>
-          <button type="button" name="coke">1. 콜라</button>
-          <span>1500</span>
-        </li>
-        <li>
-          <button type="button" name="sprite">2. 사이다</button>
-          <span>1000</span>
-        </li>
-        <li>
-          <button type="button" name="pine_fanta">3. 파인애플맛 환타</button>
-          <span>400</span>
-        </li>
-        <li>
-          <button type="button" name="grape_fanta">4. 포도맛 환타</button>
-          <span>300</span>
-        </li>
-        <li>
-          <button type="button" name="lemon">5. 레몬에이드</button>
-          <span>900</span>
-        </li>
-        <li>
-          <button type="button" name="bongbong">6. 봉봉</button>
-          <span>1200</span>
-        </li>
-        <li>
-          <button type="button" name="cocoa">7. 코코아주스</button>
-          <span>1000</span>
-        </li>
-        <li>
-          <button type="button" name="coke_zero">8. 콜라제로</button>
-          <span>1000</span>
-        </li>
-        <li>
-          <button type="button" name="powerade">9. 파워에이드</button>
-          <span>2000</span>
-        </li>
-        <li>
-          <button type="button" name="chocomilk">10. 초코우유</button>
-          <span>1000</span>
-        </li>
-        <li>
-          <button type="button" name="chocomilk2">11. 초코우유2</button>
-          <span>7000</span>
-        </li>
-        <li>
-          <button type="button" name="chocomilk3">12. 초코우유3</button>
-          <span>600</span>
-        </li>
-        <li>
-          <button type="button" name="straw_banana">13. 딸바주스</button>
-          <span>1000</span>
-        </li>
-        <li>
-          <button type="button" name="banana">14. 바나나우유</button>
-          <span>500</span>
-        </li>
-        <li>
-          <button type="button" name="coffee">15. 커피우유</button>
-          <span>1000</span>
-        </li>
-        <li>
-          <button type="button" name="alloe">16. 알로에</button>
-          <span>1200</span>
-        </li>
-        <li>
-          <button type="button" name="conechip">17. 콘칩</button>
-          <span>1000</span>
-        </li>
-        <li>
-          <button type="button" name="shrimp">18. 새우깡</button>
-          <span>1000</span>
-        </li>
-        <li>
-          <button type="button" name="potato">19. 감자칩</button>
-          <span>2000</span>
-        </li>
-        <li>
-          <button type="button" name="kancho">20. 칸쵸</button>
-          <span>1000</span>
-        </li>
-        <li>
-          <button type="button" name="amond">21. 아몬드</button>
-          <span>450</span>
-        </li>
-        <li>
-          <button type="button" name="dark_choco">22. 다크초콜릿</button>
-          <span>1500</span>
-        </li>
-        <li>
-          <button type="button" name="ghana_choco">23. 가나초콜릿</button>
-          <span>1200</span>
-        </li>
-        <li>
-          <button type="button" name="nut">24. 견과류</button>
-          <span>900</span>
-        </li>
-        <li>
-          <button type="button" name="beef_jerky">25. 육포</button>
-          <span>1000</span>
-        </li>
-        <li>
-          <button type="button" name="squid_jerky">26. 오징어포</button>
-          <span>900</span>
-        </li>
-        <li>
-          <button type="button" name="mini_nut">27. 미니땅콩</button>
-          <span>4000</span>
-        </li>
-        <li>
-          <button type="button" name="squid">28. 오징어</button>
-          <span>2300</span>
-        </li>
-        <li>
-          <button type="button" name="broken">29. {고장}</button>
-          <span>1000</span>
-        </li>
-        <li>
-          <button type="button" name="sin_ramen">30. 신라면</button>
-          <span>700</span>
-        </li>
-        <li>
-          <button type="button" name="jin_ramen">31. 진라면</button>
-          <span>800</span>
-        </li>
-        <li>
-          <button type="button" name="grape_fanta2">32. 포도맛 환타</button>
-          <span>1000</span>
-        </li>
-      </ul>
+      <ul class="menu_list"></ul>
     </div>
     <!-- 슬롯 -->
     <div class="slot">
       <div class="balance">
-        <input type="text" name="balance" value=""><span>원</span>
+        <input type="text" id="slot_balance" disabled="disabled" value=0><span>원</span>
       </div>
-      <div class="amount">
-        <button type="button" name="one">1</button>
-        <button type="button" name="two">2</button>
-        <button type="button" name="three">3</button>
-        <button type="button" name="four">4</button>
-        <button type="button" name="five">5</button>
-        <button type="button" name="six">6</button>
-        <button type="button" name="seven">7</button>
-        <button type="button" name="eight">8</button>
-        <button type="button" name="nine">9</button>
-        <button type="button" name="zero">0</button>
+      <div class="keypad">
+        <button type="button">1</button>
+        <button type="button">2</button>
+        <button type="button">3</button>
+        <button type="button">4</button>
+        <button type="button">5</button>
+        <button type="button">6</button>
+        <button type="button">7</button>
+        <button type="button">8</button>
+        <button type="button">9</button>
+        <button type="button">0</button>
       </div>
-      <textarea name="log" rows="22"></textarea>
+      <textarea id="log" rows="22" value=""></textarea>
     </div>
   </div>
   <!-- 지갑 -->
   <div class="wallet">
-    <ul class="cash_list">
-      <li>
-        <button type="button" name="cash10">10원</button>
-        <span>0개</span>
-      </li>
-      <li>
-        <button type="button" name="cash50">50원</button>
-        <span>1개</span>
-      </li>
-      <li>
-        <button type="button" name="cash100">100원</button>
-        <span>5개</span>
-      </li>
-      <li>
-        <button type="button" name="cash500">500원</button>
-        <span>2개</span>
-      </li>
-      <li>
-        <button type="button" name="cash1000">1000원</button>
-        <span>2개</span>
-      </li>
-      <li>
-        <button type="button" name="cash5000">5000원</button>
-        <span>2개</span>
-      </li>
-      <li>
-        <button type="button" name="cash10000">10000원</button>
-        <span>1개</span>
-      </li>
-    </ul>
+    <ul class="cash_list"></ul>
     <div class="balance">
-      <input type="text" name="balance" value=""><span>원</span>
+      <input type="text" id="wallet_balance" disabled="disabled"><span>원</span>
     </div>
   </div>
 
