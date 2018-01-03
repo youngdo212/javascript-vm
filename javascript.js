@@ -29,21 +29,27 @@ var showCashList = function() {
   var html = '';
   var balance = 0;
   unit.forEach(function(item, index) {
-    html += '<li><button type="button" onClick=insertCoin(' + item + ',' + index + ')>' + item + '원</button><span>' + wallet[index] + '개</span></li>';
+    html += '<li><button type="button" value="'+ index +'">' + item + '원</button><span>' + wallet[index] + '개</span></li>';
     balance += item * wallet[index];
   });
+
   cash_list.innerHTML = html;
   wallet_balance.value = balance;
 }
+var addClickWalletListener = function() {
+    cash_list.addEventListener('click', insertCoin);
+}
 
-var addEventListener = function() {
-  var buttons = slot_keypad.childNodes;
-  for (var i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener('click', clickKeypad);
-  }
+var addClickKeypadListener = function() {
+  slot_keypad.addEventListener('click', clickKeypad);
 }
 
 var clickKeypad = function(event) {
+  console.log(event);
+  if (!event.target || event.target.nodeName != 'BUTTON') {
+    return;
+  }
+
   clearTimeout(keypad_timer);
   keypad_number += event.target.innerHTML;
 
@@ -72,16 +78,21 @@ var clickKeypad = function(event) {
   }, 3000);
 }
 
-var insertCoin = function(unit, index) {
+var insertCoin = function(event) {
+  if (!event.target || event.target.nodeName != 'BUTTON') {
+    return;
+  }
+  var index = event.target.value;
+
   clearTimeout(keypad_timer);
 
   if (wallet[index] <= 0) {
     return;
   }
-  wallet_balance.value -= unit;
-  slot_balance.value = parseInt(slot_balance.value) + unit;
+  wallet_balance.value -= unit[index];
+  slot_balance.value = parseInt(slot_balance.value) + unit[index];
   wallet[index]--;
-  log.value += unit + '원이 투입됐음\n';
+  log.value += unit[index] + '원이 투입됐음\n';
 
   showCashList();
   showMenuList();
@@ -102,4 +113,5 @@ var returnChange = function() {
 
 showMenuList();
 showCashList();
-addEventListener();
+addClickKeypadListener();
+addClickWalletListener();
