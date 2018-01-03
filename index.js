@@ -9,20 +9,23 @@ function $$(ele) {
 
 //Wllet Object
 function Wallet() {
-    this.cs = new Console();
+    this.cs = new ConsoleModule();
     this.totalAmount = 0;
     this.insertedAmount = 0;
     this.cash = {"10": 0, "50": 0, "100": 0, "500": 0, "1000": 0, "5000": 0, "10000": 0};
-    this.addToWallet = function (coin) {
+}
+
+Wallet.prototype = {
+    addToWallet : function (coin) {
         this.cash[coin] = parseInt(this.cash[coin]) + 1;
         this.totalAmount += parseInt(coin)
-    }
-    this.insertToMachine = function (coin) {
+    },
+    insertToMachine : function(coin) {
         this.cash[coin] = parseInt(this.cash[coin]) - 1;
         this.totalAmount -= parseInt(coin);
         this.insertedAmount += parseInt(coin);
-    }
-    this.setEvent = function () {
+    },
+    setEvent : function () {
         var moneyNamesEle = $$('.money-name')
         var moneyNumbersEle = $$('.money-number');
         for (var i = 0; i < Object.keys(this.cash).length; i++) {
@@ -49,16 +52,15 @@ function Wallet() {
 
             }.bind(this))
         }
-    }
-    this.renderAmount = function () {
+    },
+    renderAmount : function () {
         var totalAmountEle = $('#wallet-total-amount');
         var totalInsertedAmountEle = $('#inserted-total-amount')
         totalAmountEle.innerHTML = this.totalAmount;
         totalInsertedAmountEle.innerHTML = this.insertedAmount;
-    }
-    this.renderCoin = function() {
+    },
+    renderCoin : function() {
         var walletMoney = $$('.wallet-money')
-        console.log(walletMoney)
         for (var i = 0; i < Object.keys(this.cash).length; i++) {
             walletMoney[i].childNodes[3].innerHTML = this.cash[walletMoney[i].dataset.amount] + '개'
         }
@@ -67,10 +69,13 @@ function Wallet() {
 }
 
 //Console 을 메인 로직에서 분리
-function Console(){
+function ConsoleModule(){
     this.consoleMonitor = document.querySelector('.console')
     this.menuMonitor = $('.menu-number-monitor')
-    this.consoleNoti = function(consoleCase, detail) {
+}
+
+ConsoleModule.prototype = {
+    consoleNoti : function(consoleCase, detail) {
         var message = '';
         switch (consoleCase) {
             case "insert":
@@ -108,22 +113,111 @@ function Console(){
         this.clearMonitor();
         this.consoleMonitor.innerHTML += '<p> >' + message + '</p>'
         this.consoleMonitor.scrollTop = this.consoleMonitor.scrollHeight;
-    }
-    this.clearMonitor = function() {
+    },
+    clearMonitor : function() {
         this.menuMonitor.innerHTML = '';
     }
 }
 
 //메인 로직을 구성하는 생성자
 function VendingMachine() {
-    this.cs = new Console()
+    this.cs = new ConsoleModule()
     this.wallet = new Wallet()
     this.wallet.setEvent();
     this.foodList = $('.food-list');
     this.food = $('.food');
-    var foodPriceArr = [];
+    this.foodPriceArr = [];
     //메뉴 정보를 불러오는 함수
-    this.getData = function (url) {
+    // this.getData = function (url) {
+    //     var openRequest = new XMLHttpRequest();
+    //     openRequest.addEventListener("load", function (e) {
+    //         var data = JSON.parse(openRequest.responseText);
+    //         this.setFoodList(data)
+    //     }.bind(this));
+    //     openRequest.open("GET", url);
+    //     openRequest.send();
+    // }
+
+    //실제 렌더링을 담당하는 함수
+    // this.setFoodList = function (data) {
+    //     var list = ''
+    //     for (var key in data) {
+    //         var template = this.food
+    //         var foodName = key
+    //         foodPriceArr.push(data[key])
+    //         template.childNodes[1].innerHTML = foodName
+    //         template.childNodes[3].innerHTML = foodPriceArr.length + '. ' + data[key]
+    //         list += "<li class='food'>" + template.innerHTML + "</li>"
+    //     }
+    //     this.foodList.innerHTML = list
+    // }
+
+    this.menuMonitor = $('.menu-number-monitor')
+    this.numberButtons = $('.number-buttons');
+    // this.setButtonEvent()
+    // numberButtons.addEventListener('click', function (e) {
+    //     var targetDom = e.target.innerHTML
+    //     if (e.target.className === 'number-button' && parseInt(e.target.innerHTML) >= 0) {
+    //         this.menuMonitor.innerHTML += e.target.innerHTML;
+    //     } else if (targetDom === '정정') {
+    //         var len = this.menuMonitor.innerHTML.length - 1
+    //         this.menuMonitor.innerHTML = this.menuMonitor.innerHTML.slice(0, len)
+    //     } else if (targetDom === '구매') {
+    //         this.checkOrder(this.menuMonitor.innerHTML);
+    //     } else if (targetDom === '잔돈반환') {
+    //         this.exchangeCoin()
+    //     }
+    // }.bind(this))
+
+    // this.buyProduct = function(productNumber) {
+    //     var foodPrice = parseInt(foodPriceArr[productNumber - 1]);
+    //     var targetFood = document.querySelectorAll('.food-name')[productNumber - 1].innerHTML
+    //     this.wallet.insertedAmount = parseInt(this.wallet.insertedAmount) - foodPrice;
+    //     this.wallet.renderAmount()
+    //     this.cs.consoleNoti('buy', [targetFood, foodPrice])
+    // }
+
+    // this.checkOrder= function(num) {
+    //     var productNumber = parseInt(num)
+    //     if (productNumber === 0 || productNumber > foodPriceArr.length) {
+    //         this.cs.consoleNoti('noProduct', productNumber)
+    //         return false
+    //     } else if (this.wallet.insertedAmount < foodPriceArr[productNumber - 1]) {
+    //         this.cs.consoleNoti('overPrice', (foodPriceArr[productNumber - 1] - this.wallet.insertedAmount));
+    //         return false
+    //     } else {
+    //         this.buyProduct(productNumber)
+    //         return true
+    //     }
+    // }
+
+    // this.exchangeCoin = function(){
+    //     if (this.wallet.insertedAmount === 0) {
+    //         this.cs.consoleNoti('noInsertedMoney')
+    //     } else {
+    //         var exchangeObj = {}
+    //         var cashArr = Object.keys(this.wallet.cash)
+    //         cashArr.sort(function(a,b){return b-a})
+    //         for (var j in cashArr){
+    //             var coin = cashArr[j]
+    //             var remainder = this.wallet.insertedAmount%coin;
+    //             var value = parseInt(this.wallet.insertedAmount/coin);
+    //             if (value > 0) {
+    //                 exchangeObj[coin] = value;
+    //                 this.wallet.cash[coin] += value;
+    //                 this.wallet.insertedAmount = remainder
+    //             }
+    //         }
+    //         this.wallet.renderAmount()
+    //         this.wallet.renderCoin()
+    //         this.cs.consoleNoti("exchange", exchangeObj)
+    //     }
+    // }
+
+}
+
+VendingMachine.prototype = {
+    getData : function (url) {
         var openRequest = new XMLHttpRequest();
         openRequest.addEventListener("load", function (e) {
             var data = JSON.parse(openRequest.responseText);
@@ -131,68 +225,61 @@ function VendingMachine() {
         }.bind(this));
         openRequest.open("GET", url);
         openRequest.send();
-    }
-
-    //실제 렌더링을 담당하는 함수
-    this.setFoodList = function (data) {
+    },
+    setFoodList : function (data) {
         var list = ''
         for (var key in data) {
             var template = this.food
             var foodName = key
-            foodPriceArr.push(data[key])
+            this.foodPriceArr.push(data[key])
             template.childNodes[1].innerHTML = foodName
-            template.childNodes[3].innerHTML = foodPriceArr.length + '. ' + data[key]
+            template.childNodes[3].innerHTML = this.foodPriceArr.length + '. ' + data[key]
             list += "<li class='food'>" + template.innerHTML + "</li>"
         }
         this.foodList.innerHTML = list
-    }
-
-    this.menuMonitor = $('.menu-number-monitor')
-    var numberButtons = $('.number-buttons');
-    numberButtons.addEventListener('click', function (e) {
-        var targetDom = e.target.innerHTML
-        if (e.target.className === 'number-button' && parseInt(e.target.innerHTML) >= 0) {
-            this.menuMonitor.innerHTML += e.target.innerHTML;
-        } else if (targetDom === '정정') {
-            var len = this.menuMonitor.innerHTML.length - 1
-            this.menuMonitor.innerHTML = this.menuMonitor.innerHTML.slice(0, len)
-        } else if (targetDom === '구매') {
-            this.checkOrder(this.menuMonitor.innerHTML);
-        } else if (targetDom === '잔돈반환') {
-            this.exchangeCoin()
-        }
-    }.bind(this))
-
-    this.buyProduct = function(productNumber) {
+    },
+    setButtonEvent : function(){
+        this.numberButtons.addEventListener('click', function (e) {
+            var targetDom = e.target.innerHTML
+            if (e.target.className === 'number-button' && parseInt(e.target.innerHTML) >= 0) {
+                this.menuMonitor.innerHTML += e.target.innerHTML;
+            } else if (targetDom === '정정') {
+                var len = this.menuMonitor.innerHTML.length - 1
+                this.menuMonitor.innerHTML = this.menuMonitor.innerHTML.slice(0, len)
+            } else if (targetDom === '구매') {
+                this.checkOrder(this.menuMonitor.innerHTML);
+            } else if (targetDom === '잔돈반환') {
+                this.exchangeCoin()
+            }
+        }.bind(this))
+    },
+    buyProduct : function(productNumber) {
         var foodPrice = parseInt(foodPriceArr[productNumber - 1]);
         var targetFood = document.querySelectorAll('.food-name')[productNumber - 1].innerHTML
         this.wallet.insertedAmount = parseInt(this.wallet.insertedAmount) - foodPrice;
         this.wallet.renderAmount()
         this.cs.consoleNoti('buy', [targetFood, foodPrice])
-    }
-
-    this.checkOrder= function(num) {
+    },
+    checkOrder : function(num) {
         var productNumber = parseInt(num)
         if (productNumber === 0 || productNumber > foodPriceArr.length) {
             this.cs.consoleNoti('noProduct', productNumber)
             return false
-        } else if (this.wallet.insertedAmount < foodPriceArr[productNumber - 1]) {
-            this.cs.consoleNoti('overPrice', (foodPriceArr[productNumber - 1] - this.wallet.insertedAmount));
+        } else if (this.wallet.insertedAmount < this.foodPriceArr[productNumber - 1]) {
+            this.cs.consoleNoti('overPrice', (this.foodPriceArr[productNumber - 1] - this.wallet.insertedAmount));
             return false
         } else {
             this.buyProduct(productNumber)
             return true
         }
-    }
-
-    this.exchangeCoin = function(){
+    },
+    exchangeCoin : function(){
         if (this.wallet.insertedAmount === 0) {
             this.cs.consoleNoti('noInsertedMoney')
         } else {
             var exchangeObj = {}
             var cashArr = Object.keys(this.wallet.cash)
             cashArr.sort(function(a,b){return b-a})
-            console.log(cashArr)
             for (var j in cashArr){
                 var coin = cashArr[j]
                 var remainder = this.wallet.insertedAmount%coin;
@@ -209,9 +296,12 @@ function VendingMachine() {
         }
     }
 
+
 }
+
 
 document.addEventListener('DOMContentLoaded', function () {
     var vm = new VendingMachine();
     vm.getData('foodList.json')
+    vm.setButtonEvent()
 });
