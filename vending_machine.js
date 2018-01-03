@@ -51,13 +51,29 @@ function initMonitor() {
                 selected = ""
             } else {
                 time = setTimeout(function() {
-                    addLog(selected + "선택됨.")
+                    if(parseInt(monitorInsertedAmount.textContent) < menu[selected-1].price) {
+                        addLog("잔액이 부족합니다.")
+                        selected = ""
+                        return
+                    }
+                    let menuName = menu[selected-1].name
+                    addLog(selected + "번 " + menuName + " 선택됨.")
                     selected = ""
                 }, 3000)
             }
 		})
 	}
 }
+
+// function isDispensable() {
+//     if(parseInt(selected) > menu.length || parseInt(selected) < 1) {
+//         return false
+//     } else if() {
+//         return false
+//     } else {
+//         return true
+//     }
+// }
 
 function initWallet() {
 	for(let i = 0; i < moneyTypes.length; i++) {
