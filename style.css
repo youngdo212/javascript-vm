@@ -37,35 +37,9 @@
 	padding-right: 5px;
 }
 
-/* .menu_table {
-  	width: 100%;
-} */
-
-/* .menu_table td {
-	text-align: center;
-	width: 25%;
-} */
-
-/* .menu_table div {
-	height: 35px;
-  	border: 1px solid #222222;
-  	float: top;
-
-} */
-
-/* .menu_table span {
-  background-color: white;
-  float: bottom;
-  margin-bottom: 0;
-} */
-
 .monitor {
-	background-color: blue;
-	border-top: 2.5px;
-	border-bottom: 2.5px;
-	border-right: 2.5px;
-	border-style: solid;
-	border-color: gray;
+	background-color: #a1f124;
+	border: 2.5px solid #222222;
 	float: left;
 	width: 300px;
 	height: 500px;
@@ -73,58 +47,87 @@
 }
 
 .monitor_inserted_amount {
-  text-align: right;
-  color: white;
-  border-bottom: 2.5px solid grey;
-  height: 97.5px;
+	text-align: right;
+	color: #000000;
+	border-bottom: 2.5px solid #222222;
+	height: 97.5px;
 }
 
 .monitor_number_buttons {
-  width: 90%;
-  background-color: yellow;
-  overflow: auto;
-  margin: auto;
-  height: 200px;
+	width: 90%;
+	background-color: yellow;
+	overflow: auto;
+	margin: auto;
+	height: 200px;
 }
 
-.monitor_number_buttons button, .monitor_number_buttons span{
+.monitor_number_buttons button{
 	float: left;
-  border: 1px solid grey;
-  width: 45px;
-  height: 45px;
-  margin: 10px;
-  text-align: center;
+	border: 1px solid #222222;
+	width: 45px;
+	height: 45px;
+	margin: 10px;
+	text-align: center;
+}
+.monitor_number_buttons span {
+	float: left;
+	margin: 20px;
+	text-align: center;
 }
 
 .monitor_console {
-	border-top: 2.5px solid grey;
-  height: 200px;
+	border-top: 2.5px solid #222222;
+	height: 200px;
+	overflow: scroll;
+	color: #000000;
+	padding-bottom: 10px;
 }
 
 .wallet {
-  position: absolute;
-  left: 900px;
+ 	position: absolute;
+ 	left: 900px;
 	border: 4px;
 	border-style: solid;
-	border-color: gray;
-	background-color: red;
+	border-color: #cccccc;
+	background-color: #a1f124;
 	float: left;
 	width: 200px;
 }
 
-.wallet_table {
-  width: 100%;
-  text-align: center;
+.money_buttons {
+	float: left;
+	width: 50%;
+	height: 280px;
 }
 
-.wallet_table td {
-  width: 50%;
-  border: 1px solid gray;
+.money_buttons button {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	height: 20px;
+	margin: 10px;
+	margin-bottom: 20px;
+}
+
+.money_counts {
+	float: left;
+	width: 50%;
+	height: 280px;
+	text-align: center;
+}
+
+.money_counts span {
+	display: flex;
+	height: 20px;
+	padding: 10px;
+	margin-left: 20px;
 }
 
 .total_amount {
-	border: 1px solid gray;
+	float: left;
+	border: 1px solid #cccccc;
 	width: 100%;
+	height: 28px;
+	padding-top: 20px;
 	text-align: center;
-
 }
