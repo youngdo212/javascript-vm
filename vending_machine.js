@@ -14,7 +14,8 @@ let moneyCounts = document.querySelector(".money_counts").childNodes
 let moneyCountsContainer = document.querySelector(".money_counts")
 
 let selected = ""
-let time
+let selectTimer
+let returnTimer
 
 function initMenu() {
 	for(let i = 0; i < menu.length; i++) {
@@ -43,23 +44,23 @@ function initMonitor() {
 		let currButton = buttons[i]
 
 		currButton.addEventListener("click", function() {
-            clearTimeout(time)
+            clearTimeout(selectTimer)
+			clearTimeout(returnTimer)
 			let currValue = parseInt(this.textContent)
 			selected += currValue
-			monitorCurrSelected.textContent = selected 
+			monitorCurrSelected.textContent = selected
 
             if(parseInt(selected) > menu.length || parseInt(selected) < 1) {
                 addLog("입력한 번호의 메뉴가 없습니다.")
                 selected = ""
-                monitorCurrSelected.textContent = selected 
-			
-                return
-            } 
+                monitorCurrSelected.textContent = selected
 
-            time = setTimeout(function() {
+                return
+            }
+
+            selectTimer = setTimeout(function() {
                 selectMenuItem()
             }, 3000)
-            
 		})
 	}
 }
@@ -74,29 +75,31 @@ function selectMenuItem() {
         addLog("잔액이 부족합니다.")
     } else {
     	addLog(selected + "번 " + menuName + " 선택됨.")
-    	monitorInsertedAmount.textContent = insertedAmount - menuPrice 
+    	monitorInsertedAmount.textContent = insertedAmount - menuPrice
     }
-    
-    selected = ""
-    monitorCurrSelected.textContent = selected 
 
-    changeObj = getReturnChange(parseInt(monitorInsertedAmount.textContent))
-    applyChange(changeObj)
+    selected = ""
+    monitorCurrSelected.textContent = selected
+
+	returnTimer = setTimeout(function() {
+		changeObj = getReturnChange(parseInt(monitorInsertedAmount.textContent))
+	    applyChange(changeObj)
+	}, 3000)
 }
 
 function applyChange(change) {
 	for(var key in change) {
-		walletMoneyCount = document.getElementById(key + "type") 
+		walletMoneyCount = document.getElementById(key + "type")
 		if (change[key]) {
 			walletMoneyCount.textContent = (parseInt(walletMoneyCount.textContent) + change[key]) + " 개"
-		} 
+		}
 	}
 
 	walletTotalAmount.textContent = getWalletTotalAmount() + " 원"
 }
 
 function getReturnChange(amount) {
-	let initialAmount = amount 
+	let initialAmount = amount
 	let retval = {}
 	for(let i = moneyTypes.length - 1; i >= 0; i--) {
 		while(parseInt(moneyTypes[i]) <= amount) {
@@ -113,7 +116,7 @@ function getReturnChange(amount) {
 	addLog(initialAmount + "원 반환됨.")
 	monitorInsertedAmount.textContent = 0 + " 원"
 
-	return retval 
+	return retval
 }
 
 function initWallet() {
