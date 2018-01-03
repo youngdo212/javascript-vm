@@ -10,7 +10,12 @@ var wallet_balance = document.getElementById('wallet_balance');
 var slot_balance = document.getElementById('slot_balance');
 var log = document.getElementById('log');
 
-var showMenuList = function() {
+// showMenuList();
+// showCashList();
+// addClickKeypadListener();
+// addClickWalletListener();
+
+function showMenuList() {
   var html = '';
   menu.forEach(function(item, index) {
     var name = broken_menu.indexOf(item.id) >= 0 ? '{고장}' : item.name;
@@ -25,7 +30,7 @@ var showMenuList = function() {
   menu_list.innerHTML = html;
 }
 
-var showCashList = function() {
+function showCashList() {
   var html = '';
   var balance = 0;
   unit.forEach(function(item, index) {
@@ -36,16 +41,16 @@ var showCashList = function() {
   cash_list.innerHTML = html;
   wallet_balance.value = balance;
 }
-var addClickWalletListener = function() {
+
+function addClickWalletListener() {
     cash_list.addEventListener('click', insertCoin);
 }
 
-var addClickKeypadListener = function() {
+function addClickKeypadListener() {
   slot_keypad.addEventListener('click', clickKeypad);
 }
 
-var clickKeypad = function(event) {
-  console.log(event);
+function clickKeypad(event) {
   if (!event.target || event.target.nodeName != 'BUTTON') {
     return;
   }
@@ -78,7 +83,7 @@ var clickKeypad = function(event) {
   }, 3000);
 }
 
-var insertCoin = function(event) {
+function insertCoin(event) {
   if (!event.target || event.target.nodeName != 'BUTTON') {
     return;
   }
@@ -98,7 +103,7 @@ var insertCoin = function(event) {
   showMenuList();
 }
 
-var returnChange = function() {
+function returnChange() {
   var change = parseInt(slot_balance.value);
 
   for (var i = unit.length - 1; i >= 0; i--) {
@@ -110,8 +115,3 @@ var returnChange = function() {
   slot_balance.value = '0';
   showCashList();
 }
-
-showMenuList();
-showCashList();
-addClickKeypadListener();
-addClickWalletListener();
