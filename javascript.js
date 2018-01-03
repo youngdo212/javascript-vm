@@ -10,10 +10,10 @@ var wallet_balance = document.getElementById('wallet_balance');
 var slot_balance = document.getElementById('slot_balance');
 var log = document.getElementById('log');
 
-// showMenuList();
-// showCashList();
-// addClickKeypadListener();
-// addClickWalletListener();
+showMenuList();
+showCashList();
+addClickKeypadListener();
+addClickWalletListener();
 
 function showMenuList() {
   var html = '';
