@@ -30,31 +30,6 @@ function initMenu() {
 function initMonitor() {
 	let buttons = monitorButtons.children
 
-	// for(let i = 0; i < buttons.length; i++) {
-	// 	let currButton = buttons[i]
-    //
-	// 	currButton.addEventListener("click", function() {
-    //         clearTimeout(selectTimer)
-	// 		clearTimeout(returnTimer)
-	// 		let currValue = parseInt(this.textContent)
-	// 		selected += currValue
-	// 		monitorCurrSelected.textContent = selected
-    //
-    //         if(parseInt(selected) > menu.length || parseInt(selected) < 1) {
-    //             addLog("입력한 번호의 메뉴가 없습니다.")
-    //             selected = ""
-    //             monitorCurrSelected.textContent = selected
-    //
-    //             return
-    //         }
-    //
-    //         selectTimer = setTimeout(function() {
-    //             selectMenuItem()
-	// 			updateAffordableItems()
-    //         }, 3000)
-	// 	})
-	// }
-
 	monitorButtons.addEventListener("click", function(event) {
 		if(event.target.nodeName === "BUTTON") {
 			clearTimeout(selectTimer)
@@ -105,7 +80,8 @@ function applyChange(change) {
 	for(var key in change) {
 		walletMoneyCount = document.getElementById(key + "type")
 		if (change[key]) {
-			walletMoneyCount.textContent = (parseInt(walletMoneyCount.textContent) + change[key]) + " 개"
+			walletMoneyCount.textContent = 
+				(parseInt(walletMoneyCount.textContent) + change[key]) + " 개"
 		}
 	}
 
@@ -164,6 +140,8 @@ function updateAffordableItems() {
 }
 
 function walletButtonEventListener(button) {
+	clearTimeout(returnTimer)
+	
 	let currType = parseInt(button.textContent)
 	let currCountContainer = document.getElementById(currType + "type")
 	let currCount = parseInt(currCountContainer.textContent)
