@@ -38,7 +38,7 @@
   margin-bottom: 0;
 }
 
-.selector {
+.monitor {
 	background-color: blue;
 	border-top: 2.5px;
 	border-bottom: 2.5px;
@@ -51,14 +51,14 @@
 	margin-right: 100px;
 }
 
-.selector_inserted_amount {
+.monitor_inserted_amount {
   text-align: right;
   color: white;
   border-bottom: 2.5px solid grey;
   height: 97.5px;
 }
 
-.selector_number_buttons {
+.monitor_number_buttons {
   width: 80%;
   background-color: yellow;
   overflow: auto;
@@ -66,7 +66,7 @@
   height: 200px;
 }
 
-.selector_number_buttons div {
+.monitor_number_buttons div {
 	float: left;
   border: 1px solid grey;
   width: 45px;
@@ -75,7 +75,7 @@
   text-align: center;
 }
 
-.selector_console {
+.monitor_console {
 	border-top: 2.5px solid grey;
   height: 200px;
 }
