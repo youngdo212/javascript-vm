@@ -113,17 +113,16 @@ function getReturnChange(amount) {
 
 function initWallet() {
 	for(let i = 0; i < moneyTypes.length; i++) {
-	    let button = document.createElement("button")
-	    let moneyCount = document.createElement("span")
-	    button.textContent = moneyTypes[i]
-	    button.addEventListener("click", function() {
-	    	walletButtonEventListener(this)
-	    })
-	    moneyCount.textContent = "1 개"
-	    moneyCount.id = moneyTypes[i] + "type";
-	    moneyButtonsContainer.appendChild(button)
-	    moneyCountsContainer.appendChild(moneyCount)
+		let button = "<button>" + moneyTypes[i] + "원" + "</button>"
+		let moneyCount = "<span id=" + moneyTypes[i] + "type>2 개</span>"
+		moneyButtonsContainer.innerHTML += button
+		moneyCountsContainer.innerHTML += moneyCount
 	}
+	moneyButtonsContainer.addEventListener("click", function(event) {
+		if(event.target.nodeName == "BUTTON") {
+			walletButtonEventListener(event.target)
+		}
+	})
     walletTotalAmount.textContent = getWalletTotalAmount() + " 원"
 }
 
@@ -167,8 +166,7 @@ function updateInsertedAmount(currType) {
 }
 
 function addLog(message) {
-	monitorConsole.appendChild(document.createTextNode(message))
-	monitorConsole.appendChild(document.createElement("br"))
+	monitorConsole.innerHTML += message + "<br>"
 }
 
 function getWalletTotalAmount() {
