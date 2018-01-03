@@ -1,5 +1,5 @@
 body {
-  width: 65%;
+  width: 80%;
   margin: 100px auto;
 }
 
@@ -53,7 +53,6 @@ body {
 }
 
 .balance {
-  width: 100%;
   text-align: right;
 }
 
@@ -66,8 +65,7 @@ body {
   border: 3px dotted black;
   text-align: center;
   margin: 10px 0px;
-  padding: 5px;
-  box-sizing: border-box;
+  padding:
 }
 
 .slot .amount button {
