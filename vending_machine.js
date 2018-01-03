@@ -20,20 +20,10 @@ let returnTimer
 function initMenu() {
 	for(let i = 0; i < menu.length; i++) {
 		item = menu[i]
-
-		let itemContainer = document.createElement("div")
-		let namefield = document.createElement("span")
-		namefield.id = "name"
-		let pricefield = document.createElement("span")
-		pricefield.id = "price"
-
-		namefield.textContent = item.name;
-		pricefield.textContent = (i + 1) + ". " + item.price
-
-		itemContainer.appendChild(namefield)
-		itemContainer.appendChild(pricefield)
-
-		menuContainer.appendChild(itemContainer)
+		let nameHtml = "<span id='name'>" + item.name + "</span>"
+		let priceHtml = "<span id='price'>" + (i + 1) + ". " + item.price + "</span>"
+		let html = "<div>" + nameHtml + priceHtml + "</div>"
+		menuContainer.innerHTML += html
 	}
 }
 
