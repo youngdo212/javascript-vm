@@ -79,7 +79,7 @@ body {
 .monitor > div {
     width: 90%;
     margin-left: 5%;
-    background-color: aqua;
+    background-color: #00FFFF;
     margin-bottom: 20px;
     border: solid 1px;
 }
@@ -91,21 +91,21 @@ body {
 }
 
 .monitor > .menu-selector {
-    height: 320px;
+    height: 380px;
 }
 
 .monitor > .console {
     height: 300px;
     overflow-y: scroll;
     font-size: 20px;
-    color: red;
+    color: #FF0000;
 }
 
 .menu-number-monitor {
     height: 40px;
     margin: 10px 10px 10px 10px;
     width: calc(100% - 20px);
-    background-color: aliceblue;
+    background-color: #F0F8FF;
     font-size: 35px;
 }
 
@@ -141,6 +141,15 @@ body {
     display: flex;
     flex-direction: column;
     border: solid 1px;
+    margin-left: 10px;
+    text-align: center;
 }
 
+.food :hover {
+    background-color: #00FFFF;
+    opacity: 0.9;
+}
 
+.number-buttons >  .exchange-button {
+    width: 96%;
+}

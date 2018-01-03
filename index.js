@@ -18,11 +18,9 @@ function Wallet() {
         this.totalAmount += parseInt(coin)
     }
     this.insertToMachine = function (coin) {
-        console.log(this.cash)
         this.cash[coin] = parseInt(this.cash[coin]) - 1;
         this.totalAmount -= parseInt(coin);
         this.insertedAmount += parseInt(coin);
-        console.log(this.cash)
     }
     this.setEvent = function () {
         var moneyNamesEle = $$('.money-name')
@@ -58,10 +56,17 @@ function Wallet() {
         totalAmountEle.innerHTML = this.totalAmount;
         totalInsertedAmountEle.innerHTML = this.insertedAmount;
     }
+    this.renderCoin = function() {
+        var walletMoney = $$('.wallet-money')
+        console.log(walletMoney)
+        for (var i = 0; i < Object.keys(this.cash).length; i++) {
+            walletMoney[i].childNodes[3].innerHTML = this.cash[walletMoney[i].dataset.amount] + '개'
+        }
+    }
 
 }
 
-
+//Console 을 메인 로직에서 분리
 function Console(){
     this.consoleMonitor = document.querySelector('.console')
     this.menuMonitor = $('.menu-number-monitor')
@@ -86,6 +91,19 @@ function Console(){
             case "buy" :
                 message += detail[1] + "원을 지불하여 " + detail[0] + "를 구매하셨습니다."
                 break;
+            case "noInsertedMoney" :
+                message = "삽입된 돈이 없습니다."
+                break;
+            case "exchange" :
+                var exchangeCoinArr = Object.keys(detail)
+                var lastChecker = exchangeCoinArr.length;
+                for (var k in exchangeCoinArr){
+                    message += exchangeCoinArr[k] + "원짜리 동전 " + detail[exchangeCoinArr[k]] + "개"
+                    lastChecker --
+                    if(lastChecker !== 0) message += ", "
+                }
+                message += "가 반환되었습니다."
+                break;
         }
         this.clearMonitor();
         this.consoleMonitor.innerHTML += '<p> >' + message + '</p>'
@@ -96,14 +114,15 @@ function Console(){
     }
 }
 
-function VendingMachine(menuObj) {
+//메인 로직을 구성하는 생성자
+function VendingMachine() {
     this.cs = new Console()
     this.wallet = new Wallet()
     this.wallet.setEvent();
-
     this.foodList = $('.food-list');
     this.food = $('.food');
     var foodPriceArr = [];
+    //메뉴 정보를 불러오는 함수
     this.getData = function (url) {
         var openRequest = new XMLHttpRequest();
         openRequest.addEventListener("load", function (e) {
@@ -114,6 +133,7 @@ function VendingMachine(menuObj) {
         openRequest.send();
     }
 
+    //실제 렌더링을 담당하는 함수
     this.setFoodList = function (data) {
         var list = ''
         for (var key in data) {
@@ -130,18 +150,20 @@ function VendingMachine(menuObj) {
     this.menuMonitor = $('.menu-number-monitor')
     var numberButtons = $('.number-buttons');
     numberButtons.addEventListener('click', function (e) {
+        var targetDom = e.target.innerHTML
         if (e.target.className === 'number-button' && parseInt(e.target.innerHTML) >= 0) {
             this.menuMonitor.innerHTML += e.target.innerHTML;
-        } else if (e.target.innerHTML === '정정') {
+        } else if (targetDom === '정정') {
             var len = this.menuMonitor.innerHTML.length - 1
             this.menuMonitor.innerHTML = this.menuMonitor.innerHTML.slice(0, len)
-        } else if (e.target.innerHTML === '구매') {
+        } else if (targetDom === '구매') {
             this.checkOrder(this.menuMonitor.innerHTML);
+        } else if (targetDom === '잔돈반환') {
+            this.exchangeCoin()
         }
     }.bind(this))
 
     this.buyProduct = function(productNumber) {
-        console.log(this.wallet)
         var foodPrice = parseInt(foodPriceArr[productNumber - 1]);
         var targetFood = document.querySelectorAll('.food-name')[productNumber - 1].innerHTML
         this.wallet.insertedAmount = parseInt(this.wallet.insertedAmount) - foodPrice;
@@ -160,7 +182,30 @@ function VendingMachine(menuObj) {
         } else {
             this.buyProduct(productNumber)
             return true
+        }
+    }
 
+    this.exchangeCoin = function(){
+        if (this.wallet.insertedAmount === 0) {
+            this.cs.consoleNoti('noInsertedMoney')
+        } else {
+            var exchangeObj = {}
+            var cashArr = Object.keys(this.wallet.cash)
+            cashArr.sort(function(a,b){return b-a})
+            console.log(cashArr)
+            for (var j in cashArr){
+                var coin = cashArr[j]
+                var remainder = this.wallet.insertedAmount%coin;
+                var value = parseInt(this.wallet.insertedAmount/coin);
+                if (value > 0) {
+                    exchangeObj[coin] = value;
+                    this.wallet.cash[coin] += value;
+                    this.wallet.insertedAmount = remainder
+                }
+            }
+            this.wallet.renderAmount()
+            this.wallet.renderCoin()
+            this.cs.consoleNoti("exchange", exchangeObj)
         }
     }
 
