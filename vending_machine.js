@@ -60,6 +60,7 @@ function initMonitor() {
 
             selectTimer = setTimeout(function() {
                 selectMenuItem()
+				updateAffordableItems()
             }, 3000)
 		})
 	}
@@ -84,6 +85,7 @@ function selectMenuItem() {
 	returnTimer = setTimeout(function() {
 		changeObj = getReturnChange(parseInt(monitorInsertedAmount.textContent))
 	    applyChange(changeObj)
+		updateAffordableItems()
 	}, 3000)
 }
 
@@ -125,23 +127,7 @@ function initWallet() {
 	    let moneyCount = document.createElement("span")
 	    button.textContent = moneyTypes[i]
 	    button.addEventListener("click", function() {
-	    	let currType = parseInt(this.innerHTML)
-	    	let currCountContainer = document.getElementById(currType + "type")
-	    	let currCount = parseInt(currCountContainer.textContent)
-
-	    	if(currCount > 0) {
-	    		let currInsertedAmount = parseInt(monitorInsertedAmount.textContent)
-		    	let newInsertedAmount = currType + currInsertedAmount
-				monitorInsertedAmount.textContent = newInsertedAmount + " 원"
-
-				let currWalletAmount = parseInt(walletTotalAmount.textContent)
-				let newWalletAmount = currWalletAmount - currType
-				walletTotalAmount.textContent = newWalletAmount + " 원"
-
-				currCountContainer.textContent = (currCount - 1) + " 개"
-
-				addLog(currType + "원 투입됨.")
-	    	}
+	    	walletButtonEventListener(this)
 	    })
 	    moneyCount.textContent = "1 개"
 	    moneyCount.id = moneyTypes[i] + "type";
@@ -149,6 +135,45 @@ function initWallet() {
 	    moneyCountsContainer.appendChild(moneyCount)
 	}
     walletTotalAmount.textContent = getWalletTotalAmount() + " 원"
+}
+
+function updateAffordableItems() {
+	let insertedAmount = parseInt(monitorInsertedAmount.textContent)
+	let menuSpanTag = menuContainer.querySelectorAll("span")
+
+	for(var i = 0; i < menu.length; i++) {
+		if(menu[i].price <= insertedAmount) {
+			menuSpanTag[i*2].style.backgroundColor = "#f4f142";
+			menuSpanTag[i * 2 + 1].style.backgroundColor = "#f4f142";
+		} else {
+			menuSpanTag[i*2].style.backgroundColor = "#ffffff";
+			menuSpanTag[i * 2 + 1].style.backgroundColor = "#ffffff";
+		}
+	}
+}
+
+function walletButtonEventListener(button) {
+	let currType = parseInt(button.innerHTML)
+	let currCountContainer = document.getElementById(currType + "type")
+	let currCount = parseInt(currCountContainer.textContent)
+
+	if(currCount > 0) {
+		updateInsertedAmount(currType)
+		updateAffordableItems()
+		let currWalletAmount = parseInt(walletTotalAmount.textContent)
+		let newWalletAmount = currWalletAmount - currType
+		walletTotalAmount.textContent = newWalletAmount + " 원"
+
+		currCountContainer.textContent = (currCount - 1) + " 개"
+
+		addLog(currType + "원 투입됨.")
+	}
+}
+
+function updateInsertedAmount(currType) {
+	let currInsertedAmount = parseInt(monitorInsertedAmount.textContent)
+	let newInsertedAmount = currType + currInsertedAmount
+	monitorInsertedAmount.textContent = newInsertedAmount + " 원"
 }
 
 function addLog(message) {
