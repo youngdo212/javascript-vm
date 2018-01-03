@@ -11,11 +11,7 @@ function initWallet() {
 	    let button = document.createElement("button")
 	    let moneyCount = document.createElement("span")
 	    button.textContent = moneyTypes[i]
-	    button.addEventListener("click", function() {
-	    	let amount = parseInt(this.innerHTML) + parseInt(monitorInsertedAmount.textContent);
-	    	monitorInsertedAmount.textContent = amount + " 원";
-	    	// 카운트 뺴는거 해야됨
-	    });
+	    button.addEventListener("click", walletButtonEventListedner(button));
 	    moneyCount.textContent = "1 개"
 	    moneyCount.id = moneyTypes[i] + "type";
 	    moneyButtonsContainer.appendChild(button)
@@ -24,10 +20,24 @@ function initWallet() {
     walletTotalAmount.textContent = getWalletTotalAmount() + " 원"
 }
 
+function walletButtonEventListedner(button) {
+    let amount = parseInt(button.innerHTML) + parseInt(monitorInsertedAmount.textContent);
+    monitorInsertedAmount.textContent = amount + " 원";
+    // console.log(amount);
+    // console.log(monitorInsertedAmount.textContent);
+
+    // 카운트 뺴는거 해야됨
+    // console.log(button);
+    // let money = button.textContent
+    // console.log(money+"type");
+    // console.log(document.getElementById(money + "type"));
+    // console.log(document.querySelector("#10type"));
+}
+
 function getWalletTotalAmount() {
 	let moneyCounts = document.querySelector(".money_counts").childNodes
     let totalAmount = 0
-    for(let i = 1; i < moneyCounts.length; i++) {
+    for(let i = 0; i < moneyCounts.length; i++) {
         let moneyCount = parseInt(moneyCounts[i].textContent)
         let moneyType = parseInt(moneyCounts[i].id)
         totalAmount += moneyType * moneyCount
