@@ -30,13 +30,36 @@ function initMenu() {
 function initMonitor() {
 	let buttons = monitorButtons.children
 
-	for(let i = 0; i < buttons.length; i++) {
-		let currButton = buttons[i]
+	// for(let i = 0; i < buttons.length; i++) {
+	// 	let currButton = buttons[i]
+    //
+	// 	currButton.addEventListener("click", function() {
+    //         clearTimeout(selectTimer)
+	// 		clearTimeout(returnTimer)
+	// 		let currValue = parseInt(this.textContent)
+	// 		selected += currValue
+	// 		monitorCurrSelected.textContent = selected
+    //
+    //         if(parseInt(selected) > menu.length || parseInt(selected) < 1) {
+    //             addLog("입력한 번호의 메뉴가 없습니다.")
+    //             selected = ""
+    //             monitorCurrSelected.textContent = selected
+    //
+    //             return
+    //         }
+    //
+    //         selectTimer = setTimeout(function() {
+    //             selectMenuItem()
+	// 			updateAffordableItems()
+    //         }, 3000)
+	// 	})
+	// }
 
-		currButton.addEventListener("click", function() {
-            clearTimeout(selectTimer)
+	monitorButtons.addEventListener("click", function(event) {
+		if(event.target.nodeName === "BUTTON") {
+			clearTimeout(selectTimer)
 			clearTimeout(returnTimer)
-			let currValue = parseInt(this.textContent)
+			let currValue = parseInt(event.target.textContent)
 			selected += currValue
 			monitorCurrSelected.textContent = selected
 
@@ -44,7 +67,6 @@ function initMonitor() {
                 addLog("입력한 번호의 메뉴가 없습니다.")
                 selected = ""
                 monitorCurrSelected.textContent = selected
-
                 return
             }
 
@@ -52,8 +74,8 @@ function initMonitor() {
                 selectMenuItem()
 				updateAffordableItems()
             }, 3000)
-		})
-	}
+		}
+	})
 }
 
 function selectMenuItem() {
@@ -119,7 +141,7 @@ function initWallet() {
 		moneyCountsContainer.innerHTML += moneyCount
 	}
 	moneyButtonsContainer.addEventListener("click", function(event) {
-		if(event.target.nodeName == "BUTTON") {
+		if(event.target.nodeName === "BUTTON") {
 			walletButtonEventListener(event.target)
 		}
 	})
@@ -142,7 +164,7 @@ function updateAffordableItems() {
 }
 
 function walletButtonEventListener(button) {
-	let currType = parseInt(button.innerHTML)
+	let currType = parseInt(button.textContent)
 	let currCountContainer = document.getElementById(currType + "type")
 	let currCount = parseInt(currCountContainer.textContent)
 
