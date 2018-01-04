@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./style.css">
+  <title>Web Slot</title>
+</head>
+<body>
+  <!-- 기계 -->
+  <div class="machine">
+    <!-- 메뉴 -->
+    <div class="menu_board">
+      <ul class="menu_list"></ul>
+    </div>
+    <!-- 슬롯 -->
+    <div class="slot">
+      <div class="balance">
+        <input type="text" id="slot_balance" disabled="disabled" value=0><span>원</span>
+      </div>
+      <div class="keypad">
+        <button type="button">1</button>
+        <button type="button">2</button>
+        <button type="button">3</button>
+        <button type="button">4</button>
+        <button type="button">5</button>
+        <button type="button">6</button>
+        <button type="button">7</button>
+        <button type="button">8</button>
+        <button type="button">9</button>
+        <button type="button">0</button>
+      </div>
+      <textarea id="log" rows="22" value=""></textarea>
+    </div>
+  </div>
+  <!-- 지갑 -->
+  <div class="wallet">
+    <ul class="cash_list"></ul>
+    <div class="balance">
+      <input type="text" id="wallet_balance" disabled="disabled"><span>원</span>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="data.json"></script>
+  <script type="text/javascript" src="javascript.js"></script>
+
+</body>
+</html>
