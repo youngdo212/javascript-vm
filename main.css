@@ -1,0 +1,155 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+body {
+    list-style: none;
+}
+
+/* 전체적인 구조 */
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 10px 10px 10px;
+}
+
+.content-item {
+    height: calc(100vh - 20px);
+    margin: 0 10px 0 10px;
+    border: solid 1px;
+}
+
+.machine {
+    flex: 1;
+    display: flex;
+
+}
+
+.machine-item {
+
+}
+
+.menu-list {
+    flex: 2;
+}
+
+.monitor {
+    flex: 1;
+}
+
+.wallet {
+    width: 300px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+/* wallet 부분 상세 설정 */
+
+.wallet-money {
+    width: 80%;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.wallet-money > div {
+    width: 50%;
+    marign-right: 5%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border: solid 1px;
+    height: 100%;
+    text-align: center;
+    font-size: 20px;
+
+}
+
+/*monitor 부분 상세 설정 */
+
+.monitor > div {
+    width: 90%;
+    margin-left: 5%;
+    background-color: #00FFFF;
+    margin-bottom: 20px;
+    border: solid 1px;
+}
+
+.monitor > .inserted-amount {
+    height: 50px;
+    text-align: right;
+    font-size: 30px;
+}
+
+.monitor > .menu-selector {
+    height: 380px;
+}
+
+.monitor > .console {
+    height: 300px;
+    overflow-y: scroll;
+    font-size: 20px;
+    color: #FF0000;
+}
+
+.menu-number-monitor {
+    height: 40px;
+    margin: 10px 10px 10px 10px;
+    width: calc(100% - 20px);
+    background-color: #F0F8FF;
+    font-size: 35px;
+}
+
+.number-buttons {
+    display: inline;
+}
+
+.number-buttons > .number-button {
+    margin-left: 2%;
+    margin-bottom: 10px;
+    width: 30%;
+    float: left;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border: solid 1px;
+
+}
+
+.food-list {
+    display: inline;
+}
+
+.food {
+    margin-bottom: 10px;
+    width: 100px;
+    float: left;
+    height: 80px;
+    font-size: 20px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    border: solid 1px;
+    margin-left: 10px;
+    text-align: center;
+}
+
+.food :hover {
+    background-color: #00FFFF;
+    opacity: 0.9;
+}
+
+.number-buttons >  .exchange-button {
+    width: 96%;
+}

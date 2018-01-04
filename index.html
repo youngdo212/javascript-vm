@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vending Machine</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+<div class="content">
+    <div class="machine content-item">
+        <div class="menu-list machine-item">
+            <h1>menu-list</h1>
+            <div class="food-list">
+                <li class="food">
+                    <span class="food-name"></span>
+                    <span class="food-price"></span>
+                </li>
+            </div>
+        </div>
+        <div class="monitor machine-item">
+            <h1>monitor</h1>
+            <div class="inserted-amount">
+                <span id="inserted-total-amount">0</span><span>원</span>
+            </div>
+
+            <div class="menu-selector">
+                <div class="menu-number-monitor">
+                </div>
+                <div class="number-buttons">
+                    <div class="number-button">1</div>
+                    <div class="number-button">2</div>
+                    <div class="number-button">3</div>
+                    <div class="number-button">4</div>
+                    <div class="number-button">5</div>
+                    <div class="number-button">6</div>
+                    <div class="number-button">7</div>
+                    <div class="number-button">8</div>
+                    <div class="number-button">9</div>
+                    <div class="number-button">정정</div>
+                    <div class="number-button">0</div>
+                    <div class="number-button">구매</div>
+                    <div class="number-button exchange-button">잔돈반환</div>
+
+                </div>
+            </div>
+
+            <div class="console">
+
+            </div>
+        </div>
+    </div>
+    <div class="wallet content-item">
+        <div class="content-head">
+            <h1>wallet</h1>
+        </div>
+        <div class="wallet-money" data-amount="10">
+            <div class="money-name">
+                10원
+            </div>
+            <div class="money-number">
+                0개
+            </div>
+        </div>
+        <div class="wallet-money" data-amount="50">
+            <div class="money-name">
+                50원
+            </div>
+            <div class="money-number">
+                0개
+            </div>
+        </div>
+        <div class="wallet-money" data-amount="100">
+            <div class="money-name">
+                100원
+            </div>
+            <div class="money-number">
+                0개
+            </div>
+        </div>
+        <div class="wallet-money" data-amount="500">
+            <div class="money-name">
+                500원
+            </div>
+            <div class="money-number">
+                0개
+            </div>
+        </div>
+        <div class="wallet-money" data-amount="1000">
+            <div class="money-name">
+                1000원
+            </div>
+            <div class="money-number">
+                0개
+            </div>
+        </div>
+        <div class="wallet-money" data-amount="5000">
+            <div class="money-name">
+                5000원
+            </div>
+            <div class="money-number">
+                0개
+            </div>
+        </div>
+        <div class="wallet-money" data-amount="10000">
+            <div class="money-name">
+                10000원
+            </div>
+            <div class="money-number">
+                0개
+            </div>
+        </div>
+
+        <div class="wallet-total">
+            <span>총액 : </span><span id="wallet-total-amount">0</span><span>원</span>
+        </div>
+    </div>
+</div>
+<script src="index.js"></script>
+</body>
+</html>
