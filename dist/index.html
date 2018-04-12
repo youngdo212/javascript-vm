@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vending Machine</title>
+  <link rel="stylesheet" href="./css/main.css">
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="main__container">
+      <div class="beverage__wrapper">
+        <ul class="beverage__lists">
+        </ul>
+      </div>
+      <div class="selector__container">
+        <div class="selector__status__wrapper">
+          <p class="selector__status__coin">0</p>
+          <p class="selector__status__items"></p>
+        </div>
+
+        <div class="selector__buttons__wrapper">
+          <ul class="selector__buttons__lists">
+            <li>
+              <button class="selector__buttons__items" id="selector__button__1">1</button>
+            </li>
+            <li>
+              <button class="selector__buttons__items" id="selector__button__2">2</button>
+            </li>
+            <li>
+              <button class="selector__buttons__items" id="selector__button__3">3</button>
+            </li>
+            <li>
+              <button class="selector__buttons__items" id="selector__button__4">4</button>
+            </li>
+            <li>
+              <button class="selector__buttons__items" id="selector__button__5">5</button>
+            </li>
+            <li>
+              <button class="selector__buttons__items" id="selector__button__6">6</button>
+            </li>
+            <li>
+              <button class="selector__buttons__items" id="selector__button__7">7</button>
+            </li>
+            <li>
+              <button class="selector__buttons__items" id="selector__button__8">8</button>
+            </li>
+            <li>
+              <button class="selector__buttons__items" id="selector__button__9">9</button>
+            </li>
+            <li>
+              <button class="selector__buttons" id="selector__button__0">0</button>
+            </li>
+            <li>
+              <button class="selector__buttons" id="selector__button__return">반환</button>
+            </li>
+            <li>
+              <button class="selector__buttons" id="selector__button__confirm">결정</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="sub__container">
+      <div class="coin-slot__wrapper">
+        <ul class="coin-slot__lists"></ul>
+        <p id="coin__total">원</p>
+      </div>
+    </div>
+  </div>
+  <script src="js/coin.js"></script>
+  <script src="js/beverages.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
