@@ -1,4 +1,3 @@
-let slot = document.querySelector('.coin-slot__lists');
 let selectButtonsLists = document.querySelector('.selector__buttons__lists');
 const buttonLists = {
   buttonNums: selectButtonsLists.querySelectorAll('.selector__buttons__items'),
@@ -7,11 +6,13 @@ const buttonLists = {
 }
 let selectDecision = '';
 
+
 class Renders {
   constructor() {
     this.coinOutput = '';
     this.bevOutput = '';
     this.beverages = document.querySelector('.beverage__lists');
+    this.slot = document.querySelector('.coin-slot__lists');
   }
   renderCoin(val) {
     val.forEach(elem => {
@@ -25,7 +26,7 @@ class Renders {
       sumCoin += elem.value * elem.store;
     })
     totalCoin.innerHTML = `₩ ${sumCoin}원`
-    slot.innerHTML += this.coinOutput;
+    this.slot.innerHTML += this.coinOutput;
   }
 
   renderBeverage(val) {
@@ -44,13 +45,13 @@ class Renders {
   }
 }
 
+
+
 class Monitors {
   constructor() {
     this.bevItems = render.beverages.querySelectorAll('.beverage__items');
     this.coinStatus = document.querySelector('.selector__status__coin');
     this.statusScreen = document.querySelector('.selector__status__items');
-
-
   }
 
   activateBtn() {
@@ -86,17 +87,12 @@ class Monitors {
 }
 
 
-
-
-
-
-
 class Selections {
   constructor() {
-    this.coinButtons = slot.querySelectorAll('.coin-slot__buttons');
-    this.stores = slot.querySelectorAll('.coin__left');
+    this.coinButtons = render.slot.querySelectorAll('.coin-slot__buttons');
+    this.stores = render.slot.querySelectorAll('.coin__left');
   }
-
+  
   selectNums(val) {
     val.forEach(elem => {
       elem.addEventListener('click', (event) => {
