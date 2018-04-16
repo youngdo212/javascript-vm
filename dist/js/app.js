@@ -57,8 +57,8 @@ class Monitors {
 
   activateBtn() {
     Number(this.coinStatus.innerHTML) >= 300 ?
-      control.buttonLists.buttonConfirm.disabled = false :
-      control.buttonLists.buttonConfirm.disabled = true;
+      control.buttonConfirm.disabled = false :
+      control.buttonConfirm.disabled = true;
   };
 
   availableItems() {
@@ -94,11 +94,9 @@ const monitor = new Monitors();
 class Controls {
   constructor() {
     this.selectButtonsLists = document.querySelector('.selector__buttons__lists');
-    this.buttonLists = {
-      buttonNums: this.selectButtonsLists.querySelectorAll('.selector__buttons__items'),
-      buttonZero: document.querySelector('#selector__button__0'),
-      buttonConfirm: document.querySelector('#selector__button__confirm'),
-    };
+    this.buttonNums = this.selectButtonsLists.querySelectorAll('.selector__buttons__items');
+    this.buttonZero = document.querySelector('#selector__button__0');
+    this.buttonConfirm = document.querySelector('#selector__button__confirm');
     this.coinButtons = render.slot.querySelectorAll('.coin-slot__buttons');
     this.stores = render.slot.querySelectorAll('.coin__left');
     this.monitor = monitor;
@@ -124,21 +122,22 @@ class Controls {
       })
     }
   }
+  selectZero(val) {
+    val.addEventListener('click', (event) => {
+      this.monitor.selectDecision += '0';
+      this.monitor.statusScreen.innerHTML = `입력 번호: ${this.monitor.selectDecision}`;
+    });
+  }
 
   selectNums(val) {
     val.forEach(elem => {
       elem.addEventListener('click', (event) => {
         this.monitor.selectDecision += event.target.innerHTML;
-        this.monitor.statusScreen.innerHTML = `입력 변호: ${this.monitor.selectDecision}`;
+        this.monitor.statusScreen.innerHTML = `입력 번호: ${this.monitor.selectDecision}`;
       })
     });
   }
 
-  selectZero(val) {
-    val.addEventListener('click', (event) => {
-      this.monitor.selectDecision += '0';
-    });
-  }
 
   selectConfirm(val) {
     val.addEventListener('click', (event) => {
@@ -155,7 +154,8 @@ const control = new Controls();
 
 
 control.insertCoin();
-control.selectNums(control.buttonLists.buttonNums);
-control.selectZero(control.buttonLists.buttonZero);
-control.selectConfirm(control.buttonLists.buttonConfirm);
+control.selectZero(control.buttonZero);
+control.selectNums(control.buttonNums);
+
+control.selectConfirm(control.buttonConfirm);
 control.monitor.statusScreen.innerHTML = "동전을 넣어주세요"
