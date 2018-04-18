@@ -6,7 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Vending Machine</title>
-  <link rel="stylesheet" href="./css/main.css">
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="./css/base/reset.css">
+  <link rel="stylesheet" href="./css/base/fonts.css">
+  <link rel="stylesheet" href="./css/layouts/main.css">
+  <link rel="stylesheet" href="./css/layouts/sub.css">
+  <link rel="stylesheet" href="./css/components/buttons.css">
+  <!-- Javascript Files -->
+  <script defer src="js/coin.js"></script>
+  <script defer src="js/beverages.js"></script>
+  <script defer src="js/app.js"></script>
 </head>
 
 <body>
@@ -24,41 +33,41 @@
 
         <div class="selector__buttons__wrapper">
           <ul class="selector__buttons__lists">
-            <li>
-              <button class="selector__buttons__items">1</button>
+            <li class="selector__buttons__items">
+              <button>1</button>
             </li>
-            <li>
-              <button class="selector__buttons__items">2</button>
+            <li class="selector__buttons__items">
+              <button>2</button>
             </li>
-            <li>
-              <button class="selector__buttons__items">3</button>
+            <li class="selector__buttons__items">
+              <button>3</button>
             </li>
-            <li>
-              <button class="selector__buttons__items">4</button>
+            <li class="selector__buttons__items">
+              <button>4</button>
             </li>
-            <li>
-              <button class="selector__buttons__items">5</button>
+            <li class="selector__buttons__items">
+              <button>5</button>
             </li>
-            <li>
-              <button class="selector__buttons__items">6</button>
+            <li class="selector__buttons__items">
+              <button>6</button>
             </li>
-            <li>
-              <button class="selector__buttons__items">7</button>
+            <li class="selector__buttons__items">
+              <button>7</button>
             </li>
-            <li>
-              <button class="selector__buttons__items">8</button>
+            <li class="selector__buttons__items">
+              <button>8</button>
             </li>
-            <li>
-              <button class="selector__buttons__items">9</button>
+            <li class="selector__buttons__items">
+              <button>9</button>
             </li>
-            <li>
-              <button class="selector__buttons" id="selector__button__0">0</button>
+            <li class="selector__buttons">
+              <button id="selector__button__0">0</button>
             </li>
-            <li>
-              <button class="selector__buttons" id="selector__button__return">반환</button>
+            <li class="selector__buttons">
+              <button id="selector__button__return">반환</button>
             </li>
-            <li>
-              <button class="selector__buttons" id="selector__button__confirm">결정</button>
+            <li class="selector__buttons">
+              <button id="selector__button__confirm">결정</button>
             </li>
           </ul>
         </div>
@@ -71,9 +80,6 @@
       </div>
     </div>
   </div>
-  <script src="js/coin.js"></script>
-  <script src="js/beverages.js"></script>
-  <script src="js/app.js"></script>
 </body>
 
 </html>
