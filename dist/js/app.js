@@ -3,6 +3,7 @@ class Renders {
     this.beverages = document.querySelector('.beverage__lists');
     this.slot = document.querySelector('.coin-slot__lists');
   }
+
   init() {
     render.renderCoin(coin);
     render.renderBeverage(bevLists);
@@ -24,9 +25,9 @@ class Renders {
     this.slot.innerHTML += coinOutput;
   };
 
+
   renderBeverage(val) {
     let bevOutput = '';
-
     bevOutput = val.reduce((acc, curr) => {
       return acc += `
       <li class="beverage__items">
@@ -40,13 +41,11 @@ class Renders {
     }, '');
     return this.beverages.innerHTML += bevOutput;
   };
-
 }
 
 
 const render = new Renders();
 render.init();
-
 
 
 
@@ -65,7 +64,6 @@ class Monitors {
 
   availableItems() {
     const bevItems = render.beverages.querySelectorAll('.beverage__items');
-
     bevItems.forEach((elem, idx) => {
       Number(this.coinStatus.innerHTML) < bevLists[idx].price ?
         elem.style.backgroundImage = '' :
@@ -101,12 +99,11 @@ class VMController {
 
   init() {
     const selectButtonsLists = document.querySelector('.selector__buttons__lists');
-    let buttonNums = selectButtonsLists.querySelectorAll('.selector__buttons__items');
-    let buttonZero = document.querySelector('#selector__button__0');
+    let nums = selectButtonsLists.querySelectorAll('.selector__buttons__items');
+    let zero = document.querySelector('#selector__button__0');
+
     vmControl.insertCoin();
-    vmControl.selectZero(buttonZero);
-    vmControl.selectNums(buttonNums);
-    vmControl.selectConfirm(vmControl.buttonConfirm);
+    vmControl.clickBtns(nums, zero, vmControl.buttonConfirm);
     monitor.statusScreen.innerHTML = "동전을 넣어주세요"
   }
 
@@ -138,24 +135,21 @@ class VMController {
   }
 
 
-  selectZero(val) {
-    val.addEventListener('click', (event) => {
-      monitor.selectDecision += '0';
-      monitor.statusScreen.innerHTML = `입력 번호: ${monitor.selectDecision}`;
-    });
-  }
+  clickBtns(nums, zero, confirm) {
 
-  selectNums(val) {
-    val.forEach(elem => {
+    nums.forEach(elem => {
       elem.addEventListener('click', (event) => {
         monitor.selectDecision += event.target.innerText;
         monitor.statusScreen.innerText = `입력 번호: ${monitor.selectDecision}`;
       })
     });
-  }
 
-  selectConfirm(val) {
-    val.addEventListener('click', (event) => {
+    zero.addEventListener('click', (event) => {
+      monitor.selectDecision += '0';
+      monitor.statusScreen.innerHTML = `입력 번호: ${monitor.selectDecision}`;
+    });
+
+    confirm.addEventListener('click', (event) => {
       monitor.selectDecision = Number(monitor.selectDecision);
       inputCoin = Number(monitor.coinStatus.innerHTML);
       monitor.purchase()
@@ -163,6 +157,7 @@ class VMController {
     });
   }
 }
+
 
 
 const vmControl = new VMController(monitor);
