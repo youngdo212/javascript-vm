@@ -1,19 +1,16 @@
 class Renders {
   constructor() {
-    this.coinOutput = '';
-    this.bevOutput = '';
     this.beverages = document.querySelector('.beverage__lists');
     this.slot = document.querySelector('.coin-slot__lists');
   }
-
   init() {
     render.renderCoin(coin);
     render.renderBeverage(bevLists);
   }
 
-
   renderCoin(val) {
-    this.coinOutput = val.reduce((acc, curr) => {
+    let coinOutput = '';
+    coinOutput = val.reduce((acc, curr) => {
       sumCoin += curr.value * curr.store;
       return acc += `
       <li>
@@ -24,11 +21,13 @@ class Renders {
       `
     }, '')
     totalCoin.innerHTML = `₩ ${sumCoin}원`
-    this.slot.innerHTML += this.coinOutput;
+    this.slot.innerHTML += coinOutput;
   };
 
   renderBeverage(val) {
-    this.bevOutput = val.reduce((acc, curr) => {
+    let bevOutput = '';
+
+    bevOutput = val.reduce((acc, curr) => {
       return acc += `
       <li class="beverage__items">
         <p class="beverage__name">${curr.name}</p>
@@ -39,8 +38,9 @@ class Renders {
       </li>
       `;
     }, '');
-    return this.beverages.innerHTML += this.bevOutput;
+    return this.beverages.innerHTML += bevOutput;
   };
+
 }
 
 
@@ -53,7 +53,6 @@ render.init();
 class Monitors {
   constructor() {
     this.selectDecision = '';
-    this.bevItems = render.beverages.querySelectorAll('.beverage__items');
     this.statusScreen = document.querySelector('.selector__status__items');
     this.coinStatus = document.querySelector('.selector__status__coin');
   };
@@ -65,11 +64,13 @@ class Monitors {
   };
 
   availableItems() {
-    for (let i = 0; i < this.bevItems.length; i++) {
-      Number(this.coinStatus.innerHTML) < bevLists[i].price ?
-        this.bevItems[i].style.backgroundImage = '' :
-        this.bevItems[i].style.backgroundImage = 'linear-gradient(to top, #e6b980 0%, #eacda3 100%)';
-    }
+    const bevItems = render.beverages.querySelectorAll('.beverage__items');
+
+    bevItems.forEach((elem, idx) => {
+      Number(this.coinStatus.innerHTML) < bevLists[idx].price ?
+        elem.style.backgroundImage = '' :
+        elem.style.backgroundImage = 'linear-gradient(to top, #e6b980 0%, #eacda3 100%)';
+    });
   }
 
   purchase() {
@@ -82,7 +83,7 @@ class Monitors {
         this.activateBtn();
       } else if (elem.id === this.selectDecision && elem.price > Number(this.coinStatus.innerHTML) && elem.working) {
         this.statusScreen.innerHTML = "동전을 더 넣어주세요";
-        vmControl.monitor.selectDecision = '';
+        this.selectDecision = '';
       }
     });
   }
@@ -94,45 +95,48 @@ const monitor = new Monitors();
 
 class VMController {
   constructor() {
-    this.selectButtonsLists = document.querySelector('.selector__buttons__lists');
-    this.buttonNums = this.selectButtonsLists.querySelectorAll('.selector__buttons__items');
-    this.buttonZero = document.querySelector('#selector__button__0');
     this.buttonConfirm = document.querySelector('#selector__button__confirm');
-    this.coinButtons = render.slot.querySelectorAll('.coin-slot__buttons');
     this.stores = render.slot.querySelectorAll('.coin__left');
   }
 
   init() {
+    const selectButtonsLists = document.querySelector('.selector__buttons__lists');
+    let buttonNums = selectButtonsLists.querySelectorAll('.selector__buttons__items');
+    let buttonZero = document.querySelector('#selector__button__0');
     vmControl.insertCoin();
-    vmControl.selectZero(vmControl.buttonZero);
-    vmControl.selectNums(vmControl.buttonNums);
+    vmControl.selectZero(buttonZero);
+    vmControl.selectNums(buttonNums);
     vmControl.selectConfirm(vmControl.buttonConfirm);
     monitor.statusScreen.innerHTML = "동전을 넣어주세요"
   }
 
   insertCoin() {
-    this.coinButtons.forEach((element, idx) => {
+    const stores = render.slot.querySelectorAll('.coin__left');
+    const coinButtons = render.slot.querySelectorAll('.coin-slot__buttons');
+
+    coinButtons.forEach((element, idx) => {
       element.addEventListener('click', event => {
-        monitor.selectDecision = '';
+        this.selectDecision = '';
         coin[idx].store--;
 
         if (coin[idx].store <= 0) {
-          this.coinButtons[idx].disabled = true;
-          this.coinButtons[idx].style.backgroundColor = '#cfcfcf'
+          coinButtons[idx].disabled = true;
+          coinButtons[idx].style.backgroundColor = '#cfcfcf'
         }
 
         sumCoin -= coin[idx].value;
         inputCoin += coin[idx].value;
-        totalCoin.innerHTML = `₩ ${sumCoin}원`;
-        monitor.coinStatus.innerHTML = inputCoin;
-        this.stores[idx].innerHTML = `${coin[idx].store}개`;
+        totalCoin.innerText = `₩ ${sumCoin}원`;
+        monitor.coinStatus.innerText = inputCoin;
+        stores[idx].innerText = `${coin[idx].store}개`;
 
         monitor.activateBtn();
         monitor.availableItems();
-        monitor.statusScreen.innerHTML = `원하는 음료의 번호를 입력하세요`;
+        monitor.statusScreen.innerText = `원하는 음료의 번호를 입력하세요`;
       })
     })
   }
+
 
   selectZero(val) {
     val.addEventListener('click', (event) => {
