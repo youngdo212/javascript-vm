@@ -6,6 +6,11 @@ class Renders {
     this.slot = document.querySelector('.coin-slot__lists');
   }
 
+  init() {
+    render.renderCoin(coin);
+    render.renderBeverage(bevLists);
+  }
+
 
   renderCoin(val) {
     this.coinOutput = val.reduce((acc, curr) => {
@@ -40,9 +45,7 @@ class Renders {
 
 
 const render = new Renders();
-render.renderCoin(coin);
-render.renderBeverage(bevLists);
-
+render.init();
 
 
 
@@ -57,8 +60,8 @@ class Monitors {
 
   activateBtn() {
     Number(this.coinStatus.innerHTML) >= 300 ?
-      control.buttonConfirm.disabled = false :
-      control.buttonConfirm.disabled = true;
+      vmControl.buttonConfirm.disabled = false :
+      vmControl.buttonConfirm.disabled = true;
   };
 
   availableItems() {
@@ -79,7 +82,7 @@ class Monitors {
         this.activateBtn();
       } else if (elem.id === this.selectDecision && elem.price > Number(this.coinStatus.innerHTML) && elem.working) {
         this.statusScreen.innerHTML = "동전을 더 넣어주세요";
-        control.monitor.selectDecision = '';
+        vmControl.monitor.selectDecision = '';
       }
     });
   }
@@ -89,9 +92,7 @@ class Monitors {
 const monitor = new Monitors();
 
 
-
-
-class Controls {
+class VMController {
   constructor() {
     this.selectButtonsLists = document.querySelector('.selector__buttons__lists');
     this.buttonNums = this.selectButtonsLists.querySelectorAll('.selector__buttons__items');
@@ -99,63 +100,68 @@ class Controls {
     this.buttonConfirm = document.querySelector('#selector__button__confirm');
     this.coinButtons = render.slot.querySelectorAll('.coin-slot__buttons');
     this.stores = render.slot.querySelectorAll('.coin__left');
-    this.monitor = monitor;
+  }
+
+  init() {
+    vmControl.insertCoin();
+    vmControl.selectZero(vmControl.buttonZero);
+    vmControl.selectNums(vmControl.buttonNums);
+    vmControl.selectConfirm(vmControl.buttonConfirm);
+    monitor.statusScreen.innerHTML = "동전을 넣어주세요"
   }
 
   insertCoin() {
-    for (let i = 0; i < this.coinButtons.length; i++) {
-      this.coinButtons[i].addEventListener('click', (event) => {
-        this.monitor.selectDecision = '';
-        coin[i].store--;
-        if (coin[i].store <= 0) {
-          this.coinButtons[i].disabled = true;
-          this.coinButtons[i].style.backgroundColor = '#cfcfcf'
+    this.coinButtons.forEach((element, idx) => {
+      element.addEventListener('click', event => {
+        monitor.selectDecision = '';
+        coin[idx].store--;
+
+        if (coin[idx].store <= 0) {
+          this.coinButtons[idx].disabled = true;
+          this.coinButtons[idx].style.backgroundColor = '#cfcfcf'
         }
-        sumCoin -= coin[i].value;
-        inputCoin += coin[i].value;
+
+        sumCoin -= coin[idx].value;
+        inputCoin += coin[idx].value;
         totalCoin.innerHTML = `₩ ${sumCoin}원`;
-        this.monitor.coinStatus.innerHTML = inputCoin;
-        this.stores[i].innerHTML = `${coin[i].store}개`;
-        this.monitor.activateBtn();
-        this.monitor.availableItems();
-        this.monitor.statusScreen.innerHTML = `원하는 음료의 번호를 입력하세요`;
+        monitor.coinStatus.innerHTML = inputCoin;
+        this.stores[idx].innerHTML = `${coin[idx].store}개`;
+
+        monitor.activateBtn();
+        monitor.availableItems();
+        monitor.statusScreen.innerHTML = `원하는 음료의 번호를 입력하세요`;
       })
-    }
+    })
   }
+
   selectZero(val) {
     val.addEventListener('click', (event) => {
-      this.monitor.selectDecision += '0';
-      this.monitor.statusScreen.innerHTML = `입력 번호: ${this.monitor.selectDecision}`;
+      monitor.selectDecision += '0';
+      monitor.statusScreen.innerHTML = `입력 번호: ${monitor.selectDecision}`;
     });
   }
 
   selectNums(val) {
     val.forEach(elem => {
       elem.addEventListener('click', (event) => {
-        this.monitor.selectDecision += event.target.innerHTML;
-        this.monitor.statusScreen.innerHTML = `입력 번호: ${this.monitor.selectDecision}`;
+        monitor.selectDecision += event.target.innerText;
+        monitor.statusScreen.innerText = `입력 번호: ${monitor.selectDecision}`;
       })
     });
   }
 
-
   selectConfirm(val) {
     val.addEventListener('click', (event) => {
-      this.monitor.selectDecision = Number(this.monitor.selectDecision);
-      inputCoin = Number(this.monitor.coinStatus.innerHTML);
-      this.monitor.purchase()
-      this.monitor.availableItems();
+      monitor.selectDecision = Number(monitor.selectDecision);
+      inputCoin = Number(monitor.coinStatus.innerHTML);
+      monitor.purchase()
+      monitor.availableItems();
     });
   }
 }
 
 
-const control = new Controls();
+const vmControl = new VMController(monitor);
 
 
-control.insertCoin();
-control.selectZero(control.buttonZero);
-control.selectNums(control.buttonNums);
-
-control.selectConfirm(control.buttonConfirm);
-control.monitor.statusScreen.innerHTML = "동전을 넣어주세요"
+vmControl.init();
