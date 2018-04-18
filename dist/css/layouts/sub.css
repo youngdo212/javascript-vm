@@ -1,0 +1,42 @@
+.sub__container {
+  background: linear-gradient(90deg, #a18cd1 -10%, #af8aaf 100%);
+  float: left;
+  width: 200px;
+  height: 900px;
+}
+
+.coin-slot__lists {
+  margin-top: 130px;
+}
+
+.coin__left {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+#coin__total {
+  width: 150px;
+  height: 75px;
+  line-height: 75px;
+  text-align: center;
+  border-radius: 5px;
+  margin-top: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #e3e3e3;
+  letter-spacing: 1.5px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.coin-slot__buttons {
+  width: 100px;
+  height: 65px;
+  border-radius: 5px;
+  margin-top: 25px;
+  margin-left: 25px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1rem;
+  letter-spacing: 1.25px;
+}
