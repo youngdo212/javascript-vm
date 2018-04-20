@@ -91,7 +91,7 @@ class Monitors {
       if (this.isValidate(elem)) {
         this.coinStatus.innerText -= elem.price;
         inputCoin = Number(this.coinStatus.innerText);
-        this.statusScreen.innerText = `${elem.name}을 선택했습니다`;
+        this.statusScreen.innerText = `${elem.name}가 나왔습니다`;
         this.selectDecision = '';
         this.activateBtn();
 
@@ -189,21 +189,32 @@ class VMController {
     });
 
     confirm.addEventListener('click', (event) => {
-      this.monitor.selectDecision = Number(this.monitor.selectDecision);
-      inputCoin = Number(this.monitor.coinStatus.innerText);
 
+      if (Number(this.monitor.selectDecision) <= 32) {
+        this.monitor.selectDecision = Number(this.monitor.selectDecision);
+        inputCoin = Number(this.monitor.coinStatus.innerText);
+        outputResult();
+      } else {
+        this.monitor.selectDecision = '';
+        this.monitor.statusScreen.innerHTML = `번호를 ${bevLists.length} 이하로 입력해주세요.`;
+      }
+
+
+    });
+
+    const outputResult = () => {
       if (this.isVaild()) {
         this.monitor.statusScreen.innerHTML = '';
         render.renderLoaders();
         setTimeout(() => {
           this.monitor.purchaseItems();
           this.monitor.validateItems();
-        }, 3500);
+        }, 1750);
       } else {
         this.monitor.statusScreen.innerHTML = '잘못된 방법입니다.';
         this.monitor.selectDecision = '';
       }
-    });
+    }
   }
 
   isVaild() {
