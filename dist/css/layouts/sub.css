@@ -6,37 +6,27 @@
 }
 
 .coin-slot__lists {
-  margin-top: 130px;
+  margin: 130px 0 0 0 ;
 }
 
 .coin__left {
   display: inline-block;
-  margin-left: 20px;
+  margin: 0 0 0 20px;
 }
 
 #coin__total {
+  /* Positions */
   width: 150px;
   height: 75px;
   line-height: 75px;
   text-align: center;
+  margin: 25px auto 0 auto;
+  /* Visuals */
   border-radius: 5px;
-  margin-top: 25px;
-  margin-left: auto;
-  margin-right: auto;
   background: #e3e3e3;
+  /* Typograpies */
   letter-spacing: 1.5px;
   font-family: "IBM Plex Mono", monospace;
   font-size: 1rem;
   font-weight: 400;
-}
-
-.coin-slot__buttons {
-  width: 100px;
-  height: 65px;
-  border-radius: 5px;
-  margin-top: 25px;
-  margin-left: 25px;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 1rem;
-  letter-spacing: 1.25px;
 }

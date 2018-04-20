@@ -5,8 +5,8 @@ class Renders {
   }
 
   init() {
-    render.renderCoin(coin);
-    render.renderBeverage(bevLists);
+    this.renderCoin(coin);
+    this.renderBeverage(bevLists);
   }
 
   renderCoin(val) {
@@ -21,10 +21,9 @@ class Renders {
       </li>
       `
     }, '')
-    totalCoin.innerHTML = `₩ ${sumCoin}원`
+    totalCoin.innerText = `₩ ${sumCoin}원`
     this.slot.innerHTML += coinOutput;
   };
-
 
   renderBeverage(val) {
     let bevOutput = '';
@@ -41,11 +40,24 @@ class Renders {
     }, '');
     return this.beverages.innerHTML += bevOutput;
   };
+
+  renderLoaders() {
+    let loaderOutput = '';
+    loaderOutput += `
+    <div class="spinner__container">
+      <ul class="spinner__cont">
+        <li class="spinner__module"></li>
+        <li class="spinner__module"></li>
+        <li class="spinner__module"></li>
+        <li class="spinner__module"></li>
+        <li class="spinner__module"></li>
+      </ul>
+    </div>
+    `;
+    return monitor.statusScreen.innerHTML += loaderOutput;
+  }
 }
 
-
-const render = new Renders();
-render.init();
 
 
 
@@ -54,113 +66,157 @@ class Monitors {
     this.selectDecision = '';
     this.statusScreen = document.querySelector('.selector__status__items');
     this.coinStatus = document.querySelector('.selector__status__coin');
-  };
+  }
 
   activateBtn() {
-    Number(this.coinStatus.innerHTML) >= 300 ?
+    Number(this.coinStatus.innerText) >= 300 ?
       vmControl.buttonConfirm.disabled = false :
       vmControl.buttonConfirm.disabled = true;
-  };
+  }
 
-  availableItems() {
+  validateItems() {
     const bevItems = render.beverages.querySelectorAll('.beverage__items');
     bevItems.forEach((elem, idx) => {
-      Number(this.coinStatus.innerHTML) < bevLists[idx].price ?
+      Number(this.coinStatus.innerText) < bevLists[idx].price ?
         elem.style.backgroundImage = '' :
         elem.style.backgroundImage = 'linear-gradient(to top, #e6b980 0%, #eacda3 100%)';
     });
   }
 
-  purchase() {
-    bevLists.forEach(elem => {
-      if (elem.id === this.selectDecision && elem.price <= Number(this.coinStatus.innerHTML) && elem.working) {
-        this.coinStatus.innerHTML -= elem.price;
-        inputCoin = Number(this.coinStatus.innerHTML);
-        this.statusScreen.innerHTML = `${elem.name}을 선택했습니다`;
+
+
+  purchaseItems() {
+    bevLists.forEach((elem, idx) => {
+
+      if (this.isValidate(elem)) {
+        this.coinStatus.innerText -= elem.price;
+        inputCoin = Number(this.coinStatus.innerText);
+        this.statusScreen.innerText = `${elem.name}을 선택했습니다`;
         this.selectDecision = '';
         this.activateBtn();
-      } else if (elem.id === this.selectDecision && elem.price > Number(this.coinStatus.innerHTML) && elem.working) {
-        this.statusScreen.innerHTML = "동전을 더 넣어주세요";
+
+      } else if (this.isNotValidate(elem)) {
+        this.statusScreen.innerText = "동전을 더 넣어주세요";
+        this.selectDecision = '';
+
+      } else if (this.isNotWorking(elem)) {
+        this.statusScreen.innerText = "고장난 상품입니다. 다시 눌러주세요";
         this.selectDecision = '';
       }
     });
   }
+
+  isValidate(val) {
+    return val.id === this.selectDecision &&
+      val.price <= Number(this.coinStatus.innerText) &&
+      val.working;
+  }
+
+  isNotValidate(val) {
+    return val.id === this.selectDecision &&
+      val.price > Number(this.coinStatus.innerText) &&
+      val.working;
+  }
+
+  isNotWorking(val) {
+    return val.id === this.selectDecision &&
+      val.price <= Number(this.coinStatus.innerText) &&
+      !val.working;
+  }
 }
 
 
-const monitor = new Monitors();
-
 
 class VMController {
-  constructor() {
+  constructor(monitor) {
     this.buttonConfirm = document.querySelector('#selector__button__confirm');
     this.stores = render.slot.querySelectorAll('.coin__left');
+    this.monitor = monitor;
   }
 
   init() {
-    const selectButtonsLists = document.querySelector('.selector__buttons__lists');
-    let nums = selectButtonsLists.querySelectorAll('.selector__buttons__items');
-    let zero = document.querySelector('#selector__button__0');
-
-    vmControl.insertCoin();
-    vmControl.clickBtns(nums, zero, vmControl.buttonConfirm);
-    monitor.statusScreen.innerHTML = "동전을 넣어주세요"
+    const buttonsLists = document.querySelector('.selector__buttons__lists');
+    const zero = document.querySelector('#selector__button__0');
+    let nums = buttonsLists.querySelectorAll('.selector__buttons__items');
+    this.insertCoin();
+    this.clickBtns(nums, zero, this.buttonConfirm);
+    this.monitor.statusScreen.innerText = "동전을 넣어주세요"
   }
 
   insertCoin() {
     const stores = render.slot.querySelectorAll('.coin__left');
     const coinButtons = render.slot.querySelectorAll('.coin-slot__buttons');
+    const changeCoinBtnStatus = (idx) => {
+      if (coin[idx].store <= 0) {
+        coinButtons[idx].disabled = true;
+        coinButtons[idx].style.backgroundColor = '#cfcfcf'
+      }
+    }
+
+    const changeCoinStatus = (idx) => {
+      this.monitor.selectDecision = '';
+      coin[idx].store--;
+      sumCoin -= coin[idx].value;
+      inputCoin += coin[idx].value;
+      totalCoin.innerText = `₩ ${sumCoin}원`;
+      this.monitor.coinStatus.innerText = inputCoin;
+      stores[idx].innerText = `${coin[idx].store}개`;
+    }
+
 
     coinButtons.forEach((element, idx) => {
       element.addEventListener('click', event => {
-        this.selectDecision = '';
-        coin[idx].store--;
-
-        if (coin[idx].store <= 0) {
-          coinButtons[idx].disabled = true;
-          coinButtons[idx].style.backgroundColor = '#cfcfcf'
-        }
-
-        sumCoin -= coin[idx].value;
-        inputCoin += coin[idx].value;
-        totalCoin.innerText = `₩ ${sumCoin}원`;
-        monitor.coinStatus.innerText = inputCoin;
-        stores[idx].innerText = `${coin[idx].store}개`;
-
-        monitor.activateBtn();
-        monitor.availableItems();
-        monitor.statusScreen.innerText = `원하는 음료의 번호를 입력하세요`;
+        changeCoinStatus(idx)
+        changeCoinBtnStatus(idx);
+        this.monitor.activateBtn();
+        this.monitor.validateItems();
+        this.monitor.statusScreen.innerText = `원하는 음료의 번호를 입력하세요`;
       })
     })
   }
 
-
   clickBtns(nums, zero, confirm) {
-
     nums.forEach(elem => {
       elem.addEventListener('click', (event) => {
-        monitor.selectDecision += event.target.innerText;
-        monitor.statusScreen.innerText = `입력 번호: ${monitor.selectDecision}`;
+        this.monitor.selectDecision += event.target.innerText;
+        this.monitor.statusScreen.innerText = `입력 번호: ${this.monitor.selectDecision}`;
       })
     });
 
     zero.addEventListener('click', (event) => {
-      monitor.selectDecision += '0';
-      monitor.statusScreen.innerHTML = `입력 번호: ${monitor.selectDecision}`;
+      this.monitor.selectDecision += '0';
+      this.monitor.statusScreen.innerText = `입력 번호: ${this.monitor.selectDecision}`;
     });
 
     confirm.addEventListener('click', (event) => {
-      monitor.selectDecision = Number(monitor.selectDecision);
-      inputCoin = Number(monitor.coinStatus.innerHTML);
-      monitor.purchase()
-      monitor.availableItems();
+      this.monitor.selectDecision = Number(this.monitor.selectDecision);
+      inputCoin = Number(this.monitor.coinStatus.innerText);
+
+      if (this.isVaild()) {
+        this.monitor.statusScreen.innerHTML = '';
+        render.renderLoaders();
+        setTimeout(() => {
+          this.monitor.purchaseItems();
+          this.monitor.validateItems();
+        }, 3500);
+      } else {
+        this.monitor.statusScreen.innerHTML = '잘못된 방법입니다.';
+        this.monitor.selectDecision = '';
+      }
     });
+  }
+
+  isVaild() {
+    return this.monitor.statusScreen.innerHTML !== '동전을 넣어주세요' &&
+      this.monitor.coinStatus.innerText !== '0' &&
+      this.monitor.selectDecision !== 0;
   }
 }
 
-
-
+const render = new Renders();
+const monitor = new Monitors();
 const vmControl = new VMController(monitor);
 
 
+render.init();
 vmControl.init();
