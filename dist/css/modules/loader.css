@@ -15,9 +15,9 @@
   width: 8px;
   border-radius: 60px;
   height: 30px;
-  background: #37ecba;
+  background: linear-gradient(to top, #37ecba, #12af8f);
   margin: 0 4px;
-  animation: animate 0.75s infinite alternate;
+  animation: animate 0.5s infinite alternate;
 }
 
 @keyframes animate {

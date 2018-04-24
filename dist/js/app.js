@@ -68,6 +68,11 @@ class Monitors {
     this.coinStatus = document.querySelector('.selector__status__coin');
   }
 
+  setMessage(message) {
+    return this.statusScreen.innerText = message;
+  }
+
+
   activateBtn() {
     Number(this.coinStatus.innerText) >= 300 ?
       vmControl.buttonConfirm.disabled = false :
@@ -83,24 +88,22 @@ class Monitors {
     });
   }
 
-
-
   purchaseItems() {
     bevLists.forEach((elem, idx) => {
 
       if (this.isValidate(elem)) {
         this.coinStatus.innerText -= elem.price;
         inputCoin = Number(this.coinStatus.innerText);
-        this.statusScreen.innerText = `${elem.name}가 나왔습니다`;
+        this.setMessage(`${elem.name}가 나왔습니다`);
         this.selectDecision = '';
         this.activateBtn();
 
       } else if (this.isNotValidate(elem)) {
-        this.statusScreen.innerText = "동전을 더 넣어주세요";
+        this.setMessage("동전을 더 넣어주세요");
         this.selectDecision = '';
 
       } else if (this.isNotWorking(elem)) {
-        this.statusScreen.innerText = "고장난 상품입니다. 다시 눌러주세요";
+        this.setMessage("고장난 상품입니다. 다시 눌러주세요");
         this.selectDecision = '';
       }
     });
@@ -125,8 +128,6 @@ class Monitors {
   }
 }
 
-
-
 class VMController {
   constructor(monitor) {
     this.buttonConfirm = document.querySelector('#selector__button__confirm');
@@ -140,7 +141,7 @@ class VMController {
     let nums = buttonsLists.querySelectorAll('.selector__buttons__items');
     this.insertCoin();
     this.clickBtns(nums, zero, this.buttonConfirm);
-    this.monitor.statusScreen.innerText = "동전을 넣어주세요"
+    this.monitor.setMessage("동전을 넣어주세요");
   }
 
   insertCoin() {
@@ -163,63 +164,60 @@ class VMController {
       stores[idx].innerText = `${coin[idx].store}개`;
     }
 
-
     coinButtons.forEach((element, idx) => {
       element.addEventListener('click', event => {
         changeCoinStatus(idx)
         changeCoinBtnStatus(idx);
         this.monitor.activateBtn();
         this.monitor.validateItems();
-        this.monitor.statusScreen.innerText = `원하는 음료의 번호를 입력하세요`;
+        this.monitor.setMessage(`원하는 음료의 번호를 입력하세요`);
       })
     })
   }
+
 
   clickBtns(nums, zero, confirm) {
     nums.forEach(elem => {
       elem.addEventListener('click', (event) => {
         this.monitor.selectDecision += event.target.innerText;
-        this.monitor.statusScreen.innerText = `입력 번호: ${this.monitor.selectDecision}`;
+        this.monitor.setMessage(`입력 번호: ${this.monitor.selectDecision}`);
       })
     });
 
     zero.addEventListener('click', (event) => {
       this.monitor.selectDecision += '0';
-      this.monitor.statusScreen.innerText = `입력 번호: ${this.monitor.selectDecision}`;
+      this.monitor.setMessage(`입력 번호: ${this.monitor.selectDecision}`);
     });
 
     confirm.addEventListener('click', (event) => {
 
-      if (Number(this.monitor.selectDecision) <= 32) {
+      if (Number(this.monitor.selectDecision) <= bevLists.length) {
         this.monitor.selectDecision = Number(this.monitor.selectDecision);
         inputCoin = Number(this.monitor.coinStatus.innerText);
         outputResult();
       } else {
         this.monitor.selectDecision = '';
-        this.monitor.statusScreen.innerHTML = `번호를 ${bevLists.length} 이하로 입력해주세요.`;
+        this.monitor.setMessage(`번호를 ${bevLists.length} 이하로 입력해주세요.`);
       }
-
-
     });
 
     const outputResult = () => {
       if (this.isVaild()) {
-        this.monitor.statusScreen.innerHTML = '';
+        this.monitor.setMessage('');
         render.renderLoaders();
         setTimeout(() => {
           this.monitor.purchaseItems();
           this.monitor.validateItems();
         }, 1750);
       } else {
-        this.monitor.statusScreen.innerHTML = '잘못된 방법입니다.';
+        this.monitor.setMessage('잘못된 방법입니다.');
         this.monitor.selectDecision = '';
       }
     }
   }
 
   isVaild() {
-    return this.monitor.statusScreen.innerHTML !== '동전을 넣어주세요' &&
-      this.monitor.coinStatus.innerText !== '0' &&
+    return this.monitor.coinStatus.innerText !== '0' &&
       this.monitor.selectDecision !== 0;
   }
 }
