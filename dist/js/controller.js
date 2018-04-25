@@ -1,26 +1,28 @@
 class VMController {
   constructor(vmView) {
-    this.buttonConfirm = document.querySelector('#selector__button__confirm');
-    this.buttonReturn = document.querySelector('#selector__button__return');
     this.vmView = vmView;
+    this.sumCoin = 0;
+    this.inputCoin = 0;
+    this.buttonConfirm = document.querySelector('#selector__button__confirm');
   }
-
+  
   init() {
     const buttonsLists = document.querySelector('.selector__buttons__lists');
-    const zero = document.querySelector('#selector__button__0');
+    const buttonReturn = document.querySelector('#selector__button__return');
+    const num0 = document.querySelector('#selector__button__0');
     let nums = buttonsLists.querySelectorAll('.selector__buttons__items');
-
+    
     this.vmView.setMessage("동전을 넣어주세요");
     this.insertCoin();
     this.clickNumBtns(nums);
-    this.clickZeroBtn(zero);
+    this.clickZeroBtn(num0);
     this.clickConfirmBtn(this.buttonConfirm);
-    this.clickReturnBtn(this.buttonReturn);
+    this.clickReturnBtn(buttonReturn);
   }
 
   insertCoin() {
-    const stores = render.slot.querySelectorAll('.coin__left');
-    const coinButtons = render.slot.querySelectorAll('.coin-slot__buttons');
+    const stores = vmTemplate.slot.querySelectorAll('.coin__left');
+    const coinButtons = vmTemplate.slot.querySelectorAll('.coin-slot__buttons');
     
     const changeCoinBtnStatus = (idx) => {
       if (coin[idx].store <= 0) {
@@ -31,11 +33,11 @@ class VMController {
 
     const changeCoinStatus = (idx) => {
       this.vmView.selectDecision = '';
-      coin[idx].store--;
-      sumCoin -= coin[idx].value;
-      inputCoin += coin[idx].value;
-      totalCoin.innerText = `₩ ${sumCoin}원`;
-      this.vmView.coinStatus.innerText = inputCoin;
+      vmTemplate.coin[idx].store--;
+      this.sumCoin -= coin[idx].value;
+      this.inputCoin += coin[idx].value;
+      vmTemplate.totalCoin.innerText = `₩ ${this.sumCoin}원`;
+      this.vmView.coinStatus.innerText = this.inputCoin;
       stores[idx].innerText = `${coin[idx].store}개`;
     }
 
@@ -50,6 +52,7 @@ class VMController {
     })
   }
 
+
   clickNumBtns(nums) {
     nums.forEach(elem => {
       elem.addEventListener('click', (event) => {
@@ -59,8 +62,8 @@ class VMController {
     });
   }
 
-  clickZeroBtn(zero) {
-    zero.addEventListener('click', () => {
+  clickZeroBtn(num0) {
+    num0.addEventListener('click', () => {
       this.vmView.selectDecision += '0';
       this.vmView.setMessage(`입력 번호: ${this.vmView.selectDecision}`);
     });
@@ -70,7 +73,7 @@ class VMController {
     confirmBtn.addEventListener('click', () => {
       if (Number(this.vmView.selectDecision) <= bevLists.length) {
         this.vmView.selectDecision = Number(this.vmView.selectDecision);
-        inputCoin = Number(this.vmView.coinStatus.innerText);
+        this.inputCoin = Number(this.vmView.coinStatus.innerText);
         this.vmView.outputResult();
       } else {
         this.vmView.selectDecision = '';

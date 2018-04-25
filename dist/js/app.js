@@ -1,6 +1,7 @@
-const render = new Renders();
+const vmTemplate = new VMTemplate();
+const vmModel = new VMModel();
 const vmView = new VMViewer();
 const vmControl = new VMController(vmView);
 
-render.init();
+vmTemplate.init();
 vmControl.init();
