@@ -3,6 +3,8 @@ class VMViewer {
     this.statusScreen = document.querySelector('.selector__status__items');
     this.coinStatus = document.querySelector('.selector__status__coin');
     this.selectDecision = '';
+    this.vmControl = new VMController();
+
   }
 
   setMessage(message) {
@@ -11,7 +13,8 @@ class VMViewer {
 
   activateBtn() {
     Number(this.coinStatus.innerText) < Math.min.apply(0, bevLists.map(elem => elem.price)) ?
-      vmControl.buttonConfirm.disabled = true : vmControl.buttonConfirm.disabled = false;
+      // vmControl.init().disabled = true : vmControl.buttonConfirm.disabled = false;
+      console.log(vmControl.init()) : console.log("???");
   }
 
   validateItems() {

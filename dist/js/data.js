@@ -26,7 +26,7 @@ const coin = [{
   }
 ]
 
-let bevLists = [{
+let snacksList = [{
     "id": 1,
     "name": "콜라",
     "price": 500,

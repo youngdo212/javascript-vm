@@ -11,7 +11,7 @@ class VMController {
     const buttonReturn = document.querySelector('#selector__button__return');
     const num0 = document.querySelector('#selector__button__0');
     let nums = buttonsLists.querySelectorAll('.selector__buttons__items');
-    
+
     this.vmView.setMessage("동전을 넣어주세요");
     this.insertCoin();
     this.clickNumBtns(nums);
@@ -31,7 +31,7 @@ class VMController {
       }
     }
 
-    const changeCoinStatus = (idx) => {
+    const changeCoinStatus = (idx) => {      
       this.vmView.selectDecision = '';
       vmTemplate.coin[idx].store--;
       this.sumCoin -= coin[idx].value;
