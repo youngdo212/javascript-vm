@@ -1,42 +1,50 @@
-class VMModeler {  
-  constructor() {}
-
-  init() {
-    this.renderCoin(coin);
-    this.renderSnacks(snacksList);
+class VMModeler {
+  constructor(vmControl) {
+    this.vmControl = vmControl;
   }
 
-  renderCoin(val) {
-    let coinOutput = '';
-    coinOutput = val.reduce((acc, curr) => {
-      vmView.sumCoin += curr.value * curr.store;
-      return acc += `
-      <li>
-        <button class="coin-slot__buttons">${curr.name}</button>
-          <p class="coin__left">${curr.store}개
-        </button>
-      </li>
-      `
-    }, '')
-    vmView.totalCoin.innerText = `₩ ${vmView.sumCoin}원`
-    vmView.slot.innerHTML += coinOutput;
-  };
+  purchaseItems() {
+    vmView.snacksList.forEach((elem, idx) => {
+      const {
+        id,
+        working,
+        price,
+        name
+      } = elem;
 
-  renderSnacks(val) {
-    let snackOutput = '';
-    snackOutput = val.reduce((acc, curr) => {
-      return acc += `
-      <li class="snack__items">
-        <p class="snack__name">${curr.name}</p>
-        <p class="snack__price">
-          <span class="snack__id">${curr.id}. </span>
-          ${curr.price}원
-        </p>
-      </li>
-      `;
-    }, '');
-    return vmView.snacks.innerHTML += snackOutput;
-  };
+      if (id !== vmView.selectDecision) return;
+
+      if (!working) {
+        return vmView.setMessage("고장난 상품입니다. 다시 눌러주세요")
+      };
+
+      if (price <= Number(vmView.coinStatus.innerText)) {
+        vmView.coinStatus.innerText -= price;
+        vmView.inputCoin = Number(vmView.coinStatus.innerText);
+        vmView.setMessage(`${name}(이)가 나왔습니다`);
+        vmView.activateBtn();
+      } else {
+        vmView.setMessage("동전을 더 넣어주세요");
+      }
+    });
+    vmView.selectDecision = '';
+  }
+
+
+
+
+
+
+  initRender(val, templateId) {
+    let output = '';
+    output = val.reduce((acc, curr) => {
+      curr.hasOwnProperty('value')?vmView.sumCoin += curr.value * curr.store : '';
+      return acc += vmView.template(templateId, curr);
+    }, '')
+    return output;
+  }
+
+
 
   renderLoaders() {
     let loaderOutput = '';
@@ -51,7 +59,7 @@ class VMModeler {
       </ul>
     </div>
     `;
-    return vmView.statusScreen.innerHTML += loaderOutput;
+    return loaderOutput;
   }
 }
 
@@ -60,18 +68,33 @@ class VMModeler {
 
 class VMViewer {
   constructor() {
-    this.snacks = document.querySelector('.snack__lists');
-    this.slot = document.querySelector('.coin-slot__lists');
-
-    this.selectDecision = '';
+    this.buttonConfirm = document.querySelector('#selector__button__confirm');
+    this.buttonZero = document.querySelector('#selector__button__0');
     this.statusScreen = document.querySelector('.selector__status__items');
     this.coinStatus = document.querySelector('.selector__status__coin');
     this.totalCoin = document.querySelector('#coin__total');
-    this.sumCoin = 0
+    this.slot = document.querySelector('.coin-slot__lists');
+    this.snacks = document.querySelector('.snack__lists');
+    this.snacksList = snacksList;
+    this.selectDecision = '';
     this.inputCoin = 0;
-
-
+    this.sumCoin = 0;
+    this.coin = coin;
   }
+
+
+  template(templateid, data) {
+    return document.getElementById(templateid).innerHTML
+      .replace(/{{(\w*)}}/g, (m, key) => data.hasOwnProperty(key) ? data[key] : "");
+  }
+
+
+  init() {
+    this.snacks.innerHTML += vmModel.initRender(this.snacksList, 'snack__template');
+    this.slot.innerHTML += vmModel.initRender(this.coin, 'coin-slot__template');
+    this.totalCoin.innerText = `₩ ${this.sumCoin}원`
+  }
+
 
   setMessage(message) {
     return this.statusScreen.innerText = message;
@@ -80,56 +103,31 @@ class VMViewer {
 
   activateBtn() {
     Number(this.coinStatus.innerText) >= 300 ?
-      vmControl.buttonConfirm.disabled = false :
-      vmControl.buttonConfirm.disabled = true;
+      this.buttonConfirm.disabled = false :
+      this.buttonConfirm.disabled = true;
   }
 
   validateItems() {
-    const bevItems = this.snacks.querySelectorAll('.snack__items');
-    bevItems.forEach((elem, idx) => {
-      Number(this.coinStatus.innerText) < snacksList[idx].price ?
-        elem.style.backgroundImage = '' :
-        elem.style.backgroundImage = 'linear-gradient(to top, #e6b980 0%, #eacda3 100%)';
+    const snackItems = this.snacks.querySelectorAll('.snack__items');
+    snackItems.forEach((elem, idx) => {
+      Number(this.coinStatus.innerText) < this.snacksList[idx].price ?
+        elem.style.backgroundImage = '' : elem.style.backgroundImage = 'linear-gradient(to top, #e6b980 0%, #eacda3 100%)';
     });
-  }
-
-  purchaseItems() {
-    snacksList.forEach((elem, idx) => {
-      const {
-        id,
-        working,
-        price,
-        name
-      } = elem;
-
-      if (id !== this.selectDecision) return;
-      if (!working) return this.setMessage("고장난 상품입니다. 다시 눌러주세요");
-      if (price <= Number(this.coinStatus.innerText)) {
-        this.coinStatus.innerText -= price;
-        this.inputCoin = Number(this.coinStatus.innerText);
-        this.setMessage(`${name}(이)가 나왔습니다`);
-        this.activateBtn();
-      } else {
-        this.setMessage("동전을 더 넣어주세요");
-      }
-    });
-    this.selectDecision = '';
   }
 }
 
+
+
 class VMController {
   constructor(vmView) {
-    this.buttonConfirm = document.querySelector('#selector__button__confirm');
-    this.stores = vmView.slot.querySelectorAll('.coin__left');
     this.vmView = vmView;
   }
 
   init() {
     const buttonsLists = document.querySelector('.selector__buttons__lists');
-    const zero = document.querySelector('#selector__button__0');
     let nums = buttonsLists.querySelectorAll('.selector__buttons__items');
     this.insertCoin();
-    this.clickBtns(nums, zero, this.buttonConfirm);
+    this.clickBtns(nums, this.vmView.buttonZero, this.vmView.buttonConfirm);
     this.vmView.setMessage("동전을 넣어주세요");
   }
 
@@ -153,11 +151,12 @@ class VMController {
       stores[idx].innerText = `${coin[idx].store}개`;
     }
 
+
     coinButtons.forEach((element, idx) => {
       element.addEventListener('click', event => {
         changeCoinStatus(idx)
         changeCoinBtnStatus(idx);
-        this.vmView.activateBtn();
+        vmView.activateBtn();
         this.vmView.validateItems();
         this.vmView.setMessage(`원하는 음료의 번호를 입력하세요`);
       })
@@ -180,22 +179,22 @@ class VMController {
 
     confirm.addEventListener('click', (event) => {
 
-      if (Number(this.vmView.selectDecision) <= snacksList.length) {
+      if (Number(this.vmView.selectDecision) <= vmView.snacksList.length) {
         this.vmView.selectDecision = Number(this.vmView.selectDecision);
         vmView.inputCoin = Number(this.vmView.coinStatus.innerText);
         outputResult();
       } else {
         this.vmView.selectDecision = '';
-        this.vmView.setMessage(`번호를 ${snacksList.length} 이하로 입력해주세요.`);
+        this.vmView.setMessage(`번호를 ${vmView.snacksList.length} 이하로 입력해주세요.`);
       }
     });
 
     const outputResult = () => {
       if (this.isVaild()) {
         this.vmView.setMessage('');
-        vmModel.renderLoaders();
+        vmView.statusScreen.innerHTML += vmModel.renderLoaders();
         setTimeout(() => {
-          this.vmView.purchaseItems();
+          vmModel.purchaseItems();
           this.vmView.validateItems();
         }, 1750);
       } else {
@@ -206,15 +205,14 @@ class VMController {
   }
 
   isVaild() {
-    return this.vmView.coinStatus.innerText !== '0' &&
-      this.vmView.selectDecision !== 0;
+    return this.vmView.selectDecision !== 0;
   }
 }
 
-const vmModel = new VMModeler();
 const vmView = new VMViewer();
 const vmControl = new VMController(vmView);
+const vmModel = new VMModeler(vmControl);
 
 
-vmModel.init();
+vmView.init();
 vmControl.init();

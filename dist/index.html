@@ -23,6 +23,15 @@
     <div class="main__container">
       <div class="snack__wrapper">
         <ul class="snack__lists">
+          <template id="snack__template">
+            <li class="snack__items">
+              <p class="snack__name">{{name}}</p>
+              <p class="snack__price">
+                <span class="snack__id">{{id}} &#183;</span>
+                {{price}}
+              </p>
+            </li>
+          </template>
         </ul>
       </div>
       <div class="selector__container">
@@ -76,7 +85,14 @@
     </div>
     <div class="sub__container">
       <div class="coin-slot__wrapper">
-        <ul class="coin-slot__lists"></ul>
+        <ul class="coin-slot__lists">
+          <template id="coin-slot__template">
+            <li>
+              <button class="coin-slot__buttons">{{name}}</button>
+              <p class="coin__left">{{store}}개
+            </li>
+          </template>
+        </ul>
         <p id="coin__total">원</p>
       </div>
     </div>
@@ -85,3 +101,5 @@
 </body>
 
 </html>
+
+
