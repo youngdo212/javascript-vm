@@ -1,0 +1,131 @@
+.container {
+	min-width: 1100px;
+}
+
+.menu {
+	width: 500px;
+	height: 500px;
+	border: 2.5px solid #222222;
+	border-right: 0px;
+	float: left;
+}
+
+.menu div {
+	float: left;
+	margin: 2%;
+	width: 21%;
+	height: 62px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.menu #name {
+	display: flex;
+	justify-content: center;
+	border: 2px solid #222222;
+	text-align: center;
+	height: 40%;
+	padding-top: 10%;
+}
+
+.menu #price {
+	display: table;
+	margin: 0 auto;
+	border: 2px solid #222222;
+	border-top: 0px;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.monitor {
+	background-color: #a1f124;
+	border: 2.5px solid #222222;
+	float: left;
+	width: 300px;
+	height: 500px;
+	margin-right: 100px;
+}
+
+.monitor_inserted_amount {
+	text-align: right;
+	color: #000000;
+	border-bottom: 2.5px solid #222222;
+	height: 97.5px;
+}
+
+.monitor_number_buttons {
+	width: 90%;
+	background-color: #FDE800;
+	overflow: auto;
+	margin: auto;
+	height: 200px;
+}
+
+.monitor_number_buttons button{
+	float: left;
+	border: 1px solid #222222;
+	width: 45px;
+	height: 45px;
+	margin: 10px;
+	text-align: center;
+}
+.monitor_number_buttons span {
+	float: left;
+	margin: 20px;
+	text-align: center;
+}
+
+.monitor_console {
+	border-top: 2.5px solid #222222;
+	height: 190px;
+	overflow: auto;
+	color: #000000;
+	padding-bottom: 10px;
+}
+
+.wallet {
+ 	position: absolute;
+ 	left: 900px;
+	border: 4px solid #cccccc;
+	background-color: #a1f124;
+	float: left;
+	width: 200px;
+}
+
+.money_buttons {
+	float: left;
+	width: 50%;
+	height: 280px;
+}
+
+.money_buttons button {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	height: 20px;
+	margin: 10px;
+	margin-bottom: 20px;
+}
+
+.money_counts {
+	float: left;
+	width: 50%;
+	height: 280px;
+	text-align: center;
+}
+
+.money_counts span {
+	display: flex;
+	height: 20px;
+	padding: 10px;
+	margin-left: 20px;
+}
+
+.total_amount {
+	float: left;
+	border: 1px solid #cccccc;
+	width: 100%;
+	height: 28px;
+	padding-top: 20px;
+	text-align: center;
+}
