@@ -5,31 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>webVendingMachine_byDali :D</title>
+    <link rel="stylesheet" href="./style/webVendingMachine.css">
 </head>
 <body>
-  <section class="vending-machine">
+  <section class="container">
     <section class="snacks">
         <ul class="snack-list">
-            <li>
-            <span class="snack-name">콜라</span>
-            <span class="snack-number">1.</span><span class="snack-price">500</span>
+            <li class="snack-list-item">
+                <div class="snack-name-container">
+                    <span class="snak-name">콜라</span>
+                </div>
+                <div class="label-price">
+                    <span class="snack-number">1.</span>
+                    <span class="snack-price">500</span>
+                </div>
             </li>
-            <li>
-                <span class="snack-name">사이다</span>
-                <span class="snack-number">2.</span><span class="snack-price">1000</span>
+            <li class="snack-list-item">
+                <div class="snack-name-container">
+                    <span class="snak-name">사이다</span>
+                </div>
+                <div class="label-price">
+                    <span class="snack-number">2.</span>
+                    <span class="snack-price">1000</span>
+                </div>
             </li>
-            <li>
-                <span class="snack-name">파인애플맛 환타</span>
-                <span class="snack-number">3.</span><span class="snack-price">400</span>
+            <li class="snack-list-item">
+                <div class="snack-name-container">
+                    <span class="snak-name">파인애플맛 환타</span>
+                </div>
+                <div class="label-price">
+                    <span class="snack-number">3.</span>
+                    <span class="snack-price">400</span>
+                </div>
             </li>
-            <li>
-                <span class="snack-name">포도맛 환타</span>
-                <span class="snack-number">4.</span><span class="snack-price">300</span>
+            <li class="snack-list-item">
+                <div class="snack-name-container">
+                    <span class="snak-name">포도맛 환타</span>
+                </div>
+                <div class="label-price">
+                    <span class="snack-number">4.</span>
+                    <span class="snack-price">300</span>
+                </div>
+            </li>
+            <li class="snack-list-item">
+                <div class="snack-name-container">
+                    <span class="snak-name">레몬에이드</span>
+                </div>
+                 <div class="label-price">
+                    <span class="snack-number">5.</span>
+                    <span class="snack-price">300</span>
+                </div>
+            </li>
+            <li class="snack-list-item">
+                <div class="snack-name-container">
+                    <span class="snak-name">봉봉</span>
+                </div>
+                <div class="label-price">
+                    <span class="snack-number">6.</span>
+                    <span class="snack-price">300</span>
+                </div>
+            </li>
+            <li class="snack-list-item">
+                <div  class="snack-name-container">
+                    <span class="snak-name">콜라제로</span>
+                </div>
+                <div class="label-price">
+                    <span class="snack-number">7.</span>
+                    <span class="snack-price">300</span>
+                </div>
+            </li>
+            <li class="snack-list-item">
+                <div class="snack-name-container">
+                    <span class="snak-name">파워에이드</span>
+                </div>
+                <div class="label-price">
+                    <span class="snack-number">8.</span>
+                    <span class="snack-price">300</span>
+                </div>
             </li>
             <!-- ...쭈욱 32개 추가 -->
         </ul>
     </section>
-    <section class="vending-machine-ui">
+    <section class="vending-machine">
         <div class="diplay-inserted-money">
             <p><span class="money"></span>0<span class="unit">원</span></p>
         </div>
@@ -70,7 +127,7 @@
           <!-- ...7개 -->
       </ul>
       <div class="total-my-assets">
-
+        <p> 23,500</p>
       </div>
   </section>
 </body>
