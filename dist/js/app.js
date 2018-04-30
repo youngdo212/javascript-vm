@@ -1,22 +1,17 @@
-class VMModeler {
-
+class VMTemplate {
   constructor(vmView) {
     this.vmView = vmView;
   }
 
-  initRender(val, templateId) {
+  showItems(val, templateId) {
     return val.reduce((acc, curr) => acc += this.vmView.template(templateId, curr), '')
   }
 
-  isRightSelected() {
-    return this.vmView.snacksList.filter((elem, idx) => elem.id === this.vmView.selectDecision);
-  }
-
   sumMoney(val) {
-    return val.reduce((acc, curr) => this.vmView.sumCoin += curr.store * curr.value, '');
+    return val.reduce((acc, curr) => this.vmView.coinSum += curr.store * curr.value, '');
   }
 
-  renderLoaders() {
+  showLoaders() {
     let output = `
     <div class="spinner__container">
       <ul class="spinner__cont">
@@ -28,39 +23,40 @@ class VMModeler {
       </ul>
     </div>
     `
-    return output
+    return output;
   }
 }
 
 
 
 class VMViewer {
-  constructor(snacksList, coin) {
-    this.slotEl = document.querySelector('.coin-slot__lists');
-    this.statusScreen = document.querySelector('.selector__status__items');
-    this.coinStatus = document.querySelector('.selector__status__coin');
-    this.totalCoin = document.querySelector('#coin__total');
-    this.snacksEl = document.querySelector('.snack__lists');
-    this.snacksList = snacksList;
+  constructor(coin, snacksList) {
     this.coin = coin;
-    this.selectDecision = '';
-    this.sumCoin = 0;
+    this.snacksList = snacksList;
+    this.slotEl = $qs('.coin-slot__lists');
+    this.screen = $qs('.selector__status__items');
+    this.coinStatus = $qs('.selector__status__coin');
+    this.coinTotal = $qs('#coin__total');
+    this.snacksEl = $qs('.snack__lists');
+    this.coinSum = 0;
     this.inputCoin = 0;
+  }
+
+  isSelected() {
+    return this.snacksList.filter((elem, idx) => elem.id === vmControl.selectDecision);
   }
 
   template(templateid, data) {
     return document.getElementById(templateid).innerHTML
-      .replace(/{{(\w*)}}/g, (m, key) => data.hasOwnProperty(key) ? data[key] : "");
+      .replace(/{{(\w*)}}/g, (match, key) => data.hasOwnProperty(key) ? data[key] : "");
   }
-
 
   setMessage(message) {
-    return this.statusScreen.innerText = message;
+    return this.screen.innerText = message;
   }
 
-
   validateItems() {
-    const snackItems = this.snacksEl.querySelectorAll('.snack__items');
+    const snackItems = $qsa('.snack__items', this.snacksEl);
     snackItems.forEach((elem, idx) => {
       Number(this.coinStatus.innerText) < this.snacksList[idx].price ?
         elem.style.backgroundImage = '' : elem.style.backgroundImage = 'linear-gradient(to top, #e6b980 0%, #eacda3 100%)';
@@ -69,63 +65,62 @@ class VMViewer {
 }
 
 
-
-
 class VMController {
-  constructor(vmView, vmModel) {
+  constructor(vmView, vmTemplate) {
     this.vmView = vmView;
-    this.vmModel = vmModel;
-    this.buttonConfirm = document.querySelector('#selector__button__confirm');
+    this.vmTemplate = vmTemplate;
+    this.buttonConfirm = $qs('#selector__button__confirm');
+    this.selectDecision = '';
   }
 
   init() {
-    const buttonsLists = document.querySelector('.selector__buttons__lists');
-    const buttonZero = document.querySelector('#selector__button__0');
-    const nums = buttonsLists.querySelectorAll('.selector__buttons__items');
+    const buttonsLists = $qs('.selector__buttons__lists');
+    const buttonZero = $qs('#selector__button__0');
+    const nums = $qsa('.selector__buttons__items', buttonsLists);
 
-    this.renders();
-    this.insertCoin();
-    this.clickBtns(nums, buttonZero, this.buttonConfirm);
+    this.getItems();
+    this.insert();
+    this.selectBtns(nums, buttonZero, this.buttonConfirm);
     this.vmView.setMessage("동전을 넣어주세요");
   }
 
-  renders() {
-    this.vmView.snacksEl.innerHTML += vmModel.initRender(this.vmView.snacksList, 'snack__template');
-    this.vmView.slotEl.innerHTML += vmModel.initRender(this.vmView.coin, 'coin-slot__template');
-    this.vmView.totalCoin.innerText = vmModel.sumMoney(this.vmView.coin);
+  getItems() {
+    this.vmView.snacksEl.innerHTML += vmTemplate.showItems(this.vmView.snacksList, 'snack__template');
+    this.vmView.slotEl.innerHTML += vmTemplate.showItems(this.vmView.coin, 'coin-slot__template');
+    this.vmView.coinTotal.innerText = vmTemplate.sumMoney(this.vmView.coin);
   }
 
 
   activateBtn() {
-    return Number(this.vmView.coinStatus.innerText) >= 300 ? 
-    this.buttonConfirm.disabled = false : this.buttonConfirm.disabled = true;
+    return Number(this.vmView.coinStatus.innerText) >= 300 ?
+      this.buttonConfirm.disabled = false : this.buttonConfirm.disabled = true;
   }
 
 
-  insertCoin() {
-    const coinButtons = this.vmView.slotEl.querySelectorAll('.coin-slot__buttons');
-    const changeCoinBtnStatus = (idx) => {
+  insert() {
+    const coinButtons = $qsa('.coin-slot__buttons', this.vmView.slotEl);
+    const disableCoinBtn = (idx) => {
       if (coin[idx].store <= 0) {
         coinButtons[idx].disabled = true;
         coinButtons[idx].style.backgroundColor = '#cfcfcf';
       }
     }
 
-    const changeCoinStatus = (idx) => {
-      const stores = this.vmView.slotEl.querySelectorAll('.coin__left');
-      let { selectDecision, coin, sumCoin, totalCoin, coinStatus } = this.vmView
-      selectDecision = '';
+    const editStatus = (idx) => {
+      const stores = $qsa('.coin__left', this.vmView.slotEl);
+      let { coin, coinSum, coinTotal, coinStatus } = this.vmView;
+      this.selectDecision = '';
       coin[idx].store--;
-      totalCoin.innerText -= coin[idx].value;
+      coinTotal.innerText -= coin[idx].value;
       this.vmView.inputCoin += coin[idx].value;
       coinStatus.innerText = this.vmView.inputCoin;
       stores[idx].innerText = `${coin[idx].store}개`;
     }
 
     coinButtons.forEach((elem, idx) => {
-      elem.addEventListener('click', event => {
-        changeCoinStatus(idx)
-        changeCoinBtnStatus(idx);
+      $on(elem, 'click', event => {
+        editStatus(idx)
+        disableCoinBtn(idx);
         this.activateBtn();
         this.vmView.validateItems();
         this.vmView.setMessage(`원하는 음료의 번호를 입력하세요`);
@@ -134,9 +129,9 @@ class VMController {
   }
 
 
-  purchaseItems() {
+  selectItems() {
     const { vmView } = this
-    this.vmModel.isRightSelected().forEach((elem, idx) => {
+    this.vmView.isSelected().forEach((elem, idx) => {
       const { id, working, price, name } = elem;
       if (!working) return vmView.setMessage("고장난 상품입니다. 다시 눌러주세요");
       if (price <= Number(vmView.coinStatus.innerText)) {
@@ -148,53 +143,53 @@ class VMController {
         vmView.setMessage("동전을 더 넣어주세요");
       }
     });
-    vmView.selectDecision = '';
+    this.selectDecision = '';
   }
 
-  
-  clickBtns(nums, zero, confirm) {
+
+  selectBtns(nums, zero, confirm) {
     nums.forEach(elem => {
-      elem.addEventListener('click', (event) => {
-        this.vmView.selectDecision += event.target.innerText;
-        this.vmView.setMessage(`입력 번호: ${this.vmView.selectDecision}`);
+      $on(elem, 'click', (event) => {
+        this.selectDecision += event.target.innerText;
+        this.vmView.setMessage(`입력 번호: ${this.selectDecision}`);
       })
     });
 
-    zero.addEventListener('click', (event) => {
-      this.vmView.selectDecision += '0';
-      this.vmView.setMessage(`입력 번호: ${this.vmView.selectDecision}`);
+    $on(zero, 'click', (event) => {
+      this.selectDecision += '0';
+      this.vmView.setMessage(`입력 번호: ${this.selectDecision}`);
     });
 
-    confirm.addEventListener('click', (event) => {
-      if (Number(this.vmView.selectDecision) <= vmView.snacksList.length) {
-        this.vmView.selectDecision = Number(this.vmView.selectDecision);
+    $on(confirm, 'click', (event) => {
+      if (Number(this.selectDecision) <= vmView.snacksList.length) {
+        this.selectDecision = Number(this.selectDecision);
         vmView.inputCoin = Number(this.vmView.coinStatus.innerText);
-        outputResult();
+        showResult();
       } else {
-        this.vmView.selectDecision = '';
+        this.selectDecision = '';
         this.vmView.setMessage(`번호를 ${vmView.snacksList.length} 이하로 입력해주세요.`);
       }
     });
 
-    const outputResult = () => {
-      if (this.vmView.selectDecision !== 0) {
+    const showResult = () => {
+      if (this.selectDecision !== 0) {
         this.vmView.setMessage('');
-        this.vmView.statusScreen.innerHTML += vmModel.renderLoaders();
+        this.vmView.screen.innerHTML += this.vmTemplate.showLoaders();
         setTimeout(() => {
-          this.purchaseItems();
+          this.selectItems();
           this.vmView.validateItems();
         }, 1500);
       } else {
         this.vmView.setMessage('잘못된 방법입니다.');
-        this.vmView.selectDecision = '';
+        this.selectDecision = '';
       }
     }
   }
 }
 
-const vmView = new VMViewer(snacksList, coin);
-const vmModel = new VMModeler(vmView);
-const vmControl = new VMController(vmView, vmModel);
+const vmView = new VMViewer(coin, snacksList);
+const vmTemplate = new VMTemplate(vmView);
+const vmControl = new VMController(vmView, vmTemplate);
 
 
 vmControl.init();
