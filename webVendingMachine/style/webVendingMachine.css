@@ -6,25 +6,41 @@ ul {
   padding-left: 0;
   margin: 0;
 }
+li {
+  list-style: none;
+}
 
-.snacks {
+.container {
+  float: left;
   margin: 0;
-  width: 60%;
+  width: 70%;
   height: 100vh;
-  background-color: #000;
+  background-color: #222;
   padding: 20px;
   box-sizing: border-box;
+  border-radius: 20px;
+}
+/* snacks */
+.snacks {
+  float: left;  
+  width: 55%;
+  box-sizing: border-box;
+  padding-right: 20px;
 }
 .snack-list {
   width: 100%;
-  height: 90vh;
+  height: 95vh;
   background-color: #228be6;
   clear: left;
+  border-radius: 15px;
+  box-sizing: border-box;
+  padding: 20px;
 }
 
 .snack-list-item {
  float: left;
  width: 25%;
+ height: 12%; 
  list-style: none;
  box-sizing: border-box;
  padding: 10px;
@@ -32,23 +48,24 @@ ul {
 
 .snack-name-container {
   width: 100%;
-  height: 60px;
   background-color: #dee2e6;
   border-radius: 10px;
   display: table;
+  min-height: 40px;
 }
 
 .snak-name {
   display: table-cell;
   text-align: center;
   vertical-align: middle;
+ 
 }
 
 .label-price {
   margin-top: 10px;
   margin-bottom: 10px;
   width: 100%;
-  height: 30px;
+  min-height: 20px;
   background-color: #dee2e6;
   border-radius: 5px;
   line-height: 30px;
@@ -56,4 +73,107 @@ ul {
 }
 .snack-number {
   margin-right: 5px;
+}
+/* vendingMachine */
+.vending-machine {
+  float: left;
+  width: 45%;
+  height: 95vh;
+  background-color:#ced4da; 
+  border-radius: 15px;
+  box-sizing: border-box;
+  padding: 20px;
+}
+.diplay-inserted-money {
+  height: 50px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  text-align: right;
+  line-height: 50px;
+  box-sizing: border-box;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.diplay-inserted-money p {
+  margin: 10px;
+}
+
+.money {
+  margin-right: 10px;
+}
+
+.number-buttons {
+  margin-top: 40px;
+}
+.number-buttons li {
+  float: left;
+  width: 25%;
+}
+
+.select-button {
+  border: none;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  background-color: #495057;
+  color: #FFF;
+}
+
+.display-log{
+  float: left;
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 40px;
+  background-image: linear-gradient(to right bottom, #2a7c57, #298f63, #25a36f, #1db77c, #0ccc89);
+  height: 200px;
+  color: #FFF;
+}
+
+/* wallet */
+.wallet {
+  float: left;
+  width: 30%;
+  background-color:#d6336c; 
+  height: 100vh;
+  border-radius: 20px;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.money-button-list {
+  overflow: auto;
+}
+
+.wallet-money-buttonSet {
+  float: left;
+  width: 100%;
+}
+
+.wallet-money-buttonSet button {
+  float: left;
+  width: 45%;
+  margin-right: 5%;
+  height: 60px;
+  border-radius: 5px;
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.total-my-assets {
+  margin-top: 40px;
+  background-color: #eee;
+  height: 80px;
+  line-height: 80px;
+  text-align: right;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.footer {
+  clear: left;
 }
