@@ -1,0 +1,24 @@
+{
+  "name": "javascript-vm",
+  "version": "1.0.0",
+  "description": "webVendingMachine",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "lite-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amorfati0310/javascript-vm.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amorfati0310/javascript-vm/issues"
+  },
+  "homepage": "https://github.com/amorfati0310/javascript-vm#readme",
+  "devDependencies": {
+    "lite-server": "^2.3.0"
+  }
+}
