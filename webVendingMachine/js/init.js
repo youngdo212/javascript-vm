@@ -19,13 +19,17 @@ class MoneyList {
   }
 }
 
-
 class Wallet {
   constructor(moneyList){
     this.moneyList=moneyList;
   }
   useMoney(money){
-    this.moneyList[money].moneyList.pop();
+    const key = money.toString()+"원"
+    this.moneyList[key].moneyList.pop();
+  }
+  getCountKinds(money){
+    const key = money.toString()+"원"
+    return this.moneyList[key]!==undefined ? this.moneyList[key].moneyList.length : 0;
   }
   getTotalMoneyList(){
     const totalMoneyList = Object.values(this.moneyList)
@@ -122,15 +126,12 @@ const vendingMachineButtonTemplate = vmButtonTextList.reduce((ac,c)=>{
   return ac+=` <li><button class="select-button">${c}</button></li>`
 }, '');
 
-console.dir(wallet.getTotalMoneyList()[0])
-console.dir(wallet.getTotalMoneyList()[0].moneyList)
-
 
 const walletButtonListTemplate = wallet.getTotalMoneyList().reduce((ac,c)=>{
   const {length} = c.moneyList  
   const {value, unit} =c.moneyList[0]
   return ac+=`<li class="wallet-money-button">
-                <button class="money-button">${value}${unit}</button>
+                <button data-money="${value}" data-unit="${unit}">${value}${unit}</button>
                 <span class="money-count">${length}개</span>
               </li>`
 }, '');

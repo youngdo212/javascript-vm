@@ -1,38 +1,16 @@
-class Wallet {
-  constructor(money){
-    this.money=money;
+// print
+walletButtonListElement.addEventListener('click',(e)=>{
+  if(e.target.localName!=="button") return;
+  // console.dir(e.target);
+  const choseMoney =e.target.dataset.money
+  const moneyCountElement = e.target.nextElementSibling
+  let moneyCount = wallet.getCountKinds(choseMoney)
+  // 해당 돈의 종류가 있으면 
+  if(moneyCount){
+    wallet.useMoney(choseMoney);
+    moneyCountElement.innerText=`${moneyCount-1}개`
+    walletTotalMoneyElement.innerText = `${wallet.totalMoney}`   
+    vendingMachine.insertMoney(Number(choseMoney));
+    vendingMachineMoneyElement.innerText = `${vendingMachine.money}`
   }
-  useMoney(money){
-    if(this.money>=money) this.money-=money;
-  }
-}
-class VendingMachine {
-  constructor(){
-    this.money=0;
-  }
-  insertMoney(money){
-    this.money += money
-  }
-}
-const vendingMachine = new VendingMachine();
-
-const wallet = new Wallet(23500);
-const totalMoneyElement = document.querySelector('.total-my-assets .money')
-const vmMoneyElement = document.querySelector('.diplay-inserted-money .money')
-
-totalMoneyElement.innerText = `${wallet.money}`
-
-const walletButtons = document.querySelector('.money-button-list');
-walletButtons.addEventListener('click',(e)=>{
-    if(e.target.className!=="money-button") return;
-      const choseMoney = Number(e.target.innerText.split('원')[0])
-      if(wallet.money<choseMoney) return;
-        wallet.useMoney(choseMoney);
-        totalMoneyElement.innerText = `${wallet.money}`   
-        vendingMachine.insertMoney(choseMoney);
-        vmMoneyElement.innerText = `${vendingMachine.money}`
 })
-
-
-
-
