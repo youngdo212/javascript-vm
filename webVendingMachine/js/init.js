@@ -14,8 +14,16 @@ class Money {
 }
 
 class MoneyList {
-  constructor(value, count){
-    this.moneyList = new Array(count).fill(new Money(value))
+  constructor(money, count){
+    this.moneyList = new Array(count).fill(new Money(money));
+    this.money = money;
+  }
+  get totalMoney(){
+    const totalMoney = this.count*this.money
+    return totalMoney;
+  }
+  get count(){
+    return this.moneyList.length;
   }
 }
 
@@ -29,7 +37,7 @@ class Wallet {
   }
   getCountKinds(money){
     const key = money.toString()+"원"
-    return this.moneyList[key]!==undefined ? this.moneyList[key].moneyList.length : 0;
+    return this.moneyList[key]!==undefined ? this.moneyList[key].count : 0;
   }
   getTotalMoneyList(){
     const totalMoneyList = Object.values(this.moneyList)
@@ -38,11 +46,8 @@ class Wallet {
   get totalMoney(){
     let totalMoney = 0;
     this.getTotalMoneyList().forEach(v=>{
-      const totalThisKind = v.moneyList.reduce((ac,c)=>{
-      return ac+=c.value
-    },0)
-    totalMoney+=totalThisKind;
-  });
+      totalMoney+= v.totalMoney
+    })
   return totalMoney;
   }
 }
