@@ -1,3 +1,6 @@
+
+
+
 class VMTemplate {
   constructor(vmView) {
     this.vmView = vmView;
@@ -74,13 +77,13 @@ class VMController {
   }
 
   init() {
-    const buttonsLists = $qs('.selector__buttons__lists');
+    const ul = $qs('.selector__buttons__lists');
+    // const nums = $qsa('.selector__buttons__items', ul);
     const buttonZero = $qs('#selector__button__0');
-    const nums = $qsa('.selector__buttons__items', buttonsLists);
 
     this.getItems();
     this.insert();
-    this.selectBtns(nums, buttonZero, this.buttonConfirm);
+    this.selectBtns(ul, buttonZero, this.buttonConfirm);
     this.vmView.setMessage("동전을 넣어주세요");
   }
 
@@ -130,7 +133,7 @@ class VMController {
 
 
   selectItems() {
-    const { vmView } = this
+    const { vmView } = this;
     this.vmView.isSelected().forEach((elem, idx) => {
       const { id, working, price, name } = elem;
       if (!working) return vmView.setMessage("고장난 상품입니다. 다시 눌러주세요");
@@ -147,27 +150,22 @@ class VMController {
   }
 
 
-  selectBtns(nums, zero, confirm) {
-    nums.forEach(elem => {
-      $on(elem, 'click', (event) => {
-        this.selectDecision += event.target.innerText;
-        this.vmView.setMessage(`입력 번호: ${this.selectDecision}`);
-      })
-    });
-
-    $on(zero, 'click', (event) => {
-      this.selectDecision += '0';
-      this.vmView.setMessage(`입력 번호: ${this.selectDecision}`);
-    });
-
-    $on(confirm, 'click', (event) => {
-      if (Number(this.selectDecision) <= vmView.snacksList.length) {
-        this.selectDecision = Number(this.selectDecision);
-        vmView.inputCoin = Number(this.vmView.coinStatus.innerText);
-        showResult();
-      } else {
-        this.selectDecision = '';
-        this.vmView.setMessage(`번호를 ${vmView.snacksList.length} 이하로 입력해주세요.`);
+  selectBtns(ul) {
+    $on(ul, 'click', event => {
+      if (event.target.tagName === 'BUTTON') {
+        if (event.target.id !== 'selector__button__return' && event.target.id !== 'selector__button__confirm') {
+          this.selectDecision += event.target.innerText;
+          this.vmView.setMessage(`입력 번호: ${this.selectDecision}`);
+        } else if (event.target.id === 'selector__button__confirm') {
+          if (Number(this.selectDecision) <= vmView.snacksList.length) {
+            this.selectDecision = Number(this.selectDecision);
+            vmView.inputCoin = Number(this.vmView.coinStatus.innerText);
+            showResult();
+          } else {
+            this.selectDecision = '';
+            this.vmView.setMessage(`번호를 ${vmView.snacksList.length} 이하로 입력해주세요.`);
+          }
+        }
       }
     });
 
