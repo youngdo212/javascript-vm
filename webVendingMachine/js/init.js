@@ -62,7 +62,26 @@ class Wallet {
      return ac;
     },{}) 
   }
+  useMoney(money){
+    if(this.moneyKinds[money]){
+      this.moneyKinds[money]-=1;
+      const getMoney = this.getMoney(money);
+      this.totalMoney-=getMoney.value
+      return getMoney;
+    }
+  }
+  getMoney(price){
+    for(let i =0; i<this.myMoney.length; i++){
+      if(this.myMoney[i].value===price){
+        const money = this.myMoney[i]
+        this.myMoney = this.myMoney.slice(0,i).concat(this.myMoney.slice(i+1))
+        return money;
+      }
+    }
+  }
 }
+
+
 
 class VendingMachine {
   constructor(snackList){
@@ -70,9 +89,26 @@ class VendingMachine {
     this.snackList= snackList
   }
   insertMoney(money){
-    this.money += money
+    if(money.constructor!==Money) console.log('인지할 수 있는 돈을 입력해주세요')
+    else {
+      this.money += money.value
+    }
+    
   }
 }
+class RenderingView {
+  getSearched(selector, target=document){
+    return target.querySelector(selector)
+  }
+  templateRender(selector,template, target=document){
+    return this.getSearched(selector, target=target).insertAdjacentHTML('beforeend', template)
+  }
+  updateText(selector,updateText, target=document){
+    return this.getSearched(selector, target=target).innerText = updateText;
+  }
+}
+
+//  make Instance
 
 const myMoney = [
   new Money(100),new Money(100),new Money(100),new Money(100),new Money(100),
@@ -82,29 +118,7 @@ const myMoney = [
 
 const vendingMachine = new VendingMachine(snackList);
 const wallet = new Wallet(myMoney);
-
-class RenderingView {
-  // constructor(viewData){
-  //   this.viewData = viewData
-  // }
-  templateRender(selector,template, target=document){
-    return target.querySelector(selector).insertAdjacentHTML('beforeend', template)
-  }
-  updateText(selector,updateText, target=document){
-    return target.querySelector(selector).innerText = updateText;
-  }
-}
-// const viewData = {
-//   snackList,
-//   vmButtonTextList,
-//   vmMoney: vendingMachine.money,
-//   walletMoney: {
-//     totalMoney: wallet.totalMoney,
-//     moneyKinds: wallet.moneyKinds
-//   }
-// }
-
-const rederingView = new RenderingView(viewData);
+const rederingView = new RenderingView();
 
 // template
 
@@ -133,13 +147,17 @@ const walletMoneyButtonTemplate = Object.keys(wallet.moneyKinds).reduce((ac,mone
 
 // Rendering
 
+const viewUpdateWalletTotal = ()=>rederingView.updateText('.total-my-assets .money', wallet.totalMoney)
+const viewUpdateInsertedMoney = ()=>rederingView.updateText('.diplay-inserted-money .money', vendingMachine.money)
+// const viewUpdateWallet = ()=>rederingView.templateRender('.money-button-list', walletMoneyButtonTemplate)
+
 document.addEventListener("DOMContentLoaded", (e)=> {
   console.log("DOM fully loaded and parsed");
-  rederingView.templateRender('.snack-list', snackTemplate)
-  rederingView.templateRender('.number-buttons', vendingMachineButtonTemplate)
-  rederingView.templateRender('.money-button-list', walletMoneyButtonTemplate)
-  rederingView.updateText('.diplay-inserted-money .money', vendingMachine.money)
-  rederingView.updateText('.total-my-assets .money', wallet.totalMoney);
+  rederingView.templateRender('.snack-list', snackTemplate);
+  rederingView.templateRender('.number-buttons', vendingMachineButtonTemplate);
+  rederingView.templateRender('.money-button-list', walletMoneyButtonTemplate);
+  viewUpdateInsertedMoney();
+  viewUpdateWalletTotal();
 });
 
 

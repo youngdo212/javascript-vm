@@ -1,16 +1,14 @@
-// print
-walletButtonListElement.addEventListener('click',(e)=>{
+rederingView.getSearched('.money-button-list').addEventListener('click',(e)=>{
   if(e.target.localName!=="button") return;
-  // console.dir(e.target);
   const choseMoney =e.target.dataset.money
   const moneyCountElement = e.target.nextElementSibling
-  let moneyCount = wallet.getCountKinds(choseMoney)
+  let moneyCount = wallet.moneyKinds[choseMoney]
   // 해당 돈의 종류가 있으면 
   if(moneyCount){
-    wallet.useMoney(choseMoney);
-    moneyCountElement.innerText=`${moneyCount-1}개`
-    walletTotalMoneyElement.innerText = `${wallet.totalMoney}`   
-    vendingMachine.insertMoney(Number(choseMoney));
-    vendingMachineMoneyElement.innerText = `${vendingMachine.money}`
+    const willUseMoney = wallet.useMoney(Number(choseMoney));
+    moneyCountElement.innerText=`${wallet.moneyKinds[choseMoney]}개`
+    vendingMachine.insertMoney(willUseMoney);
+    viewUpdateWalletTotal();
+    viewUpdateInsertedMoney();
   }
 })
