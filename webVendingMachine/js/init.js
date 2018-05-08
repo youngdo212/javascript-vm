@@ -1,79 +1,6 @@
-// element-Search 
-const snackListElement = document.querySelector('.snack-list');
-const vendingMachineElement = document.querySelector('.vending-machine');
-const vendingMachineMoneyElement = vendingMachineElement.querySelector('.diplay-inserted-money .money');
-const vendingMachineButtonsElement = vendingMachineElement.querySelector('.number-buttons');
-const walletButtonListElement = document.querySelector('.money-button-list');
-const walletTotalMoneyElement = document.querySelector('.total-my-assets .money');
-// class  money ,wallet, vm ,
-class Money {
-  constructor(value){
-    this.value = value;
-    this.unit =  '원';
-  }
-}
+// static data  snackList and vmButtonTextList
 
-class MoneyList {
-  constructor(money, count){
-    this.moneyList = new Array(count).fill(new Money(money));
-    this.money = money;
-  }
-  get totalMoney(){
-    const totalMoney = this.count*this.money
-    return totalMoney;
-  }
-  get count(){
-    return this.moneyList.length;
-  }
-}
-
-class Wallet {
-  constructor(moneyList){
-    this.moneyList=moneyList;
-  }
-  useMoney(money){
-    const key = money.toString()+"원"
-    this.moneyList[key].moneyList.pop();
-  }
-  getCountKinds(money){
-    const key = money.toString()+"원"
-    return this.moneyList[key]!==undefined ? this.moneyList[key].count : 0;
-  }
-  getTotalMoneyList(){
-    const totalMoneyList = Object.values(this.moneyList)
-    return totalMoneyList;
-  }
-  get totalMoney(){
-    let totalMoney = 0;
-    this.getTotalMoneyList().forEach(v=>{
-      totalMoney+= v.totalMoney
-    })
-  return totalMoney;
-  }
-}
-
-class VendingMachine {
-  constructor(){
-    this.money=0;
-  }
-  insertMoney(money){
-    this.money += money
-  }
-}
-const vendingMachine = new VendingMachine();
-
-
-
-const myMoney = {
-  "100원":  new MoneyList(100,5), 
-  "1000원": new MoneyList(1000,5),
-  "5000원": new MoneyList(5000,2),
-  "10000원": new MoneyList(10000,2),
-}
-
-const wallet = new Wallet(myMoney);
-
-const snacksList = [
+const snackList = [
   { "id": 1, "name": "콜라", "price": 500, "working": true },
   { "id": 2, "name": "사이다", "price": 1000, "working": true },
   { "id": 3, "name": "파인애플맛 환타", "price": 400, "working": true },
@@ -108,50 +35,119 @@ const snacksList = [
   { "id": 32, "name": "포도맛 환타", "price": 1000, "working": true }
 ]
 
-
-// template Lists
-
-const snacksHTMLTempleate = snacksList.reduce((ac,c)=>{
-  return ac+=`<li class="snack-list-item">
-                <div class="snack-name-container">
-                    <span class="snak-name">${c.name}</span>
-                </div>
-                <div class="label-price">
-                    <span class="snack-number">${c.id}</span>
-                    <span class="snack-price">${c.price}</span>
-                </div>
-              </li>`
-},'')
-
-const inserTedMoneyTemplate = `<p><span class="money">${vendingMachine.money}</span><span class="unit">원</span></p>`
-
 const vmButtonTextList = [1,2,3,4,5,6,7,8,9,0,"선택","취소"]
+
+// class  money, Mo ,wallet, vm ,
+class Money {
+  constructor(value, unit='원'){
+    this.moneyKinds = [10,50,100,500,1000,5000,10000,50000]
+    if(this.moneyKinds.includes(value)){
+      this.value = value
+      this.unit =  unit;
+    }
+    else{
+      console.log(`화폐는 ${this.moneyKinds}의 해당 돈으로만 만들 수 있습니다`)
+    }
+  }
+}
+
+class Wallet {
+  constructor(myMoney){
+    this.myMoney=myMoney;
+    this.totalMoney = this.myMoney.reduce((ac,money)=>{
+      return ac+=money.value
+    },0)
+    this.moneyKinds = this.myMoney.reduce((ac,money)=>{
+     ac[money.value] = ac[money.value]===undefined ? 1 : ac[money.value]+=1
+     return ac;
+    },{}) 
+  }
+}
+
+class VendingMachine {
+  constructor(snackList){
+    this.money=0;
+    this.snackList= snackList
+  }
+  insertMoney(money){
+    this.money += money
+  }
+}
+
+const myMoney = [
+  new Money(100),new Money(100),new Money(100),new Money(100),new Money(100),
+  new Money(1000),new Money(1000),new Money(1000),new Money(1000),new Money(1000),
+  new Money(5000),new Money(5000),new Money(10000),new Money(10000)
+]
+
+const vendingMachine = new VendingMachine(snackList);
+const wallet = new Wallet(myMoney);
+
+class RenderingView {
+  // constructor(viewData){
+  //   this.viewData = viewData
+  // }
+  templateRender(selector,template, target=document){
+    return target.querySelector(selector).insertAdjacentHTML('beforeend', template)
+  }
+  updateText(selector,updateText, target=document){
+    return target.querySelector(selector).innerText = updateText;
+  }
+}
+// const viewData = {
+//   snackList,
+//   vmButtonTextList,
+//   vmMoney: vendingMachine.money,
+//   walletMoney: {
+//     totalMoney: wallet.totalMoney,
+//     moneyKinds: wallet.moneyKinds
+//   }
+// }
+
+const rederingView = new RenderingView(viewData);
+
+// template
+
+const snackTemplate = vendingMachine.snackList.reduce((ac,c)=>{
+  return ac+=`<li class="snack-list-item">
+      <div class="snack-name-container">
+          <span class="snak-name">${c.name}</span>
+      </div>
+      <div class="label-price">
+          <span class="snack-number">${c.id}</span>
+          <span class="snack-price">${c.price}</span>
+      </div>
+    </li>`
+},'')
 
 const vendingMachineButtonTemplate = vmButtonTextList.reduce((ac,c)=>{
   return ac+=` <li><button class="select-button">${c}</button></li>`
 }, '');
 
-
-const walletButtonListTemplate = wallet.getTotalMoneyList().reduce((ac,c)=>{
-  const {length} = c.moneyList  
-  const {value, unit} =c.moneyList[0]
+const walletMoneyButtonTemplate = Object.keys(wallet.moneyKinds).reduce((ac,moneyKind)=>{
   return ac+=`<li class="wallet-money-button">
-                <button data-money="${value}" data-unit="${unit}">${value}${unit}</button>
-                <span class="money-count">${length}개</span>
+                <button data-money="${moneyKind}" data-unit="원">${moneyKind} 원</button>
+                <span class="money-count">${wallet.moneyKinds[moneyKind]}개</span>
               </li>`
-}, '');
+},'')
 
+// Rendering
 
-const templateRender = (element, template)=> {
-  element.insertAdjacentHTML('beforeend', template)
-}
-
-// redering Templeate
 document.addEventListener("DOMContentLoaded", (e)=> {
   console.log("DOM fully loaded and parsed");
-  templateRender(snackListElement, snacksHTMLTempleate)
-  templateRender(vendingMachineButtonsElement, vendingMachineButtonTemplate)
-  templateRender(walletButtonListElement, walletButtonListTemplate)
-  walletTotalMoneyElement.innerText=wallet.totalMoney
+  rederingView.templateRender('.snack-list', snackTemplate)
+  rederingView.templateRender('.number-buttons', vendingMachineButtonTemplate)
+  rederingView.templateRender('.money-button-list', walletMoneyButtonTemplate)
+  rederingView.updateText('.diplay-inserted-money .money', vendingMachine.money)
+  rederingView.updateText('.total-my-assets .money', wallet.totalMoney);
 });
+
+
+
+
+
+
+
+
+
 
