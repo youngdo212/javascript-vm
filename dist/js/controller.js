@@ -1,82 +1,5 @@
-
-
-
-class VMTemplate {
-  constructor(vmView) {
-    this.vmView = vmView;
-  }
-
-  showItems(val, templateId) {
-    return val.reduce((acc, curr) => acc += this.vmView.template(templateId, curr), '')
-  }
-
-  sumMoney(val) {
-    return val.reduce((acc, curr) => this.vmView.coinSum += curr.store * curr.value, '');
-  }
-
-  showLoaders() {
-    let output = `
-    <div class="spinner__container">
-      <ul class="spinner__cont">
-        <li class="spinner__module"></li>
-        <li class="spinner__module"></li>
-        <li class="spinner__module"></li>
-        <li class="spinner__module"></li>
-        <li class="spinner__module"></li>
-      </ul>
-    </div>
-    `
-    return output;
-  }
-}
-
-
-
-class VMViewer {
-  constructor(coin, snacksList) {
-    this.coin = coin;
-    this.snacksList = snacksList;
-    this.slotEl = $qs('.coin-slot__lists');
-    this.screen = $qs('.selector__status__items');
-    this.coinStatus = $qs('.selector__status__coin');
-    this.coinTotal = $qs('#coin__total');
-    this.snacksEl = $qs('.snack__lists');
-    this.coinSum = 0;
-    this.inputCoin = 0;
-  }
-
-  isSelected() {
-    return this.snacksList.filter((elem, idx) => elem.id === vmControl.selectDecision);
-  }
-
-  template(templateid, data) {
-    return document.getElementById(templateid).innerHTML
-      .replace(/{{(\w*)}}/g, (match, key) => data.hasOwnProperty(key) ? data[key] : "");
-  }
-
-  setMessage(message) {
-    return this.screen.innerText = message;
-  }
-
-  validateItems() {
-    const snackItems = $qsa('.snack__items', this.snacksEl);
-    snackItems.forEach((elem, idx) => {
-      Number(this.coinStatus.innerText) < this.snacksList[idx].price ?
-        elem.style.backgroundImage = '' : elem.style.backgroundImage = 'linear-gradient(to top, #e6b980 0%, #eacda3 100%)';
-    });
-  }
-}
-
-
-class VMController {
-  constructor(vmView, vmTemplate) {
-    this.vmView = vmView;
-    this.vmTemplate = vmTemplate;
-    this.buttonConfirm = $qs('#selector__button__confirm');
-    this.selectDecision = '';
-  }
-
-  init() {
+var controllerObj = {
+  init: function() {
     const ul = $qs('.selector__buttons__lists');
     // const nums = $qsa('.selector__buttons__items', ul);
     const buttonZero = $qs('#selector__button__0');
@@ -85,22 +8,22 @@ class VMController {
     this.insert();
     this.selectBtns(ul, buttonZero, this.buttonConfirm);
     this.vmView.setMessage("동전을 넣어주세요");
-  }
+  },
 
-  getItems() {
+  getItems: function() {
     this.vmView.snacksEl.innerHTML += vmTemplate.showItems(this.vmView.snacksList, 'snack__template');
     this.vmView.slotEl.innerHTML += vmTemplate.showItems(this.vmView.coin, 'coin-slot__template');
     this.vmView.coinTotal.innerText = vmTemplate.sumMoney(this.vmView.coin);
-  }
+  },
 
 
-  activateBtn() {
+  activateBtn: function() {
     return Number(this.vmView.coinStatus.innerText) >= 300 ?
       this.buttonConfirm.disabled = false : this.buttonConfirm.disabled = true;
-  }
+  },
 
 
-  insert() {
+  insert: function() {
     const coinButtons = $qsa('.coin-slot__buttons', this.vmView.slotEl);
     const disableCoinBtn = (idx) => {
       if (coin[idx].store <= 0) {
@@ -129,10 +52,10 @@ class VMController {
         this.vmView.setMessage(`원하는 음료의 번호를 입력하세요`);
       })
     })
-  }
+  },
 
 
-  selectItems() {
+  selectItems: function() {
     const { vmView } = this;
     this.vmView.isSelected().forEach((elem, idx) => {
       const { id, working, price, name } = elem;
@@ -147,10 +70,10 @@ class VMController {
       }
     });
     this.selectDecision = '';
-  }
+  },
 
 
-  selectBtns(ul) {
+  selectBtns: function(ul) {
     $on(ul, 'click', event => {
       if (event.target.tagName === 'BUTTON') {
         if (event.target.id !== 'selector__button__return' && event.target.id !== 'selector__button__confirm') {
@@ -185,9 +108,11 @@ class VMController {
   }
 }
 
-const vmView = new VMViewer(coin, snacksList);
-const vmTemplate = new VMTemplate(vmView);
-const vmControl = new VMController(vmView, vmTemplate);
-
-
-vmControl.init();
+function VMController(vmView, vmTemplate) {
+  return {
+    vmView: vmView,
+    vmTemplate: vmTemplate,
+    buttonConfirm: $qs('#selector__button__confirm'),
+    selectDecision: ''
+  }
+}
