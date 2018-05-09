@@ -123,11 +123,13 @@ const walletMoneyButtonTemplate = Object.keys(wallet.myMoney).reduce((ac,moneyKi
               </li>`
 },'')
 
+const template = {
+  snackTemplate,
+  vendingMachineButtonTemplate,
+  walletMoneyButtonTemplate,
+};
+
 // Rendering
-
-const viewUpdateWalletTotal = ()=>view.updateText('.total-my-assets .money', wallet.totalMoney)
-const viewUpdateInsertedMoney = ()=>view.updateText('.diplay-inserted-money .money', vendingMachine.money)
-
 const capturedTargetElementName = (e, elementName) => e.target.localName===elementName
   
 const insertCoin = (e)=>{
