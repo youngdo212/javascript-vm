@@ -37,51 +37,32 @@ const snackList = [
 
 const vmButtonTextList = [1,2,3,4,5,6,7,8,9,0,"선택","취소"]
 
-// class  money, Mo ,wallet, vm ,
-class Money {
-  constructor(value, unit='원'){
-    this.moneyKinds = [10,50,100,500,1000,5000,10000,50000]
-    if(this.moneyKinds.includes(value)){
-      this.value = value
-      this.unit =  unit;
-    }
-    else{
-      console.log(`화폐는 ${this.moneyKinds}의 해당 돈으로만 만들 수 있습니다`)
-    }
-  }
+const myMoney = {
+  100: 5,
+  500: 5,
+  1000: 5,
+  5000: 2,
+  10000: 2,
 }
+
+// class Wallet, vendingMachine, View
 
 class Wallet {
   constructor(myMoney){
     this.myMoney=myMoney;
-    this.totalMoney = this.myMoney.reduce((ac,money)=>{
-      return ac+=money.value
+  }
+  get totalMoney(){
+    return Object.keys(this.myMoney).reduce((ac,money)=> {
+      return ac+=Number(money)*this.myMoney[money]
     },0)
-    this.moneyKinds = this.myMoney.reduce((ac,money)=>{
-     ac[money.value] = ac[money.value]===undefined ? 1 : ac[money.value]+=1
-     return ac;
-    },{}) 
   }
   useMoney(money){
-    if(this.moneyKinds[money]){
-      this.moneyKinds[money]-=1;
-      const getMoney = this.getMoney(money);
-      this.totalMoney-=getMoney.value
-      return getMoney;
-    }
-  }
-  getMoney(price){
-    for(let i =0; i<this.myMoney.length; i++){
-      if(this.myMoney[i].value===price){
-        const money = this.myMoney[i]
-        this.myMoney = this.myMoney.slice(0,i).concat(this.myMoney.slice(i+1))
-        return money;
-      }
+    if(this.myMoney[money]){
+      this.myMoney[money]-=1;
+      return Number(money);
     }
   }
 }
-
-
 
 class VendingMachine {
   constructor(snackList){
@@ -89,16 +70,16 @@ class VendingMachine {
     this.snackList= snackList
   }
   insertMoney(money){
-    if(money.constructor!==Money) console.log('인지할 수 있는 돈을 입력해주세요')
-    else {
-      this.money += money.value
-    }
-    
+    this.money += money;
   }
 }
-class RenderingView {
-  getSearched(selector, target=document){
-    return target.querySelector(selector)
+
+class View {
+  constructor(){
+    this.el = {}
+  }
+  getSearched(selector, target=document, name=selector){
+    return this.el[name]=target.querySelector(selector);
   }
   templateRender(selector,template, target=document){
     return this.getSearched(selector, target=target).insertAdjacentHTML('beforeend', template)
@@ -106,19 +87,16 @@ class RenderingView {
   updateText(selector,updateText, target=document){
     return this.getSearched(selector, target=target).innerText = updateText;
   }
+  bindEvent(name, event, method){
+    this.el[name].addEventListener(event, method);
+  }
 }
 
 //  make Instance
 
-const myMoney = [
-  new Money(100),new Money(100),new Money(100),new Money(100),new Money(100),
-  new Money(1000),new Money(1000),new Money(1000),new Money(1000),new Money(1000),
-  new Money(5000),new Money(5000),new Money(10000),new Money(10000)
-]
-
 const vendingMachine = new VendingMachine(snackList);
 const wallet = new Wallet(myMoney);
-const rederingView = new RenderingView();
+const view = new View();
 
 // template
 
@@ -138,42 +116,46 @@ const vendingMachineButtonTemplate = vmButtonTextList.reduce((ac,c)=>{
   return ac+=` <li><button class="select-button">${c}</button></li>`
 }, '');
 
-const walletMoneyButtonTemplate = Object.keys(wallet.moneyKinds).reduce((ac,moneyKind)=>{
+const walletMoneyButtonTemplate = Object.keys(wallet.myMoney).reduce((ac,moneyKind)=>{
   return ac+=`<li class="wallet-money-button">
                 <button data-money="${moneyKind}" data-unit="원">${moneyKind} 원</button>
-                <span class="money-count">${wallet.moneyKinds[moneyKind]}개</span>
+                <span class="money-count">${wallet.myMoney[moneyKind]}개</span>
               </li>`
 },'')
 
 // Rendering
 
-const viewUpdateWalletTotal = ()=>rederingView.updateText('.total-my-assets .money', wallet.totalMoney)
-const viewUpdateInsertedMoney = ()=>rederingView.updateText('.diplay-inserted-money .money', vendingMachine.money)
-// const viewUpdateWallet = ()=>rederingView.templateRender('.money-button-list', walletMoneyButtonTemplate)
+const viewUpdateWalletTotal = ()=>view.updateText('.total-my-assets .money', wallet.totalMoney)
+const viewUpdateInsertedMoney = ()=>view.updateText('.diplay-inserted-money .money', vendingMachine.money)
+
+const capturedTargetElementName = (e, elementName) => e.target.localName===elementName
+  
+const insertCoin = (e)=>{
+  if(!capturedTargetElementName(e,'button')) return;
+  const choseMoney =e.target.dataset.money
+  const moneyCountElement = e.target.nextElementSibling
+  let moneyCount = wallet.myMoney[choseMoney]
+  if(moneyCount){
+    const willInsertMoney = wallet.useMoney(choseMoney)
+    moneyCountElement.innerText=`${wallet.myMoney[choseMoney]}개`
+    vendingMachine.insertMoney(willInsertMoney);
+    view.updateText('.total-my-assets .money', wallet.totalMoney)
+    view.updateText('.diplay-inserted-money .money', vendingMachine.money)
+  }
+}
 
 document.addEventListener("DOMContentLoaded", (e)=> {
   console.log("DOM fully loaded and parsed");
-  rederingView.templateRender('.snack-list', snackTemplate);
-  rederingView.templateRender('.number-buttons', vendingMachineButtonTemplate);
-  rederingView.templateRender('.money-button-list', walletMoneyButtonTemplate);
-  viewUpdateInsertedMoney();
-  viewUpdateWalletTotal();
+  view.templateRender('.snack-list', snackTemplate);
+  view.templateRender('.number-buttons', vendingMachineButtonTemplate);
+  view.templateRender('.money-button-list', walletMoneyButtonTemplate);
+  view.updateText('.total-my-assets .money', wallet.totalMoney)
+  view.updateText('.diplay-inserted-money .money', vendingMachine.money)
+  view.bindEvent('.money-button-list','click', insertCoin)
 });
 
-rederingView.getSearched('.money-button-list').addEventListener('click',(e)=>{
-  if(e.target.localName!=="button") return;
-  const choseMoney =e.target.dataset.money
-  const moneyCountElement = e.target.nextElementSibling
-  let moneyCount = wallet.moneyKinds[choseMoney]
-  // 해당 돈의 종류가 있으면 
-  if(moneyCount){
-    const willUseMoney = wallet.useMoney(Number(choseMoney));
-    moneyCountElement.innerText=`${wallet.moneyKinds[choseMoney]}개`
-    vendingMachine.insertMoney(willUseMoney);
-    viewUpdateWalletTotal();
-    viewUpdateInsertedMoney();
-  }
-})
+ 
+
 
 
 
