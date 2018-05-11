@@ -1,4 +1,4 @@
-// static data  snackList and vmButtonTextList
+// static data  snackList , vmButtonTextList , myMoney
 
 const snackList = [
   { "id": 1, "name": "콜라", "price": 500, "working": true },
@@ -35,7 +35,7 @@ const snackList = [
   { "id": 32, "name": "포도맛 환타", "price": 1000, "working": true }
 ]
 
-const vmButtonTextList = [1,2,3,4,5,6,7,8,9,0,"선택","취소"]
+const buttonTextList = [1,2,3,4,5,6,7,8,9,0,"선택","취소"]
 
 const myMoney = {
   100: 5,
@@ -47,92 +47,186 @@ const myMoney = {
 
 // class Wallet, vendingMachine, View
 
-class Wallet {
+class WalletModel {
   constructor(myMoney){
     this.myMoney=myMoney;
+    this.controller = null;
   }
   get totalMoney(){
     return Object.keys(this.myMoney).reduce((ac,money)=> {
       return ac+=Number(money)*this.myMoney[money]
     },0)
   }
-  useMoney(money){
-    if(this.myMoney[money]){
-      this.myMoney[money]-=1;
-      return Number(money);
+  useMoney(data){
+    if(this.myMoney[data.money]){
+      this.myMoney[data.money]-=1;
+      data.totalMoney = this.totalMoney
+      data.moneyCount = this.myMoney[data.money]
+      this.emit('reRenderWallet',data)
+      return Number(data.money)
     }
+  }
+  emit(eventName, data){
+    this.controller.catch(eventName, data);
   }
 }
 
-class VendingMachine {
+class VendingMachineModel {
   constructor(snackList){
     this.money=0;
     this.snackList= snackList
+    this.controller = null;
   }
-  insertMoney(money){
-    this.money += money;
+  insertMoney(data){
+    this.money += Number(data.money);
+    data.insertedMoney = this.money
+    this.emit('reRenderVendingMachineMoney', data)
+  }
+  emit(eventName, data){
+    this.controller.catch(eventName, data);
   }
 }
 
-class View {
+
+// 
+const capturedTargetElementName = (e, elementName) => e.target.localName===elementName
+
+const isButton = e=> e.target.localName==='button'
+
+class VendingMachineView {
   constructor(){
-    this.el = {}
+    this.snackListEl = this.getSearched('.snack-list')
+    this.selectButtonsEl = this.getSearched('.number-buttons')
+    this.moneyButtonListEl = this.getSearched('.money-button-list')
+    this.myTotalMoneyEl = this.getSearched('.total-my-assets .money')
+    this.insertedMoneyEl = this.getSearched('.diplay-inserted-money .money')
+    this.controller = null;
   }
-  getSearched(selector, target=document, name=selector){
-    return this.el[name]=target.querySelector(selector);
+  getSearched(selector, target=document){
+    return target.querySelector(selector);
   }
-  templateRender(selector,template, target=document){
-    return this.getSearched(selector, target=target).insertAdjacentHTML('beforeend', template)
+  updateText(el,updateText){
+    return el.innerText = updateText;
   }
-  updateText(selector,updateText, target=document){
-    return this.getSearched(selector, target=target).innerText = updateText;
+  setAttribute(el, attributesName, attributesValue){
+    el.setAttribute(attributesName, attributesValue);
   }
-  bindEvent(name, event, method){
-    this.el[name].addEventListener(event, method);
+  initRender(template, data){
+    const {snackTemplate, selectButtonTemplate, walletMoneyButtonTemplate} = template
+    const {snackList, buttonTextList, myMoney} = data
+    this.snackListEl.insertAdjacentHTML('beforeend', snackTemplate(snackList))
+    this.selectButtonsEl.insertAdjacentHTML('beforeend', selectButtonTemplate(buttonTextList))
+    this.moneyButtonListEl.insertAdjacentHTML('beforeend', walletMoneyButtonTemplate(myMoney))
+    this.myTotalMoneyEl.innerText = Object.keys(myMoney).reduce((ac,money)=> {
+      return ac+=Number(money)*myMoney[money]
+    },0)
+  }
+  handleMoneyButtonClicked(e){
+    if(!isButton(e)) return;
+    const moneyCountEl = e.target.nextElementSibling
+    const moneyCount =  Number(moneyCountEl.dataset.count)
+    if(!moneyCount) return;
+    const eventData = {
+      money: e.target.dataset.money,
+      moneyCountEl,
+      totalMoneyEl: this.myTotalMoneyEl,
+      insertedMoneyEl: this.insertedMoneyEl,
+    }
+    this.emit('useMoney', eventData)
+  }
+  emit(eventName, data){
+    this.controller.catch(eventName, data);
+  }
+  bindEvents(){
+    this.selectButtonsEl.addEventListener('click', e =>this.handleSelectButtonClicked(e));
+    this.moneyButtonListEl.addEventListener('click', e =>this.handleMoneyButtonClicked(e));
+    return this;
+  }
+  handleSelectButtonClicked(e){
+    if(!isButton(e)) return; 
   }
 }
+
+class VmController {
+  constructor(vendingMachine,wallet,vendingMachineView){
+    this.vendingMachine = vendingMachine;
+    this.wallet = wallet;
+    this.vendingMachineView = vendingMachineView;
+  }
+  catch(eventName, data){
+    this[eventName](data)
+  }
+  useMoney(data){
+    this.wallet.useMoney(data)
+    this.insertMoney(data)
+  }
+  reRenderWallet(data){
+    this.vendingMachineView.updateText(data.moneyCountEl, `${data.moneyCount}개`);
+    this.vendingMachineView.setAttribute(data.moneyCountEl,'data-count',data.moneyCount);
+    this.vendingMachineView.updateText(data.totalMoneyEl, data.totalMoney);
+  }
+  insertMoney(data){
+    this.vendingMachine.insertMoney(data);
+  }
+  reRenderVendingMachineMoney(data){
+    console.dir(data);
+    this.vendingMachineView.updateText(data.insertedMoneyEl, `${data.insertedMoney}`)
+  }
+}
+
+// template
+const template = {
+  snackTemplate: (snackList)=>{
+    return snackList.reduce((ac,c)=>{
+      return ac+=`<li class="snack-list-item">
+          <div class="snack-name-container">
+              <span class="snak-name">${c.name}</span>
+          </div>
+          <div class="label-price">
+              <span class="snack-number">${c.id}</span>
+              <span class="snack-price">${c.price}</span>
+          </div>
+        </li>`
+    },'')
+  },
+  selectButtonTemplate: (buttonTextList)=> {
+    return buttonTextList.reduce((ac,c)=>{
+      return ac+=` <li><button class="select-button">${c}</button></li>`
+    }, '');
+  },
+  walletMoneyButtonTemplate: (moneyObj)=> {
+    return  Object.keys(moneyObj).reduce((ac,moneyKind)=>{
+      return ac+=`<li class="wallet-money-button">
+                    <button data-money="${moneyKind}" data-unit="원">${moneyKind} 원</button>
+                    <span class="money-count" data-count="${moneyObj[moneyKind]}">${moneyObj[moneyKind]}개</span>
+                  </li>`
+    },'')
+  }
+};
 
 //  make Instance
 
-const vendingMachine = new VendingMachine(snackList);
-const wallet = new Wallet(myMoney);
-const view = new View();
+const vendingMachine = new VendingMachineModel(snackList);
+const wallet = new WalletModel(myMoney);
+const vendingMachineView = new VendingMachineView();
+const vendingMachineController = new VmController(vendingMachine,wallet, vendingMachineView);
+vendingMachine.controller = vendingMachineController;
+wallet.controller = vendingMachineController;
+vendingMachineView.controller = vendingMachineController;
 
-// template
 
-const snackTemplate = vendingMachine.snackList.reduce((ac,c)=>{
-  return ac+=`<li class="snack-list-item">
-      <div class="snack-name-container">
-          <span class="snak-name">${c.name}</span>
-      </div>
-      <div class="label-price">
-          <span class="snack-number">${c.id}</span>
-          <span class="snack-price">${c.price}</span>
-      </div>
-    </li>`
-},'')
+// event design
 
-const vendingMachineButtonTemplate = vmButtonTextList.reduce((ac,c)=>{
-  return ac+=` <li><button class="select-button">${c}</button></li>`
-}, '');
 
-const walletMoneyButtonTemplate = Object.keys(wallet.myMoney).reduce((ac,moneyKind)=>{
-  return ac+=`<li class="wallet-money-button">
-                <button data-money="${moneyKind}" data-unit="원">${moneyKind} 원</button>
-                <span class="money-count">${wallet.myMoney[moneyKind]}개</span>
-              </li>`
-},'')
 
-const template = {
-  snackTemplate,
-  vendingMachineButtonTemplate,
-  walletMoneyButtonTemplate,
-};
+
+
 
 // Rendering
-const capturedTargetElementName = (e, elementName) => e.target.localName===elementName
+
+/// event
   
-const insertCoin = (e)=>{
+const insertMoney = (e)=>{
   if(!capturedTargetElementName(e,'button')) return;
   const choseMoney =e.target.dataset.money
   const moneyCountElement = e.target.nextElementSibling
@@ -146,17 +240,27 @@ const insertCoin = (e)=>{
   }
 }
 
+/// domLoad
+
 document.addEventListener("DOMContentLoaded", (e)=> {
   console.log("DOM fully loaded and parsed");
-  view.templateRender('.snack-list', snackTemplate);
-  view.templateRender('.number-buttons', vendingMachineButtonTemplate);
-  view.templateRender('.money-button-list', walletMoneyButtonTemplate);
-  view.updateText('.total-my-assets .money', wallet.totalMoney)
-  view.updateText('.diplay-inserted-money .money', vendingMachine.money)
-  view.bindEvent('.money-button-list','click', insertCoin)
+  // rendering 
+  const renderingData = {
+    snackList,
+    buttonTextList,
+    myMoney,
+  }
+  vendingMachineView.initRender(template, renderingData)
+  vendingMachineView.bindEvents()
 });
 
  
+// 1. Eventclick된다 거른다
+// 2. 보낸다 컨트롤러에게
+// 3. 컨트롤러는 받는다 이벤트 이름과 data를 받는다 
+// 4. 받은 것에 매칭되는 모델ex  wallet 에게 보내준디 
+// 5. 모델은 이벤트를 받고 UseMoney 를 해준다
+// 6. Update가 되면
 
 
 
