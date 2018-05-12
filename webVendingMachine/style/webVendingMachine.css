@@ -108,7 +108,7 @@ button:focus {
 }
 
 .money {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 .number-buttons {
@@ -185,7 +185,7 @@ button:focus {
   width: 100%;
 }
 
-.wallet-money-button [class*="money"] {
+.wallet-money-button button,.wallet-money-button .money-count{
   float: left;
   width: 45%;
   margin-right: 5%;
@@ -199,7 +199,6 @@ button:focus {
   padding: 0;
   border: 0;
 }
-
 
 .total-my-assets {
   margin-top: 40px;
