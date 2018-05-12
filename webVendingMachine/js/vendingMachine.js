@@ -1,5 +1,4 @@
-// static data  snackList , vmButtonTextList , myMoney
-
+// class Wallet, vendingMachine, View
 const snackList = [
   { "id": 1, "name": "콜라", "price": 500, "working": true },
   { "id": 2, "name": "사이다", "price": 1000, "working": true },
@@ -44,9 +43,6 @@ const myMoney = {
   5000: 2,
   10000: 2,
 }
-
-// class Wallet, vendingMachine, View
-
 class WalletModel {
   constructor(myMoney){
     this.myMoney=myMoney;
@@ -87,12 +83,6 @@ class VendingMachineModel {
   }
 }
 
-
-// 
-const capturedTargetElementName = (e, elementName) => e.target.localName===elementName
-
-const isButton = e=> e.target.localName==='button'
-
 class VendingMachineView {
   constructor(){
     this.snackListEl = this.getSearched('.snack-list')
@@ -121,13 +111,13 @@ class VendingMachineView {
       return ac+=Number(money)*myMoney[money]
     },0)
   }
-  handleMoneyButtonClicked(e){
-    if(!isButton(e)) return;
-    const moneyCountEl = e.target.nextElementSibling
+  handleMoneyButtonClicked({target}){
+    if(!target.localName==="button") return;
+    const moneyCountEl = target.nextElementSibling
     const moneyCount =  Number(moneyCountEl.dataset.count)
     if(!moneyCount) return;
     const eventData = {
-      money: e.target.dataset.money,
+      money: target.dataset.money,
       moneyCountEl,
       totalMoneyEl: this.myTotalMoneyEl,
       insertedMoneyEl: this.insertedMoneyEl,
@@ -143,7 +133,7 @@ class VendingMachineView {
     return this;
   }
   handleSelectButtonClicked(e){
-    if(!isButton(e)) return; 
+    
   }
 }
 
@@ -169,7 +159,6 @@ class VmController {
     this.vendingMachine.insertMoney(data);
   }
   reRenderVendingMachineMoney(data){
-    console.dir(data);
     this.vendingMachineView.updateText(data.insertedMoneyEl, `${data.insertedMoney}`)
   }
 }
@@ -210,6 +199,8 @@ const vendingMachine = new VendingMachineModel(snackList);
 const wallet = new WalletModel(myMoney);
 const vendingMachineView = new VendingMachineView();
 const vendingMachineController = new VmController(vendingMachine,wallet, vendingMachineView);
+
+// bind Controller 
 vendingMachine.controller = vendingMachineController;
 wallet.controller = vendingMachineController;
 vendingMachineView.controller = vendingMachineController;
@@ -226,19 +217,7 @@ vendingMachineView.controller = vendingMachineController;
 
 /// event
   
-const insertMoney = (e)=>{
-  if(!capturedTargetElementName(e,'button')) return;
-  const choseMoney =e.target.dataset.money
-  const moneyCountElement = e.target.nextElementSibling
-  let moneyCount = wallet.myMoney[choseMoney]
-  if(moneyCount){
-    const willInsertMoney = wallet.useMoney(choseMoney)
-    moneyCountElement.innerText=`${wallet.myMoney[choseMoney]}개`
-    vendingMachine.insertMoney(willInsertMoney);
-    view.updateText('.total-my-assets .money', wallet.totalMoney)
-    view.updateText('.diplay-inserted-money .money', vendingMachine.money)
-  }
-}
+
 
 /// domLoad
 
