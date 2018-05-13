@@ -67,21 +67,51 @@ class WalletModel {
   }
 }
 
+// STEP6
+// [O] 돈 이 입력되면 로그 창에 돈이 입력되었다고 나온다.
+// [O]    돈이 입력되었을 때 로그를 저장한다.  
+//        어떻게 저장할지 list 형태로 concat or push
+// [O]-- 로그의 3개 까지는 관련 메시지들을 만들어서 컨트롤러에게 보내준다.
+// [O] 컨트롤러는 메시지들을 가지고 rendering을 해준다. 
+
+// 
+//
+//
 class VendingMachineModel {
   constructor(snackList){
     this.money=0;
     this.snackList= snackList
     this.controller = null;
+    this.logHistoryList = [];
+    this.actions = {
+      'insertMoney': (data)=> `<p class="log">${data}원이 입력되었습니다</p>`
+    }
   }
   insertMoney(data){
     this.money += Number(data.money);
     data.insertedMoney = this.money
+    this.writeLog('insertMoney', data.money)
+    // this.makeLogMsg('insertMoney',data.money);
     this.emit('reRenderVendingMachineMoney', data)
-    this.emit('reRenderLog', data)
-    this.emit('displayCanBuySnak',data)
   }
   emit(eventName, data){
     this.controller.catch(eventName, data);
+  }
+  writeLog(type, data){
+    const logData = {type, data}
+    this.logHistoryList = this.logHistoryList.concat(logData)
+    const latestHistorys = this.logHistoryList.slice(-3)
+    this.makelogMsgs(latestHistorys);
+  }
+  makelogMsgs(latestHistorys){
+    const latestMsgTemplate =  latestHistorys.reduce(
+      (ac,{type, data})=>{
+        return ac+=this.getMessageByType(type,data)
+      },``)
+    this.emit('reRenderLog',latestMsgTemplate)
+  }
+  getMessageByType(type, data){
+    return this.actions[type](data)
   }
 }
 
@@ -92,7 +122,7 @@ class VendingMachineView {
     this.moneyButtonListEl = this.getSearched('.money-button-list')
     this.myTotalMoneyEl = this.getSearched('.total-my-assets .money')
     this.insertedMoneyEl = this.getSearched('.diplay-inserted-money .money')
-    this.displayLogEl = this.getSearched('.display-log-box .log')
+    this.displayLogEl = this.getSearched('.display-log-box')
     this.controller = null;
   }
   getSearched(selector, target=document){
@@ -103,6 +133,12 @@ class VendingMachineView {
   }
   setAttribute(el, attributesName, attributesValue){
     el.setAttribute(attributesName, attributesValue);
+  }
+  innerHTML(el, html){
+    return el.innerHTML = html
+  }
+  addClass(el, className){
+    return el.classList.add(className)
   }
   initRender(template, data){
     const {snackTemplate, selectButtonTemplate, walletMoneyButtonTemplate} = template
@@ -140,7 +176,6 @@ class VendingMachineView {
   }
 }
 
-// [ ] 돈 이 입력되면 로그 창에 돈이 입력되었다고 나온다.
 class VmController {
   constructor(vendingMachine,wallet,vendingMachineView){
     this.vendingMachine = vendingMachine;
@@ -169,7 +204,9 @@ class VmController {
     // this.vendingMachineView.updateText
   }
   reRenderLog(data){
-    this.vendingMachineView.updateText(this.vendingMachineView.displayLogEl, `${data.insertedMoney}원이 입력되었습니다`)
+    const displayLogEl = this.vendingMachineView.displayLogEl
+    this.vendingMachineView.innerHTML(displayLogEl, data);
+    this.vendingMachineView.addClass(displayLogEl.lastElementChild, 'now')
   }
 }
 

@@ -143,7 +143,8 @@ button:focus {
 }
 
 .display-log-box{
-  position: relative;
+  padding: 40px 20px;
+  box-sizing: border-box;
   width: 100%;
   border-radius: 10px;
   margin-top: 40px;
@@ -151,17 +152,24 @@ button:focus {
   min-height: 200px;
   color: #FFF;
   overflow: auto;
+  text-align: center;
 }
 
 .log {
-  float: left;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: 0;
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  float: left; 
   white-space: pre;
+  overflow: auto;
+  color: #EEE;
 }
+.now {
+  font-size: 18px;
+  color: #FFF;
+}
+
+
 
 /* wallet */
 .wallet {
