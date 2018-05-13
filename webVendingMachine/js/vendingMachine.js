@@ -77,6 +77,8 @@ class VendingMachineModel {
     this.money += Number(data.money);
     data.insertedMoney = this.money
     this.emit('reRenderVendingMachineMoney', data)
+    this.emit('reRenderLog', data)
+    this.emit('displayCanBuySnak',data)
   }
   emit(eventName, data){
     this.controller.catch(eventName, data);
@@ -90,6 +92,7 @@ class VendingMachineView {
     this.moneyButtonListEl = this.getSearched('.money-button-list')
     this.myTotalMoneyEl = this.getSearched('.total-my-assets .money')
     this.insertedMoneyEl = this.getSearched('.diplay-inserted-money .money')
+    this.displayLogEl = this.getSearched('.display-log-box .log')
     this.controller = null;
   }
   getSearched(selector, target=document){
@@ -137,6 +140,7 @@ class VendingMachineView {
   }
 }
 
+// [ ] 돈 이 입력되면 로그 창에 돈이 입력되었다고 나온다.
 class VmController {
   constructor(vendingMachine,wallet,vendingMachineView){
     this.vendingMachine = vendingMachine;
@@ -160,6 +164,12 @@ class VmController {
   }
   reRenderVendingMachineMoney(data){
     this.vendingMachineView.updateText(data.insertedMoneyEl, `${data.insertedMoney}`)
+  }
+  displayCanBuySnak(data){
+    // this.vendingMachineView.updateText
+  }
+  reRenderLog(data){
+    this.vendingMachineView.updateText(this.vendingMachineView.displayLogEl, `${data.insertedMoney}원이 입력되었습니다`)
   }
 }
 
