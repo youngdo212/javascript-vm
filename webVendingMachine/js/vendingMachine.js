@@ -74,9 +74,10 @@ class WalletModel {
 // [O]-- 로그의 3개 까지는 관련 메시지들을 만들어서 컨트롤러에게 보내준다.
 // [O] 컨트롤러는 메시지들을 가지고 rendering을 해준다. 
 
-// 
-//
-//
+// [] 자판기에 돈이 입력되면.입력된 돈으로 살 수 있는 목록을 보여준다
+//    [O] 살 수 있는 목록을 가지고 온다. 
+//    [] html파일에 상품이름과 컨트롤러에 보내준 상품이름이 같으면 스타일을 변경한다.    
+
 class VendingMachineModel {
   constructor(snackList){
     this.money=0;
@@ -91,8 +92,12 @@ class VendingMachineModel {
     this.money += Number(data.money);
     data.insertedMoney = this.money
     this.writeLog('insertMoney', data.money)
-    // this.makeLogMsg('insertMoney',data.money);
+    this.emit('displayBuyableList',this.getBuyableList())    
     this.emit('reRenderVendingMachineMoney', data)
+  }
+  getBuyableList(){
+    const buyableList = this.snackList.filter(({price})=>price<=this.money)
+    return buyableList
   }
   emit(eventName, data){
     this.controller.catch(eventName, data);
@@ -127,6 +132,9 @@ class VendingMachineView {
   }
   getSearched(selector, target=document){
     return target.querySelector(selector);
+  }
+  getSearchedAll(selector, target=document){
+    return target.querySelectorAll(selector);
   }
   updateText(el,updateText){
     return el.innerText = updateText;
@@ -200,8 +208,12 @@ class VmController {
   reRenderVendingMachineMoney(data){
     this.vendingMachineView.updateText(data.insertedMoneyEl, `${data.insertedMoney}`)
   }
-  displayCanBuySnak(data){
-    // this.vendingMachineView.updateText
+  displayBuyableList(snackList){
+    const snackListEl =this.vendingMachineView.snackListEl;
+    snackList.forEach(({id}) => {
+      const matchedItem = this.vendingMachineView.getSearched(`[data-id="${id}"]`, snackListEl)
+      this.vendingMachineView.addClass(matchedItem, 'red')
+    });
   }
   reRenderLog(data){
     const displayLogEl = this.vendingMachineView.displayLogEl
@@ -214,7 +226,7 @@ class VmController {
 const template = {
   snackTemplate: (snackList)=>{
     return snackList.reduce((ac,c)=>{
-      return ac+=`<li class="snack-list-item">
+      return ac+=`<li data-id="${c.id}" class="snack-list-item">
           <div class="snack-name-container">
               <span class="snak-name">${c.name}</span>
           </div>
