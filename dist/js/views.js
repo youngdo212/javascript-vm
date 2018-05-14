@@ -22,7 +22,9 @@ var viewerObj = {
     });
   }
 }
-module.exports = viewerObj
+
+
+
 
 function VMViewer(coin, snacksList) {
   return {
@@ -37,3 +39,5 @@ function VMViewer(coin, snacksList) {
     inputCoin: 0
   }
 }
+
+module.exports = viewerObj

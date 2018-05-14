@@ -7,7 +7,7 @@ const $qsa = (selector, scope) => {
 }
 
 const $on = (target, type, callback, capture) => {
-  target.addEventListener(type, callback, !!capture);
+  return target.addEventListener(type, callback, !!capture);
 }
 
 
