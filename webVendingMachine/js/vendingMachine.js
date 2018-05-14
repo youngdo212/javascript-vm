@@ -63,7 +63,7 @@ class WalletModel {
     }
   }
   emit(eventName, data){
-    this.controller.catch(eventName, data);
+    this.controller.on(eventName, data);
   }
 }
 
@@ -74,9 +74,15 @@ class WalletModel {
 // [O]-- 로그의 3개 까지는 관련 메시지들을 만들어서 컨트롤러에게 보내준다.
 // [O] 컨트롤러는 메시지들을 가지고 rendering을 해준다. 
 
-// [] 자판기에 돈이 입력되면.입력된 돈으로 살 수 있는 목록을 보여준다
+// [O] 자판기에 돈이 입력되면.입력된 돈으로 살 수 있는 목록을 보여준다
 //    [O] 살 수 있는 목록을 가지고 온다. 
-//    [] html파일에 상품이름과 컨트롤러에 보내준 상품이름이 같으면 스타일을 변경한다.    
+//    [O] html파일에 상품이름과 컨트롤러에 보내준 상품이름이 같으면 스타일을 변경한다.
+
+// 피드백 반영
+
+// [] 간단한 함수는 메소드로 만들지 말기 !
+// [] Model에서는 Data만 전달하게 끔 수정
+// [O] 네이밍 catch -> on으로 수정 innerHtml 같은 메소드들 도 수정 and 작은 규모는 없애기
 
 class VendingMachineModel {
   constructor(snackList){
@@ -100,7 +106,7 @@ class VendingMachineModel {
     return buyableList
   }
   emit(eventName, data){
-    this.controller.catch(eventName, data);
+    this.controller.on(eventName, data);
   }
   writeLog(type, data){
     const logData = {type, data}
@@ -172,7 +178,7 @@ class VendingMachineView {
     this.emit('useMoney', eventData)
   }
   emit(eventName, data){
-    this.controller.catch(eventName, data);
+    this.controller.on(eventName, data);
   }
   bindEvents(){
     this.selectButtonsEl.addEventListener('click', e =>this.handleSelectButtonClicked(e));
@@ -190,7 +196,7 @@ class VmController {
     this.wallet = wallet;
     this.vendingMachineView = vendingMachineView;
   }
-  catch(eventName, data){
+  on(eventName, data){
     this[eventName](data)
   }
   useMoney(data){
