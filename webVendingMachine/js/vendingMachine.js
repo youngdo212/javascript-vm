@@ -80,8 +80,8 @@ class WalletModel {
 
 // 피드백 반영
 
-// [] 간단한 함수는 메소드로 만들지 말기 !
-// [] Model에서는 Data만 전달하게 끔 수정
+// [O] 간단한 함수는 메소드로 만들지 말기 !
+// [O] Model에서는 Data만 전달하게 끔 수정
 // [O] 네이밍 catch -> on으로 수정 innerHtml 같은 메소드들 도 수정 and 작은 규모는 없애기
 
 class VendingMachineModel {
@@ -90,39 +90,22 @@ class VendingMachineModel {
     this.snackList= snackList
     this.controller = null;
     this.logHistoryList = [];
-    this.actions = {
-      'insertMoney': (data)=> `<p class="log">${data}원이 입력되었습니다</p>`
-    }
   }
   insertMoney(data){
     this.money += Number(data.money);
-    data.insertedMoney = this.money
-    this.writeLog('insertMoney', data.money)
-    this.emit('displayBuyableList',this.getBuyableList())    
+    data.insertedMoney = this.money;
+    this.writeLog('insertMoney', data.money);
+    this.emit('displayCanBuyList', this.money);
     this.emit('reRenderVendingMachineMoney', data)
   }
-  getBuyableList(){
-    const buyableList = this.snackList.filter(({price})=>price<=this.money)
-    return buyableList
+  writeLog(type, data){
+    const logData = {type, data};
+    this.logHistoryList = this.logHistoryList.concat(logData);
+    const latestHistorys = this.logHistoryList.slice(-3);
+    this.emit('reRenderLog',latestHistorys)
   }
   emit(eventName, data){
     this.controller.on(eventName, data);
-  }
-  writeLog(type, data){
-    const logData = {type, data}
-    this.logHistoryList = this.logHistoryList.concat(logData)
-    const latestHistorys = this.logHistoryList.slice(-3)
-    this.makelogMsgs(latestHistorys);
-  }
-  makelogMsgs(latestHistorys){
-    const latestMsgTemplate =  latestHistorys.reduce(
-      (ac,{type, data})=>{
-        return ac+=this.getMessageByType(type,data)
-      },``)
-    this.emit('reRenderLog',latestMsgTemplate)
-  }
-  getMessageByType(type, data){
-    return this.actions[type](data)
   }
 }
 
@@ -135,6 +118,9 @@ class VendingMachineView {
     this.insertedMoneyEl = this.getSearched('.diplay-inserted-money .money')
     this.displayLogEl = this.getSearched('.display-log-box')
     this.controller = null;
+    this.actions = {
+      'insertMoney': (data)=> `<p class="log">${data}원이 입력되었습니다</p>`
+    }
   }
   getSearched(selector, target=document){
     return target.querySelector(selector);
@@ -145,14 +131,8 @@ class VendingMachineView {
   updateText(el,updateText){
     return el.innerText = updateText;
   }
-  setAttribute(el, attributesName, attributesValue){
-    el.setAttribute(attributesName, attributesValue);
-  }
-  innerHTML(el, html){
-    return el.innerHTML = html
-  }
-  addClass(el, className){
-    return el.classList.add(className)
+  getMessageByType(type, data){
+    return this.actions[type](data)
   }
   initRender(template, data){
     const {snackTemplate, selectButtonTemplate, walletMoneyButtonTemplate} = template
@@ -174,7 +154,7 @@ class VendingMachineView {
       moneyCountEl,
       totalMoneyEl: this.myTotalMoneyEl,
       insertedMoneyEl: this.insertedMoneyEl,
-    }
+    };
     this.emit('useMoney', eventData)
   }
   emit(eventName, data){
@@ -185,8 +165,41 @@ class VendingMachineView {
     this.moneyButtonListEl.addEventListener('click', e =>this.handleMoneyButtonClicked(e));
     return this;
   }
+  getCanBuyList(money){
+    const eachSnacks = this.getSearchedAll(`[data-id]`, this.snackListEl);
+    return Array.prototype.filter.call(eachSnacks,(snackEl)=>{
+      const price = snackEl.dataset.price
+      if(price<=money) return snackEl;
+    })
+  }
+  addClassElList(list, className){
+    list.forEach(el=> el.classList.add(className))
+  }
+  displayCanBuyList(money){
+    const canBuyList = this.getCanBuyList(money);
+    this.addClassElList(canBuyList, 'red')
+  }
+  makeLogTemplate(latestHistorys){
+     return latestHistorys.reduce(
+      (ac,{type, data})=>{
+        return ac+=this.getMessageByType(type,data)
+      },``);
+  }
+  reRenderLog(latestHistorys){
+    const latestMsgTemplate = this.makeLogTemplate(latestHistorys);
+    this.displayLogEl.innerHTML = latestMsgTemplate;
+    this.displayLogEl.lastElementChild.classList.add('now')
+  }
   handleSelectButtonClicked(e){
     
+  }
+  reRenderVendingMachineMoney(data){
+   this.updateText(this.insertedMoneyEl, `${data.insertedMoney}`)
+  }
+  reRenderWallet(data){
+    this.updateText(data.moneyCountEl, `${data.moneyCount}개`);
+    data.moneyCountEl.setAttribute('data-count',data.moneyCount);
+    this.updateText(data.totalMoneyEl, data.totalMoney);
   }
 }
 
@@ -204,27 +217,19 @@ class VmController {
     this.insertMoney(data)
   }
   reRenderWallet(data){
-    this.vendingMachineView.updateText(data.moneyCountEl, `${data.moneyCount}개`);
-    this.vendingMachineView.setAttribute(data.moneyCountEl,'data-count',data.moneyCount);
-    this.vendingMachineView.updateText(data.totalMoneyEl, data.totalMoney);
+    this.vendingMachineView.reRenderWallet(data);
   }
   insertMoney(data){
     this.vendingMachine.insertMoney(data);
   }
   reRenderVendingMachineMoney(data){
-    this.vendingMachineView.updateText(data.insertedMoneyEl, `${data.insertedMoney}`)
+    this.vendingMachineView.reRenderVendingMachineMoney(data);
   }
-  displayBuyableList(snackList){
-    const snackListEl =this.vendingMachineView.snackListEl;
-    snackList.forEach(({id}) => {
-      const matchedItem = this.vendingMachineView.getSearched(`[data-id="${id}"]`, snackListEl)
-      this.vendingMachineView.addClass(matchedItem, 'red')
-    });
+  displayCanBuyList(money){
+    this.vendingMachineView.displayCanBuyList(money);
   }
-  reRenderLog(data){
-    const displayLogEl = this.vendingMachineView.displayLogEl
-    this.vendingMachineView.innerHTML(displayLogEl, data);
-    this.vendingMachineView.addClass(displayLogEl.lastElementChild, 'now')
+  reRenderLog(latestHistorys){
+    this.vendingMachineView.reRenderLog(latestHistorys);
   }
 }
 
@@ -232,7 +237,9 @@ class VmController {
 const template = {
   snackTemplate: (snackList)=>{
     return snackList.reduce((ac,c)=>{
-      return ac+=`<li data-id="${c.id}" class="snack-list-item">
+      return ac+=`<li data-id="${c.id}"
+                      data-price="${c.price}" 
+                      class="snack-list-item">
           <div class="snack-name-container">
               <span class="snak-name">${c.name}</span>
           </div>
@@ -271,19 +278,6 @@ wallet.controller = vendingMachineController;
 vendingMachineView.controller = vendingMachineController;
 
 
-// event design
-
-
-
-
-
-
-// Rendering
-
-/// event
-  
-
-
 /// domLoad
 
 document.addEventListener("DOMContentLoaded", (e)=> {
@@ -299,12 +293,7 @@ document.addEventListener("DOMContentLoaded", (e)=> {
 });
 
  
-// 1. Eventclick된다 거른다
-// 2. 보낸다 컨트롤러에게
-// 3. 컨트롤러는 받는다 이벤트 이름과 data를 받는다 
-// 4. 받은 것에 매칭되는 모델ex  wallet 에게 보내준디 
-// 5. 모델은 이벤트를 받고 UseMoney 를 해준다
-// 6. Update가 되면
+
 
 
 
