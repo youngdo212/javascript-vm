@@ -1,13 +1,20 @@
-var templateObj = {
-  showItems: function(val, templateId) {
+const vmView = require('./views')
+
+class VMTemplate {
+  constructor(vmView) {
+    this.vmView = vmView;
+    this.coinSum = 0;
+  }
+
+  showItems(val, templateId) {
     return val.reduce((acc, curr) => acc += this.vmView.template(templateId, curr), '')
-  },
+  }
 
-  sumMoney: function(val) {
-    return val.reduce((acc, curr) => this.vmView.coinSum += curr.store * curr.value, '');
-  },
+  sumMoney(val) {
+    return val.reduce((acc, curr) => this.coinSum += curr.store * curr.value, '');
+  }
 
-  showLoaders: function() {
+  showLoaders() {
     let output = `
     <div class="spinner__container">
       <ul class="spinner__cont">
@@ -23,8 +30,5 @@ var templateObj = {
   }
 }
 
-function VMTemplate(vmView) {
-  return {
-    vmView: vmView
-  }
-}
+
+module.exports = VMTemplate;

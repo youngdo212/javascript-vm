@@ -6,6 +6,7 @@ const coin = [
   { "name": "10000원", "value": 10000, "store": 2 }
 ]
 
+
 const snacksList = [
   { "id": 1, "name": "콜라", "price": 500, "working": true },
   { "id": 2, "name": "사이다", "price": 1000, "working": true },
@@ -40,3 +41,6 @@ const snacksList = [
   { "id": 31, "name": "진라면", "price": 800, "working": true },
   { "id": 32, "name": "포도맛 환타", "price": 1000, "working": true }
 ]
+
+
+module.exports = coin

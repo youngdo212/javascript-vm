@@ -1,27 +1,35 @@
 const { $qs, $qsa, $on } = require('./helpers');
+const vmView = require('./views');
 
-var controllerObj = {
-  init: function() {
+class VMController {
+  constructor(vmView, vmTemplate) {
+    this.vmView = vmView;
+    this.vmTemplate = vmTemplate;
+    buttonConfirm = $qs('#selector__button__confirm');
+    selectDecision = '';
+  }
+
+  init() {
     const ul = $qs('.selector__buttons__lists');
     const buttonZero = $qs('#selector__button__0');
     this.getItems();
     this.insert();
     this.selectBtns(ul, buttonZero, this.buttonConfirm);
     this.vmView.setMessage("동전을 넣어주세요");
-  },
+  }
 
-  getItems: function() {
+  getItems() {
     this.vmView.snacksEl.innerHTML += vmTemplate.showItems(this.vmView.snacksList, 'snack__template');
     this.vmView.slotEl.innerHTML += vmTemplate.showItems(this.vmView.coin, 'coin-slot__template');
     this.vmView.coinTotal.innerText = vmTemplate.sumMoney(this.vmView.coin);
-  },
+  }
 
-  activateBtn: function() {
+  activateBtn() {
     return Number(this.vmView.coinStatus.innerText) >= 300 ?
       this.buttonConfirm.disabled = false : this.buttonConfirm.disabled = true;
-  },
+  }
 
-  insert: function() {
+  insert() {
     const coinButtons = $qsa('.coin-slot__buttons', this.vmView.slotEl);
     const disableCoinBtn = (idx) => {
       if (coin[idx].store <= 0) {
@@ -32,7 +40,7 @@ var controllerObj = {
 
     const editStatus = (idx) => {
       const stores = $qsa('.coin__left', this.vmView.slotEl);
-      let { coin, coinSum, coinTotal, coinStatus } = this.vmView;
+      let { coin, coinTotal, coinStatus } = this.vmView;
       this.selectDecision = '';
       coin[idx].store--;
       coinTotal.innerText -= coin[idx].value;
@@ -50,10 +58,10 @@ var controllerObj = {
         this.vmView.setMessage(`원하는 음료의 번호를 입력하세요`);
       })
     })
-  },
+  }
 
 
-  selectItems: function() {
+  selectItems() {
     const { vmView } = this;
     this.vmView.isSelected().forEach((elem, idx) => {
       const { id, working, price, name } = elem;
@@ -68,10 +76,10 @@ var controllerObj = {
       }
     });
     this.selectDecision = '';
-  },
+  }
 
 
-  selectBtns: function(ul) {
+  selectBtns(ul) {
     $on(ul, 'click', event => {
       if (event.target.tagName === 'BUTTON') {
         if (event.target.id !== 'selector__button__return' && event.target.id !== 'selector__button__confirm') {
@@ -106,13 +114,6 @@ var controllerObj = {
   }
 }
 
-function VMController(vmView, vmTemplate) {
-  return {
-    vmView: vmView,
-    vmTemplate: vmTemplate,
-    buttonConfirm: $qs('#selector__button__confirm'),
-    selectDecision: ''
-  }
-}
+const vmControl = new VMController(vmView, vmTemplate);
 
-module.exports = controllerObj
+module.exports = VMController

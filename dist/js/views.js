@@ -1,20 +1,33 @@
 const { $qs, $qsa, $on } = require('./helpers');
+const { coin, snacksList } = require('./data');
 
-var viewerObj = {
-  isSelected: function() {
+
+class VMViewer {
+  constructor(coin, snacksList) {
+    this.coin = coin;
+    this.snacksList = snacksList;
+    this.slotEl = $qs('.coin-slot__lists');
+    this.screen = $qs('.selector__status__items');
+    this.coinStatus = $qs('.selector__status__coin');
+    this.coinTotal = $qs('#coin__total');
+    this.snacksEl = $qs('.snack__lists');
+    this.inputCoin = 0;
+  }
+
+  isSelected() {
     return this.snacksList.filter((elem, idx) => elem.id === vmControl.selectDecision);
-  },
+  }
 
-  template: function(templateid, data) {
+  template(templateid, data) {
     return document.getElementById(templateid).innerHTML
       .replace(/{{(\w*)}}/g, (match, key) => data.hasOwnProperty(key) ? data[key] : "");
-  },
+  }
 
-  setMessage: function(message) {
+  setMessage(message) {
     return this.screen.innerText = message;
-  },
+  }
 
-  validateItems: function() {
+  validateItems() {
     const snackItems = $qsa('.snack__items', this.snacksEl);
     snackItems.forEach((elem, idx) => {
       Number(this.coinStatus.innerText) < this.snacksList[idx].price ?
@@ -24,20 +37,4 @@ var viewerObj = {
 }
 
 
-
-
-function VMViewer(coin, snacksList) {
-  return {
-    coin: coin,
-    snacksList: snacksList,
-    slotEl: $qs('.coin-slot__lists'),
-    screen: $qs('.selector__status__items'),
-    coinStatus: $qs('.selector__status__coin'),
-    coinTotal: $qs('#coin__total'),
-    snacksEl: $qs('.snack__lists'),
-    coinSum: 0,
-    inputCoin: 0
-  }
-}
-
-module.exports = viewerObj
+module.exports = VMViewer;

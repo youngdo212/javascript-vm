@@ -7,9 +7,8 @@ const $qsa = (selector, scope) => {
   return qs.querySelectorAll(selector);
 }
 
-const $on = (target, type, callback, capture) => { 
+const $on = (target, type, callback, capture) => {
   return target.addEventListener(type, callback, !!capture);
 }
-
 
 module.exports = { $qs, $qsa, $on }
