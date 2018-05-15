@@ -142,14 +142,35 @@ button:focus {
   color: #FFF;
 }
 
-.display-log{
-  float: left;
+.display-log-box{
+  padding: 40px 20px;
+  box-sizing: border-box;
   width: 100%;
   border-radius: 10px;
   margin-top: 40px;
   background-image: linear-gradient(to right bottom, #2a7c57, #298f63, #25a36f, #1db77c, #0ccc89);
   min-height: 200px;
   color: #FFF;
+  overflow: auto;
+  text-align: center;
+}
+
+.log {
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  float: left; 
+  white-space: pre;
+  overflow: auto;
+  color: #EEE;
+}
+.now {
+  font-size: 18px;
+  color: #FFF;
+}
+
+.red {
+  color: red;
 }
 
 /* wallet */
