@@ -5,8 +5,8 @@ class VMController {
   constructor(vmView, vmTemplate) {
     this.vmView = vmView;
     this.vmTemplate = vmTemplate;
-    buttonConfirm = $qs('#selector__button__confirm');
-    selectDecision = '';
+    this.buttonConfirm = $qs('#selector__button__confirm');
+    this.selectDecision = '';
   }
 
   init() {
@@ -63,7 +63,7 @@ class VMController {
 
   selectItems() {
     const { vmView } = this;
-    this.vmView.isSelected().forEach((elem, idx) => {
+    vmView.isSelected().forEach((elem, idx) => {
       const { id, working, price, name } = elem;
       if (!working) return vmView.setMessage("고장난 상품입니다. 다시 눌러주세요");
       if (price <= Number(vmView.coinStatus.innerText)) {
@@ -114,6 +114,5 @@ class VMController {
   }
 }
 
-const vmControl = new VMController(vmView, vmTemplate);
 
 module.exports = VMController

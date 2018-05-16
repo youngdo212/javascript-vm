@@ -1,12 +1,21 @@
+const { coin, snacksList } = require('../data');
 const VMTemplate = require('../template');
-const dt = require('../data');
-
-
+const VMView = require('../views');
 
 describe('check methods in template scripts files', () => {
   const vmTemplate = new VMTemplate();
+  const vmView = new VMView(coin);
+
+  beforeAll(() => {
+    document.body.innerHTML = `
+    <template id="coin-slot__template">
+        <button>{{name}}</button>
+    </template>
+    `
+  })
+
   test('template test: ', () => {
-    expect(vmTemplate.sumMoney(dt)).toBe(48500);
+    expect(vmTemplate.sumMoney(coin)).toBe(48500);
   })
 
   test('loader test: ', () => {
@@ -22,5 +31,14 @@ describe('check methods in template scripts files', () => {
     </div>
     `
     expect(vmTemplate.showLoaders()).toBe(testResult);
+  })
+
+  test('show item TEST', () => {
+    const vmTemplate = new VMTemplate();
+    const vmView = new VMView(coin);    
+    function showItems(val, templateId){      
+      return val.reduce((acc, curr) => acc += vmView.template(templateId, curr), '')
+      expect(templateId).toBe('coin-slot__template');
+    }
   })
 });

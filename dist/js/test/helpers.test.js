@@ -14,11 +14,11 @@ describe('Check helper methods.', () => {
     </ul>`;
   })
 
-  test('$qsa test: ', () => {
+  test('$qsa TEST: ', () => {
     expect($qsa('.selector__buttons', '.selector__buttons__lists')[0].classList.contains('selector__buttons')).toBe(true);
   })
 
-  test('$qs test: ', () => {
+  test('$qs TEST: ', () => {
     expect($qs('#selector__button__0').id).toBe("selector__button__0");
   })
 });

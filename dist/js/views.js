@@ -1,6 +1,6 @@
 const { $qs, $qsa, $on } = require('./helpers');
 const { coin, snacksList } = require('./data');
-
+const vmControl = require('./controller');
 
 class VMViewer {
   constructor(coin, snacksList) {
@@ -14,8 +14,8 @@ class VMViewer {
     this.inputCoin = 0;
   }
 
-  isSelected() {
-    return this.snacksList.filter((elem, idx) => elem.id === vmControl.selectDecision);
+  isSelected() {   
+    return snacksList.filter((elem, idx) => elem.id === vmControl.selectDecision);
   }
 
   template(templateid, data) {
@@ -36,5 +36,6 @@ class VMViewer {
   }
 }
 
+const vmVieew = new VMViewer(coin, snacksList);
 
 module.exports = VMViewer;

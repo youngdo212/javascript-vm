@@ -43,4 +43,4 @@ const snacksList = [
 ]
 
 
-module.exports = coin
+module.exports = {coin, snacksList}
