@@ -35,10 +35,22 @@ describe('check methods in template scripts files', () => {
 
   test('show item TEST', () => {
     const vmTemplate = new VMTemplate();
-    const vmView = new VMView(coin);    
-    function showItems(val, templateId){      
+    const vmView = new VMView(coin);
+    let result = 
+    `<button>100원</button>
+    
+        <button>500원</button>
+    
+        <button>1000원</button>
+    
+        <button>5000원</button>
+    
+        <button>10000원</button>`
+
+    function showItems(val, templateId) {
       return val.reduce((acc, curr) => acc += vmView.template(templateId, curr), '')
-      expect(templateId).toBe('coin-slot__template');
     }
+
+    expect(showItems(coin, 'coin-slot__template').trim()).toBe(result);
   })
 });

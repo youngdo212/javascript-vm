@@ -36,6 +36,6 @@ class VMViewer {
   }
 }
 
-const vmVieew = new VMViewer(coin, snacksList);
+const vmView = new VMViewer(coin, snacksList);
 
 module.exports = VMViewer;
