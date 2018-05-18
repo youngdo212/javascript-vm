@@ -15,10 +15,14 @@ describe('Check helper methods.', () => {
   })
 
   test('$qsa TEST: ', () => {
-    expect($qsa('.selector__buttons', '.selector__buttons__lists')[0].classList.contains('selector__buttons')).toBe(true);
+    const btnElement = $qsa('.selector__buttons', '.selector__buttons__lists')[0];
+    const bContainElement = btnElement.classList.contains('selector__buttons');
+    expect(bContainElement).toBeTruthy();
   })
 
   test('$qs TEST: ', () => {
-    expect($qs('#selector__button__0').id).toBe("selector__button__0");
+    expect($qs('#selector__button__0').tagName).toEqual('BUTTON');
   })
 });
+
+

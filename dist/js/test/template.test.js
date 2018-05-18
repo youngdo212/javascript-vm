@@ -15,7 +15,7 @@ describe('check methods in template scripts files', () => {
   })
 
   test('template test: ', () => {
-    expect(vmTemplate.sumMoney(coin)).toBe(48500);
+    expect(vmTemplate.sumMoney(coin)).toEqual(48500);
   })
 
   test('loader test: ', () => {
@@ -30,7 +30,7 @@ describe('check methods in template scripts files', () => {
       </ul>
     </div>
     `
-    expect(vmTemplate.showLoaders()).toBe(testResult);
+    expect(vmTemplate.showLoaders()).toEqual(testResult);
   })
 
   test('show item TEST', () => {
@@ -51,6 +51,6 @@ describe('check methods in template scripts files', () => {
       return val.reduce((acc, curr) => acc += vmView.template(templateId, curr), '')
     }
 
-    expect(showItems(coin, 'coin-slot__template').trim()).toBe(result);
+    expect(showItems(coin, 'coin-slot__template').trim()).toEqual(result);
   })
 });

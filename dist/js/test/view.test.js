@@ -30,14 +30,14 @@ describe('check methods in template scripts files', () => {
 
   test('view setMessage TEST: ', () => {
     const vmView = new VMViewer();
-    expect(vmView.setMessage('Hello')).toBe('Hello');
+    expect(vmView.setMessage('Hello')).toEqual('Hello');
   })
 
   test('isSelect Methods TEST: ', () => {
-    expect(vmView.isSelected().forEach((elem, idx) => {})).toBe();
+    expect(vmView.isSelected().forEach((elem, idx) => {})).toBeUndefined();
   })
 
   test('template Methods TEST:', () => {
-    expect(vmView.template('coin-slot__template', name).trim()).toBe('<button></button>');
+    expect(vmView.template('coin-slot__template', name).trim()).toEqual('<button></button>');
   })
 });
