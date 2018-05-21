@@ -1,9 +1,9 @@
 const VMViewer = require('../views');
+const VMController = require('../controller');
 const { $qs, $qsa, $on } = require('../helpers');
 const { coin, snacksList } = require('../data');
 
 describe('check methods in template scripts files', () => {
-  const vmView = new VMViewer();
   beforeAll(() => {
     document.body.innerHTML = `
     <div class="selector__status__wrapper">
@@ -29,15 +29,34 @@ describe('check methods in template scripts files', () => {
   })
 
   test('view setMessage TEST: ', () => {
+    // Given
     const vmView = new VMViewer();
-    expect(vmView.setMessage('Hello')).toEqual('Hello');
+    const testResult = 'Hello';
+    // When
+    const testCode = vmView.setMessage('Hello');
+    // Then
+    expect(testCode).toEqual(testResult);
   })
 
   test('isSelect Methods TEST: ', () => {
-    expect(vmView.isSelected().forEach((elem, idx) => {})).toBeUndefined();
+    // Given
+    const vmView = new VMViewer();
+    const vmControl = new VMController();
+
+    // When
+    const testCode = vmView.isSelected().forEach((elem, idx) => {})
+
+    // Then
+    expect(testCode).toBeUndefined();
   })
 
   test('template Methods TEST:', () => {
-    expect(vmView.template('coin-slot__template', name).trim()).toEqual('<button></button>');
+    // Given
+    const vmView = new VMViewer();
+    const testResult = '<button></button>';
+    // When
+    const testCode = vmView.template('coin-slot__template', name).trim();
+    // Then
+    expect(testCode).toEqual(testResult);
   })
 });

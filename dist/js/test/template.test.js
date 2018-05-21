@@ -3,9 +3,7 @@ const VMTemplate = require('../template');
 const VMView = require('../views');
 
 describe('check methods in template scripts files', () => {
-  const vmTemplate = new VMTemplate();
   const vmView = new VMView(coin);
-
   beforeAll(() => {
     document.body.innerHTML = `
     <template id="coin-slot__template">
@@ -15,10 +13,21 @@ describe('check methods in template scripts files', () => {
   })
 
   test('template test: ', () => {
-    expect(vmTemplate.sumMoney(coin)).toEqual(48500);
+    // Given
+    const vmTemplate = new VMTemplate();
+
+    // When
+    const testCode = vmTemplate.sumMoney(coin)
+    const testResult = vmTemplate.coinSum;
+    
+    // Then
+    expect(testCode).toEqual(testResult);
   })
 
+
   test('loader test: ', () => {
+    //given
+    const vmTemplate = new VMTemplate();
     let testResult = `
     <div class="spinner__container">
       <ul class="spinner__cont">
@@ -30,13 +39,18 @@ describe('check methods in template scripts files', () => {
       </ul>
     </div>
     `
-    expect(vmTemplate.showLoaders()).toEqual(testResult);
+    //when
+    const testCode = vmTemplate.showLoaders();
+
+    //then
+    expect(testCode).toEqual(testResult);
   })
 
   test('show item TEST', () => {
+    // Given
     const vmTemplate = new VMTemplate();
     const vmView = new VMView(coin);
-    let result = 
+    let testResult = 
     `<button>100원</button>
     
         <button>500원</button>
@@ -47,10 +61,13 @@ describe('check methods in template scripts files', () => {
     
         <button>10000원</button>`
 
-    function showItems(val, templateId) {
+    // When
+    const showItems=(val, templateId)=> {
       return val.reduce((acc, curr) => acc += vmView.template(templateId, curr), '')
     }
-
-    expect(showItems(coin, 'coin-slot__template').trim()).toEqual(result);
+    const testCode = showItems(coin, 'coin-slot__template').trim()
+    
+    // Then
+    expect(testCode).toEqual(testResult);
   })
 });

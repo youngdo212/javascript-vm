@@ -20,14 +20,31 @@ describe('check methods in controller scripts files', () => {
   });
 
   test('activate button TEST', () => {
+    // Given
     const vmView = new VMView();
     const vmControl = new VMController(vmView);
-    expect(vmControl.activateBtn()).toBe(true);
+    const testResult = true;
+    
+
+    // When
+    const testCode = vmControl.activateBtn();
+    
+    
+    // Then
+    expect(testCode).toBe(testResult);
   })
   test('select button TEST', () => {
+    // Given
     const vmView = new VMView();
     const vmControl = new VMController(vmView);
+
+
+    // When
     const ul = $qs('.selector__buttons__lists');
-    expect(vmControl.selectBtns(ul)).toBe();
+    const testCode = vmControl.selectBtns(ul)
+
+
+    // then
+    expect(testCode).toBeUndefined();
   })
 });

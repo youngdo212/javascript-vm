@@ -1,7 +1,6 @@
 const { $qs, $qsa, $on } = require('../helpers');
 
 describe('Check helper methods.', () => {
-
   beforeAll(() => {
     document.body.innerHTML = `
     <ul class="selector__buttons__lists">
@@ -15,14 +14,21 @@ describe('Check helper methods.', () => {
   })
 
   test('$qsa TEST: ', () => {
+    // Given
     const btnElement = $qsa('.selector__buttons', '.selector__buttons__lists')[0];
-    const bContainElement = btnElement.classList.contains('selector__buttons');
-    expect(bContainElement).toBeTruthy();
+    //When
+    const testCode = btnElement.classList.contains('selector__buttons');
+    // Then
+    expect(testCode).toBeTruthy();
   })
 
   test('$qs TEST: ', () => {
-    expect($qs('#selector__button__0').tagName).toEqual('BUTTON');
+    // Given
+    const init = $qs('#selector__button__0');
+    const testResult = 'BUTTON'
+    // When
+    const testCode = init.tagName;
+    // Then
+    expect(testCode).toEqual(testResult);
   })
 });
-
-
