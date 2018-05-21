@@ -1,0 +1,1 @@
+vmControl.init();
