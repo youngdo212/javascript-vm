@@ -1,5 +1,5 @@
 #shelf {
-  background-color: rgb(0, 0, 255);
+  background-color: #0000ff;
   width: 480px;
   height: 640px;
   padding: 20px 10px 15px 20px;
@@ -22,7 +22,7 @@
 }
 
 .item_name {
-  background-color: white;
+  background-color: #fff;
   border: 3px solid slategray;
   line-height: 49px;
   width: 104px;
@@ -30,7 +30,7 @@
 }
 
 .item_description {
-  background-color: white;
+  background-color: #fff;
   font-size: 13px;
   width: 55px;
   margin: auto;
