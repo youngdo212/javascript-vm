@@ -1,6 +1,7 @@
 class Button{
   constructor(buttonList){
     this.buttons = Array.from(buttonList)
+    this.addClickPrintEvent();
   }
   addClickPrintEvent(){
     this.buttons.forEach(button =>{
@@ -13,4 +14,3 @@ class Button{
 
 const moneyButtonList = document.querySelectorAll('.money_button');
 const buttons = new Button(moneyButtonList);
-buttons.addClickPrintEvent();
