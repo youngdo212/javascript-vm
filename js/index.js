@@ -1,7 +1,6 @@
 class MoneyButton{
   constructor({moneyButtonList, moneyCountList, vendingMachine, wallet}){
     this.moneyButtonList = moneyButtonList;
-    this.moneyCountList = moneyCountList;
     this.vendingMachine = vendingMachine;
     this.wallet = wallet;
     this.init();
@@ -11,8 +10,8 @@ class MoneyButton{
   }
   inputMoneyToMachine(evt){
     const price = Number(evt.target.dataset.price);
-    if(evt.target.tagName === "BUTTON" && this.moneyCountList.getCount(price) > 0){
-      this.moneyCountList.countDown(price);
+    if(evt.target.tagName === "BUTTON" && this.wallet.moneyCountList.getCount(price) > 0){
+      this.wallet.moneyCountList.countDown(price);
       this.wallet.takeOutMoney(price);
       this.vendingMachine.inputMoney(price);
     }else return;
@@ -42,30 +41,30 @@ class VendingMachine{
 }
 
 class Wallet{
-  constructor({money}){
+  constructor({money, moneyCountList}){
     this.money = money;
+    this.moneyCountList = moneyCountList;
   }
   takeOutMoney(price){
     this.money.textContent = +this.money.textContent - price;
   }
 }
 
-let vm = new VendingMachine({
-  money: document.querySelector("#vm_money_box").firstElementChild
-})
-
-
-let wallet = new Wallet({
-  money: document.querySelector("#total_money_box").firstElementChild
-})
-
 let moneyCountList = new MoneyCountList({
   moneyCountList: document.querySelector("#money_count_list")
 })
 
+let wallet = new Wallet({
+  money: document.querySelector("#total_money_box").firstElementChild,
+  moneyCountList: moneyCountList
+})
+
+let vm = new VendingMachine({
+  money: document.querySelector("#vm_money_box").firstElementChild
+})
+
 let moneyButton = new MoneyButton({
   moneyButtonList: document.querySelector("#money_button_list"),
-  moneyCountList: moneyCountList,
   vendingMachine: vm,
   wallet: wallet
 })
