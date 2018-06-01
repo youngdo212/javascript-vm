@@ -18,45 +18,8 @@ class MoneyButton{
   }
 }
 
-class MoneyCountList{
-  constructor({moneyCountList}){
-    this.moneyCountList = moneyCountList;
-  }
-  getCount(type){
-    return this.moneyCountList.querySelector(`[data-price="${type}"]>span`).textContent;
-  }
-  countDown(type){
-    const target = this.moneyCountList.querySelector(`[data-price="${type}"]>span`);
-    target.textContent -= 1;
-  }
-}
-
-class VendingMachine{
-  constructor({money}){
-    this.money = money;
-  }
-  inputMoney(price){
-    this.money.textContent = +this.money.textContent + price;
-  }
-}
-
-class Wallet{
-  constructor({money, moneyCountList}){
-    this.money = money;
-    this.moneyCountList = moneyCountList;
-  }
-  takeOutMoney(price){
-    this.money.textContent = +this.money.textContent - price;
-  }
-}
-
-let moneyCountList = new MoneyCountList({
-  moneyCountList: document.querySelector("#money_count_list")
-})
-
 let wallet = new Wallet({
   money: document.querySelector("#total_money_box").firstElementChild,
-  moneyCountList: moneyCountList
 })
 
 let vm = new VendingMachine({
