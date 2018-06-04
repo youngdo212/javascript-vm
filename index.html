@@ -208,9 +208,8 @@
         </ul>
       </div>
       <div id="controller">
-        <div id="input_money_box">
-            <span id="input_money"></span>
-            <span class="money_type">원</span>
+        <div id="vm_money_box">
+            <span>0</span>원
         </div>
         <div id="itemSelect_button_box">
             <button class="itemSelect_button">1</button>
@@ -231,56 +230,30 @@
     </div>
     <div id="wallet">
       <ul id="money_button_list">
-        <li class="money_button_block">
-          <button class="money_button">10원</button>
-        </li>
-        <li class="money_button_block">
-          <button class="money_button">50원</button>
-        </li>
-        <li class="money_button_block">
-          <button class="money_button">100원</button>
-        </li>
-        <li class="money_button_block">
-          <button class="money_button">500원</button>
-        </li>
-        <li class="money_button_block">
-          <button class="money_button">1000원</button>
-        </li>
-        <li class="money_button_block">
-          <button class="money_button">5000원</button>
-        </li>
-        <li class="money_button_block">
-          <button class="money_button">10000원</button>
-        </li>
+        <li><button class='money_button' data-price='10'>10원</button></li>
+        <li><button class='money_button' data-price='50'>50원</button></li>
+        <li><button class='money_button' data-price='100'>100원</button></li>
+        <li><button class='money_button' data-price='500'>500원</button></li>
+        <li><button class='money_button' data-price='1000'>1000원</button></li>
+        <li><button class='money_button' data-price='5000'>5000원</button></li>
+        <li><button class='money_button' data-price='10000'>10000원</button></li>
       </ul>
-      <ul id='money_number_list'>
-        <li class='money_number_box'>
-          <span class="money_number">0</span>개
-        </li>
-        <li class='money_number_box'>
-          <span class="money_number">0</span>개
-        </li>
-        <li class='money_number_box'>
-          <span class="money_number">0</span>개
-        </li>
-        <li class='money_number_box'>
-          <span class="money_number">0</span>개
-        </li>
-        <li class='money_number_box'>
-          <span class="money_number">0</span>개
-        </li>
-        <li class='money_number_box'>
-          <span class="money_number">0</span>개
-        </li>
-        <li class='money_number_box'>
-          <span class="money_number">0</span>개
-        </li>
+      <ul id='money_count_list'>
+        <li data-price='10'><span>10</span>개</li>
+        <li data-price='50'><span>10</span>개</li>
+        <li data-price='100'><span>10</span>개</li>
+        <li data-price='500'><span>10</span>개</li>
+        <li data-price='1000'><span>10</span>개</li>
+        <li data-price='5000'><span>5</span>개</li>
+        <li data-price='10000'><span>2</span>개</li>
       </ul>
       <div id="total_money_box">
-        <span id="total_money">20,000</span>
-        <span class='money_type'>원</span>
+        <span>61600</span>원
       </div>
     </div>
-    <script src="./js/click.js"></script>    
+    <script src="./js/vendingMachine.js"></script>
+    <script src="./js/wallet.js"></script>
+    <script src="./js/action.js"></script>        
+    <script src="./js/index.js"></script>
   </body>
 </html>
