@@ -10,11 +10,14 @@ class MoneyButton{
   }
   inputMoneyToMachine(evt){
     const price = Number(evt.target.dataset.price);
-    if(evt.target.tagName === "BUTTON" && this.wallet.moneyCountList.getCount(price) > 0){
+
+    if(evt.target.tagName !== "BUTTON") return;
+
+    if(this.wallet.moneyCountList.getCount(price) > 0){
       this.wallet.moneyCountList.countDown(price);
       this.wallet.takeOutMoney(price);
       this.vendingMachine.inputMoney(price);
-    }else return;
+    }
   }
 }
 
