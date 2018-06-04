@@ -1,24 +1,24 @@
 class Wallet{
-  constructor({money}){
-    this.money = money;
-    this.moneyCountList = new MoneyCountList({
-      moneyCountList: document.querySelector("#money_count_list")
-    })
+  constructor(){
+    this.moneyButtonList = document.querySelector("#money_button_list");
+    this.moneyCountList = document.querySelector("#money_count_list");
+    this.totalMoney = document.querySelector("#total_money_box>span");
   }
   takeOutMoney(price){
-    this.money.textContent = +this.money.textContent - price;
-  }
-}
+    const targetCount = this.moneyCountList.querySelector(`[data-price="${price}"]>span`);
+    const targetButton = this.moneyButtonList.querySelector(`[data-price="${price}"]`);
+    const money = Number(targetButton.dataset.price);
 
-class MoneyCountList{
-  constructor({moneyCountList}){
-    this.moneyCountList = moneyCountList;
+    if(targetCount.textContent == 0) return 0;
+
+    this.decreaseCount(targetCount);
+    this.decreaseMoney(money);
+    return money;
   }
-  getCount(type){
-    return this.moneyCountList.querySelector(`[data-price="${type}"]>span`).textContent;
+  decreaseCount(targetCount){
+    targetCount.textContent -= 1;
   }
-  countDown(type){
-    const target = this.moneyCountList.querySelector(`[data-price="${type}"]>span`);
-    target.textContent -= 1;
+  decreaseMoney(money){
+    this.totalMoney.textContent -= money;
   }
 }

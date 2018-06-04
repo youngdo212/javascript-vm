@@ -1,8 +1,8 @@
 class VendingMachine{
-  constructor({money}){
-    this.money = money;
+  constructor(){
+    this.totalMoney = document.querySelector("#vm_money_box>span");
   }
-  inputMoney(price){
-    this.money.textContent = +this.money.textContent + price;
+  inputMoney(money){
+    this.totalMoney.textContent = Number(this.totalMoney.textContent) + money;
   }
 }
