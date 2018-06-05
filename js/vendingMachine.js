@@ -2,11 +2,20 @@ class VendingMachine{
   constructor({template}){
     this.template = template;
     this.totalMoney = document.querySelector("#vm_money_box>span");
+    this.itemNames = Array.from(document.querySelectorAll(".item_name"));
     this.log = document.querySelector("#log");
   }
   inputMoney(money){
     this.totalMoney.textContent = Number(this.totalMoney.textContent) + money;
+    this.highlightItem(Number(this.totalMoney.textContent));
     this.logging(this.template.inputMoney(money));
+  }
+  highlightItem(totalMoney){
+    this.itemNames.forEach(itemName =>{
+      if(+itemName.dataset.price <= totalMoney){
+        itemName.setAttribute('style', 'background: #f0f024;');
+      }
+    })
   }
   logging(content){
     const newLog = document.createElement("DIV");
