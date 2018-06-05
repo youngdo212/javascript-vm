@@ -88,8 +88,9 @@
   margin: 0px 10px 10px 0px;
 }
 
-#state_box {
+#log {
   height: 200px;
+  text-align: center;
 }
 
 #wallet {
