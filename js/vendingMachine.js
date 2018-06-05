@@ -4,7 +4,6 @@ class VendingMachine{
     this.log = document.querySelector("#log");
   }
   inputMoney(money){
-    if(money == 0) return;
     this.totalMoney.textContent = Number(this.totalMoney.textContent) + money;
     this.logging(money + '원이 투입됐습니다');
   }

@@ -11,7 +11,12 @@ class Action{
     if(evt.target.className === 'money_button') this.selectMoney(evt.target);
   }
   selectMoney(button){
-    const money = this.wallet.takeOutMoney(button.dataset.price);
-    this.vendingMachine.inputMoney(money);
+    try{
+      const money = this.wallet.takeOutMoney(button.dataset.price);
+      this.vendingMachine.inputMoney(money);      
+    }
+    catch(e){
+      alert(e.message);
+    }
   }
 }

@@ -9,7 +9,7 @@ class Wallet{
     const targetButton = this.moneyButtonList.querySelector(`[data-price="${price}"]`);
     const money = Number(targetButton.dataset.price);
 
-    if(targetCount.textContent == 0) return 0;
+    if(targetCount.textContent == 0) throw new Error('돈이 부족합니다');
 
     this.decreaseCount(targetCount);
     this.decreaseMoney(money);
