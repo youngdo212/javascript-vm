@@ -45,6 +45,10 @@
   height: 49px;
 }
 
+.highlight {
+  background-color: #f0f024;
+}
+
 .item_description {
   background-color: #fff;
   font-size: 13px;

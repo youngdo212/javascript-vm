@@ -13,7 +13,7 @@ class VendingMachine{
   highlightItem(totalMoney){
     this.itemNames.forEach(itemName =>{
       if(+itemName.dataset.price <= totalMoney){
-        itemName.setAttribute('style', 'background: #f0f024;');
+        itemName.classList.add("highlight");
       }
     })
   }
