@@ -1,5 +1,5 @@
 let template = {
-  inputMoney(money){
+  getInputMoneyLogMsg(money){
     return `${money}원이 투입되었습니다!`
   }
 }

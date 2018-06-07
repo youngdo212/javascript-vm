@@ -8,7 +8,7 @@ class VendingMachine{
   inputMoney(money){
     this.totalMoney.textContent = Number(this.totalMoney.textContent) + money;
     this.highlightItem(Number(this.totalMoney.textContent));
-    this.logging(this.template.inputMoney(money));
+    this.logging(this.template.getInputMoneyLogMsg(money));
   }
   highlightItem(totalMoney){
     this.itemNames.forEach(itemName =>{
