@@ -45,6 +45,10 @@
   height: 49px;
 }
 
+.highlight {
+  background-color: #f0f024;
+}
+
 .item_description {
   background-color: #fff;
   font-size: 13px;
@@ -88,8 +92,9 @@
   margin: 0px 10px 10px 0px;
 }
 
-#state_box {
+#log_box {
   height: 200px;
+  text-align: center;
 }
 
 #wallet {

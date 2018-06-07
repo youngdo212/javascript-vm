@@ -1,3 +1,4 @@
+// 지갑의 데이터와 작동을 갖고 있는 클래스
 class Wallet{
   constructor(){
     this.moneyButtonList = document.querySelector("#money_button_list");
@@ -9,7 +10,7 @@ class Wallet{
     const targetButton = this.moneyButtonList.querySelector(`[data-price="${price}"]`);
     const money = Number(targetButton.dataset.price);
 
-    if(targetCount.textContent == 0) return 0;
+    if(targetCount.textContent == 0) throw new Error('지갑에 돈이 부족합니다');
 
     this.decreaseCount(targetCount);
     this.decreaseMoney(money);
