@@ -1,9 +1,10 @@
+// 자판기의 데이터와 작동을 갖고 있는 클래스
 class VendingMachine{
   constructor({template}){
     this.template = template;
     this.totalMoney = document.querySelector("#vm_money_box>span");
     this.itemNames = Array.from(document.querySelectorAll(".item_name"));
-    this.log = document.querySelector("#log");
+    this.logBox = document.querySelector("#log_box");
   }
   inputMoney(money){
     this.totalMoney.textContent = Number(this.totalMoney.textContent) + money;
@@ -21,9 +22,9 @@ class VendingMachine{
     const newLog = document.createElement("DIV");
     const text = document.createTextNode(content);
 
-    if(this.log.children.length >= 10) this.log.removeChild(this.log.firstElementChild);
+    if(this.logBox.children.length >= 10) this.logBox.removeChild(this.logBox.firstElementChild);
 
     newLog.appendChild(text);
-    this.log.appendChild(newLog);
+    this.logBox.appendChild(newLog);
   }
 }

@@ -1,3 +1,4 @@
+// 자판기와 지갑을 조작하는 클래스
 class Action{
   constructor({vendingMachine, wallet}){
     this.vendingMachine = vendingMachine;
@@ -16,7 +17,7 @@ class Action{
       this.vendingMachine.inputMoney(money);      
     }
     catch(e){
-      alert(e.message);
+      console.log(e.message);
     }
   }
 }
