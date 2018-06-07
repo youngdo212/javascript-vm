@@ -12,11 +12,12 @@ class VendingMachine{
     this.logging(this.template.getInputMoneyLogMsg(money));
   }
   highlightItem(totalMoney){
-    this.itemNames.forEach(itemName =>{
-      if(+itemName.dataset.price <= totalMoney){
-        itemName.classList.add("highlight");
-      }
+    this.selectItemLessThan(totalMoney).forEach(itemName => {
+      itemName.classList.add("highlight");
     })
+  }
+  selectItemLessThan(money){
+    return this.itemNames.filter(itemName => +itemName.dataset.price <= money);
   }
   logging(content){
     const newLog = document.createElement("DIV");
