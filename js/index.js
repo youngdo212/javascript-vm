@@ -1,6 +1,9 @@
 let template = {
   getInputMoneyLogMsg(money){
     return `${money}원이 투입되었습니다!`
+  },
+  getSelectItemLogMsg(itemName){
+    return `${itemName} 선택!`
   }
 }
 

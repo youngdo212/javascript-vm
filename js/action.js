@@ -10,11 +10,20 @@ class Action{
   }
   clickEvent(evt){
     if(evt.target.className === 'money_button') this.selectMoney(evt.target);
+    if(evt.target.className === 'itemSelect_button') this.selectItem(evt.target);
   }
   selectMoney(button){
     try{
       const money = this.wallet.takeOutMoney(button.dataset.price);
       this.vendingMachine.inputMoney(money);      
+    }
+    catch(e){
+      console.log(e.message);
+    }
+  }
+  selectItem(button){
+    try{
+      this.vendingMachine.selectItem(button.textContent);
     }
     catch(e){
       console.log(e.message);
