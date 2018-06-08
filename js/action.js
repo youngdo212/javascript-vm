@@ -3,6 +3,7 @@ class Action{
   constructor({vendingMachine, wallet}){
     this.vendingMachine = vendingMachine;
     this.wallet = wallet;
+    this.timeoutID;
     this.init();
   }
   init(){
@@ -23,7 +24,9 @@ class Action{
   }
   selectItem(button){
     try{
-      this.vendingMachine.selectItem(button.textContent);
+      clearTimeout(this.timeoutID);
+      this.vendingMachine.selectNumber(button.textContent);
+      this.timeoutID = setTimeout(this.vendingMachine.selectItem.bind(this.vendingMachine), 3000);
     }
     catch(e){
       console.log(e.message);

@@ -2,6 +2,7 @@
 class VendingMachine{
   constructor({template}){
     this.template = template;
+    this.selectedNumber = '';
     this.totalMoney = document.querySelector("#vm_money_box>span");
     this.items = Array.from(document.querySelectorAll(".item_name"));
     this.logBox = document.querySelector("#log_box");
@@ -23,13 +24,17 @@ class VendingMachine{
       item.classList.remove('highlight');
     })
   }
+  selectNumber(number){
+    this.selectedNumber += number;
+  }
   getItem(number){
     const item = this.items.filter(item => item.dataset.number === number).pop();
+    this.selectedNumber = '';
     if(!item) throw new Error(`일치하는 번호의 물품이 없습니다 : ${number}`);
     return item
   }
-  selectItem(number){
-    const targetItem = this.getItem(number);
+  selectItem(){
+    const targetItem = this.getItem(this.selectedNumber);
     this.decreaseMoney(+targetItem.dataset.price);
     this.logging(this.template.getSelectItemLogMsg(targetItem.textContent));
     this.highlightItem();
