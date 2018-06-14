@@ -53,3 +53,5 @@ class VendingMachine{
     this.logBox.appendChild(newLog);
   }
 }
+
+export {VendingMachine};

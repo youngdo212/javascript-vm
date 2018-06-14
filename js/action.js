@@ -33,3 +33,5 @@ class Action{
     }
   }
 }
+
+export {Action};

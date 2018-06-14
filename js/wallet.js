@@ -23,3 +23,5 @@ class Wallet{
     this.totalMoney.textContent -= money;
   }
 }
+
+export {Wallet};

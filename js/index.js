@@ -1,3 +1,7 @@
+import {VendingMachine} from "./vendingMachine.js"
+import {Wallet} from "./wallet.js"
+import {Action} from "./Action.js"
+
 let template = {
   getInputMoneyLogMsg(money){
     return `${money}원이 투입되었습니다!`
