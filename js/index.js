@@ -12,9 +12,12 @@ let template = {
 }
 
 let vm = new VendingMachine({
-  template: template
+  template: template,
+  vendingMachineWrap : document.querySelector('#vendingMachineWrap')
 });
-let wallet = new Wallet();
+let wallet = new Wallet({
+  walletWrap: document.querySelector('#walletWrap')
+});
 
 let action = new Action({
   vendingMachine: vm,

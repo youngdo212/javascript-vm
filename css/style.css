@@ -97,7 +97,7 @@
   text-align: center;
 }
 
-#wallet {
+#walletWrap {
   width: 250px;
   height: 600px;
   border: 3px solid slategray;

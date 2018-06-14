@@ -1,9 +1,9 @@
 // 지갑의 데이터와 작동을 갖고 있는 클래스
 class Wallet{
-  constructor(){
-    this.moneyButtonList = document.querySelector("#money_button_list");
-    this.moneyCountList = document.querySelector("#money_count_list");
-    this.totalMoney = document.querySelector("#total_money_box>span");
+  constructor({walletWrap}){
+    this.moneyButtonList = walletWrap.children[0];
+    this.moneyCountList = walletWrap.children[1];
+    this.totalMoney = walletWrap.children[2].firstElementChild;
   }
   takeOutMoney(price){
     const targetCount = this.moneyCountList.querySelector(`[data-price="${price}"]>span`);

@@ -1,11 +1,11 @@
 // 자판기의 데이터와 작동을 갖고 있는 클래스
 class VendingMachine{
-  constructor({template}){
+  constructor({template, vendingMachineWrap}){
     this.template = template;
     this.selectedNumber = '';
-    this.totalMoney = document.querySelector("#vm_money_box>span");
-    this.items = Array.from(document.querySelectorAll(".item_name"));
-    this.logBox = document.querySelector("#log_box");
+    this.totalMoney = vendingMachineWrap.querySelector("#vm_money_box>span");
+    this.items = Array.from(vendingMachineWrap.querySelectorAll(".item_name"));
+    this.logBox = vendingMachineWrap.querySelector("#log_box");
   }
   inputMoney(money){
     this.totalMoney.textContent = Number(this.totalMoney.textContent) + money;
