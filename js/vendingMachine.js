@@ -1,56 +1,98 @@
 // 자판기의 데이터와 작동을 갖고 있는 클래스
+
 class VendingMachine{
-  constructor({template, vendingMachineWrap}){
+  constructor({template, itemData, vendingMachineWrap}){
     this.template = template;
-    this.selectedNumber = '';
-    this.totalMoney = vendingMachineWrap.querySelector("#vm_money_box>span");
-    this.items = Array.from(vendingMachineWrap.querySelectorAll(".item_name"));
-    this.logBox = vendingMachineWrap.querySelector("#log_box");
+    this.itemData = itemData;
+    this.vendingMachineWrap = vendingMachineWrap;
+    this.itemList = this.vendingMachineWrap.querySelector('.item_list');
+    this.logBox = this.vendingMachineWrap.querySelector('.log_box');
+    this.totalMoney = this.vendingMachineWrap.querySelector('.vm_money_box > span');
+    this.selectedNumber = null;
+    this.timeoutID = null;
+    this.vendingMachineWrap.addEventListener('click', this.selectItem.bind(this));
+    this.render();
+    this.items = Array.from(this.itemList.children);
   }
-  inputMoney(money){
-    this.totalMoney.textContent = Number(this.totalMoney.textContent) + money;
-    this.highlightItem();
-    this.logging(this.template.getInputMoneyLogMsg(money));
-  }
-  highlightItem(){
-    this.dehighlightAll();
-    this.items.filter(item => +item.dataset.price <= +this.totalMoney.textContent)
-    .forEach(item => {
-      item.classList.add("highlight");
+  render(){
+    let html = '';
+    this.itemData.forEach(item => {
+      html += this.template(item);
     })
+    this.itemList.innerHTML = html;
   }
-  dehighlightAll(){
-    this.items.forEach(item =>{
-      item.classList.remove('highlight');
-    })
+  inputMoney(price){
+    this.increaseTotalMoney(price)
+    this.printMessage(`${price}원이 투입되었습니다!`)
+    this.highlightItems()
   }
-  selectNumber(number){
-    this.selectedNumber += number;
+  increaseTotalMoney(price){
+    this.totalMoney.textContent = Number(this.totalMoney.textContent) + Number(price);
   }
-  getItem(number){
-    const item = this.items.filter(item => item.dataset.number === number).pop();
-    this.selectedNumber = '';
-    if(!item) throw new Error(`일치하는 번호의 물품이 없습니다 : ${number}`);
-    return item
-  }
-  selectItem(){
-    const targetItem = this.getItem(this.selectedNumber);
-    this.decreaseMoney(+targetItem.dataset.price);
-    this.logging(this.template.getSelectItemLogMsg(targetItem.textContent));
-    this.highlightItem();
-  }
-  decreaseMoney(money){
-    if(+this.totalMoney.textContent < money) throw new Error('자판기 금액이 부족합니다');
-    this.totalMoney.textContent -= money;
-  }
-  logging(content){
-    const newLog = document.createElement("DIV");
-    const text = document.createTextNode(content);
+  printMessage(message){
+    const log = document.createElement("DIV");
+    const text = document.createTextNode(message);
 
     if(this.logBox.children.length >= 10) this.logBox.removeChild(this.logBox.firstElementChild);
 
-    newLog.appendChild(text);
-    this.logBox.appendChild(newLog);
+    log.appendChild(text);
+    this.logBox.appendChild(log);
+  }
+  highlightItems(){
+    this.items.forEach(item=>{
+      this.isAvailableItem(item) ? this.highlightItem(item) : this.deHighlightItem(item);
+    })
+  }
+  isAvailableItem(item){
+    return Number(item.dataset.price) <= Number(this.totalMoney.textContent);
+  }
+  highlightItem(item){
+    item.querySelector('.item_name').classList.add('highlight');
+  }
+  deHighlightItem(item){
+    item.querySelector('.item_name').classList.remove('highlight');
+  }
+  selectItem({target}){
+    if(target.tagName !== 'BUTTON') return;
+
+    this.selectNumber(target.textContent);
+    clearTimeout(this.timeoutID);
+    this.timeoutID = setTimeout(this.run.bind(this), 3000);
+  }
+  selectNumber(number){
+    this.selectedNumber = this.selectedNumber || '';
+    this.selectedNumber += number;
+  }
+  run(){
+    const item = this.getItem(this.selectedNumber);
+
+    if(!this.isValidItem(item)) return;
+
+    const price = item.dataset.price;
+    const itemName = item.querySelector('.item_name').textContent;
+
+    this.decreaseTotalMoney(price);
+    this.printMessage(`${itemName} 선택!`);
+    this.highlightItems();
+  }
+  isValidItem(item){
+    if(!item){
+      this.printMessage('해당 번호의 아이템이 존재하지 않습니다');
+      return false;
+    }
+    if(Number(item.dataset.price) > Number(this.totalMoney.textContent)){
+      this.printMessage('돈이 부족합니다')
+      return false;
+    }
+
+    return true;
+  }
+  getItem(number){
+    this.selectedNumber = null;
+    return this.itemList.querySelector(`[data-number='${number}']`);
+  }
+  decreaseTotalMoney(price){
+    this.totalMoney.textContent -= price;
   }
 }
 

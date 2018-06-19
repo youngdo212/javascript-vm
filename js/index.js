@@ -1,25 +1,28 @@
 import {VendingMachine} from "./vendingMachine.js"
 import {Wallet} from "./wallet.js"
 import {Action} from "./Action.js"
+import {itemData} from "./itemData.js"
 
-let template = {
-  getInputMoneyLogMsg(money){
-    return `${money}원이 투입되었습니다!`
-  },
-  getSelectItemLogMsg(itemName){
-    return `${itemName} 선택!`
-  }
+function makeItemHtml({number, name, price}){
+  return `<li class="item" data-number=${number} data-price=${price}>
+  <dl>
+    <dt class='item_name'>${name}</dt>
+    <dd>${number}. ${price}</dd>
+  </dl>
+  </li>`
 }
 
-let vm = new VendingMachine({
-  template: template,
-  vendingMachineWrap : document.querySelector('#vendingMachineWrap')
-});
-let wallet = new Wallet({
-  walletWrap: document.querySelector('#walletWrap')
-});
+const vm = new VendingMachine({
+  template: makeItemHtml,
+  itemData: itemData,
+  vendingMachineWrap: document.querySelector('.vending_machine_wrap')
+})
 
-let action = new Action({
+const wallet = new Wallet({
+  walletWrap: document.querySelector('.walletWrap')
+})
+
+const action = new Action({
   vendingMachine: vm,
   wallet: wallet
-});
+})

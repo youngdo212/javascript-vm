@@ -1,26 +1,35 @@
 // 지갑의 데이터와 작동을 갖고 있는 클래스
+
 class Wallet{
   constructor({walletWrap}){
-    this.moneyButtonList = walletWrap.children[0];
-    this.moneyCountList = walletWrap.children[1];
-    this.totalMoney = walletWrap.children[2].firstElementChild;
-  }
-  takeOutMoney(price){
-    const targetCount = this.moneyCountList.querySelector(`[data-price="${price}"]>span`);
-    const targetButton = this.moneyButtonList.querySelector(`[data-price="${price}"]`);
-    const money = Number(targetButton.dataset.price);
+    this.walletWrap = walletWrap;
+    this.moneyCountList = this.walletWrap.querySelector('.money_count_list');
+    this.totalmoney = this.walletWrap.querySelector('.wallet_money_box > span');
+    
+    this.inputMoneyIntoMachine = null;
 
-    if(targetCount.textContent == 0) throw new Error('지갑에 돈이 부족합니다');
+    this.walletWrap.addEventListener('click', this.selectMoney.bind(this));
+  }
+  selectMoney({target}){
+    if(target.tagName !== 'BUTTON') return;
+    
+    const price = target.dataset.price;
+    const moneyCount = this.moneyCountList.querySelector(`[data-price='${price}']>span`);    
+    
+    if(this.isZeroCount(moneyCount)) return;
 
-    this.decreaseCount(targetCount);
-    this.decreaseMoney(money);
-    return money;
+    this.decreaseMoneyCount(moneyCount)
+    this.decreaseTotalMoney(price);
+    this.inputMoneyIntoMachine(price);
   }
-  decreaseCount(targetCount){
-    targetCount.textContent -= 1;
+  isZeroCount(moneyCount){
+    return moneyCount.textContent === '0';
   }
-  decreaseMoney(money){
-    this.totalMoney.textContent -= money;
+  decreaseMoneyCount(moneyCount){
+    moneyCount.textContent -= 1;
+  }
+  decreaseTotalMoney(price){
+    this.totalmoney.textContent -= price;
   }
 }
 
