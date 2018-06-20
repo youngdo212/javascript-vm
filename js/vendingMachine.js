@@ -1,25 +1,27 @@
 // 자판기의 데이터와 작동을 갖고 있는 클래스
 
 class VendingMachine{
-  constructor({template, itemData, vendingMachineWrap}){
-    this.template = template;
-    this.itemData = itemData;
+  constructor({vendingMachineWrap, itemData, template}){
     this.vendingMachineWrap = vendingMachineWrap;
     this.itemList = this.vendingMachineWrap.querySelector('.item_list');
     this.logBox = this.vendingMachineWrap.querySelector('.log_box');
     this.totalMoney = this.vendingMachineWrap.querySelector('.vm_money_box > span');
     this.selectedNumber = null;
     this.timeoutID = null;
-    this.vendingMachineWrap.addEventListener('click', this.selectItem.bind(this));
-    this.render();
-    this.items = Array.from(this.itemList.children);
+    this.items = null;
+
+    this.render({data: itemData, template: template});
+    this.collectItems();
+    this.addEventListener();
   }
-  render(){
-    let html = '';
-    this.itemData.forEach(item => {
-      html += this.template(item);
-    })
-    this.itemList.innerHTML = html;
+  addEventListener(){
+    this.vendingMachineWrap.addEventListener('click', this.selectItem.bind(this));
+  }
+  render({data, template}){
+    this.itemList.innerHTML = data.reduce((html, elem) => html+template(elem), '');
+  }
+  collectItems(){
+    this.items = this.itemList.childNodes;
   }
   inputMoney(price){
     this.increaseTotalMoney(price)
@@ -43,8 +45,8 @@ class VendingMachine{
       this.isAvailableItem(item) ? this.highlightItem(item) : this.deHighlightItem(item);
     })
   }
-  isAvailableItem(item){
-    return Number(item.dataset.price) <= Number(this.totalMoney.textContent);
+  isAvailableItem({dataset:{price}}){
+    return Number(price) <= Number(this.totalMoney.textContent);
   }
   highlightItem(item){
     item.querySelector('.item_name').classList.add('highlight');
@@ -52,12 +54,14 @@ class VendingMachine{
   deHighlightItem(item){
     item.querySelector('.item_name').classList.remove('highlight');
   }
-  selectItem({target}){
-    if(target.tagName !== 'BUTTON') return;
+  selectItem({target:{tagName, textContent}}){
+    if(tagName !== 'BUTTON') return;
+    
+    const delayTime = 3000;
 
-    this.selectNumber(target.textContent);
+    this.selectNumber(textContent);
     clearTimeout(this.timeoutID);
-    this.timeoutID = setTimeout(this.run.bind(this), 3000);
+    this.timeoutID = setTimeout(this.run.bind(this), delayTime);
   }
   selectNumber(number){
     this.selectedNumber = this.selectedNumber || '';

@@ -13,9 +13,9 @@ function makeItemHtml({number, name, price}){
 }
 
 const vm = new VendingMachine({
-  template: makeItemHtml,
+  vendingMachineWrap: document.querySelector('.vending_machine_wrap'),
   itemData: itemData,
-  vendingMachineWrap: document.querySelector('.vending_machine_wrap')
+  template: makeItemHtml
 })
 
 const wallet = new Wallet({
