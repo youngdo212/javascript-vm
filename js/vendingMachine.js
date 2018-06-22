@@ -1,11 +1,12 @@
 // 자판기의 데이터와 작동을 갖고 있는 클래스
 
 class VendingMachine{
-  constructor({vendingMachineWrap, itemData, template}){
+  constructor({vendingMachineWrap, itemData, template, delayTime = 3000}){
     this.vendingMachineWrap = vendingMachineWrap;
     this.itemList = this.vendingMachineWrap.querySelector('.item_list');
     this.logBox = this.vendingMachineWrap.querySelector('.log_box');
     this.totalMoney = this.vendingMachineWrap.querySelector('.vm_money_box > span');
+    this.delayTime = delayTime
     this.selectedNumber = null;
     this.timeoutID = null;
     this.items = null;
@@ -56,12 +57,9 @@ class VendingMachine{
   }
   selectItem({target:{tagName, textContent}}){
     if(tagName !== 'BUTTON') return;
-    
-    const delayTime = 3000;
-
     this.selectNumber(textContent);
     clearTimeout(this.timeoutID);
-    this.timeoutID = setTimeout(this.run.bind(this), delayTime);
+    this.timeoutID = setTimeout(this.run.bind(this), this.delayTime);
   }
   selectNumber(number){
     this.selectedNumber = this.selectedNumber || '';
