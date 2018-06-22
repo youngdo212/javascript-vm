@@ -1,31 +1,103 @@
 // 자판기의 데이터와 작동을 갖고 있는 클래스
+
 class VendingMachine{
-  constructor({template}){
-    this.template = template;
-    this.totalMoney = document.querySelector("#vm_money_box>span");
-    this.itemNames = Array.from(document.querySelectorAll(".item_name"));
-    this.logBox = document.querySelector("#log_box");
+  constructor({vendingMachineWrap, itemData, template}){
+    this.vendingMachineWrap = vendingMachineWrap;
+    this.itemList = this.vendingMachineWrap.querySelector('.item_list');
+    this.logBox = this.vendingMachineWrap.querySelector('.log_box');
+    this.totalMoney = this.vendingMachineWrap.querySelector('.vm_money_box > span');
+    this.selectedNumber = null;
+    this.timeoutID = null;
+    this.items = null;
+
+    this.render({data: itemData, template: template});
+    this.collectItems();
+    this.addEventListener();
   }
-  inputMoney(money){
-    this.totalMoney.textContent = Number(this.totalMoney.textContent) + money;
-    this.highlightItem(Number(this.totalMoney.textContent));
-    this.logging(this.template.getInputMoneyLogMsg(money));
+  addEventListener(){
+    this.vendingMachineWrap.addEventListener('click', this.selectItem.bind(this));
   }
-  highlightItem(totalMoney){
-    this.selectItemLessThan(totalMoney).forEach(itemName => {
-      itemName.classList.add("highlight");
-    })
+  render({data, template}){
+    this.itemList.innerHTML = data.reduce((html, elem) => html+template(elem), '');
   }
-  selectItemLessThan(money){
-    return this.itemNames.filter(itemName => +itemName.dataset.price <= money);
+  collectItems(){
+    this.items = this.itemList.childNodes;
   }
-  logging(content){
-    const newLog = document.createElement("DIV");
-    const text = document.createTextNode(content);
+  inputMoney(price){
+    this.increaseTotalMoney(price)
+    this.printMessage(`${price}원이 투입되었습니다!`)
+    this.highlightItems()
+  }
+  increaseTotalMoney(price){
+    this.totalMoney.textContent = Number(this.totalMoney.textContent) + Number(price);
+  }
+  printMessage(message){
+    const log = document.createElement("DIV");
+    const text = document.createTextNode(message);
 
     if(this.logBox.children.length >= 10) this.logBox.removeChild(this.logBox.firstElementChild);
 
-    newLog.appendChild(text);
-    this.logBox.appendChild(newLog);
+    log.appendChild(text);
+    this.logBox.appendChild(log);
+  }
+  highlightItems(){
+    this.items.forEach(item=>{
+      this.isAvailableItem(item) ? this.highlightItem(item) : this.deHighlightItem(item);
+    })
+  }
+  isAvailableItem({dataset:{price}}){
+    return Number(price) <= Number(this.totalMoney.textContent);
+  }
+  highlightItem(item){
+    item.querySelector('.item_name').classList.add('highlight');
+  }
+  deHighlightItem(item){
+    item.querySelector('.item_name').classList.remove('highlight');
+  }
+  selectItem({target:{tagName, textContent}}){
+    if(tagName !== 'BUTTON') return;
+    
+    const delayTime = 3000;
+
+    this.selectNumber(textContent);
+    clearTimeout(this.timeoutID);
+    this.timeoutID = setTimeout(this.run.bind(this), delayTime);
+  }
+  selectNumber(number){
+    this.selectedNumber = this.selectedNumber || '';
+    this.selectedNumber += number;
+  }
+  run(){
+    const item = this.getItem(this.selectedNumber);
+
+    if(!this.isValidItem(item)) return;
+
+    const price = item.dataset.price;
+    const itemName = item.querySelector('.item_name').textContent;
+
+    this.decreaseTotalMoney(price);
+    this.printMessage(`${itemName} 선택!`);
+    this.highlightItems();
+  }
+  isValidItem(item){
+    if(!item){
+      this.printMessage('해당 번호의 아이템이 존재하지 않습니다');
+      return false;
+    }
+    if(Number(item.dataset.price) > Number(this.totalMoney.textContent)){
+      this.printMessage('돈이 부족합니다')
+      return false;
+    }
+
+    return true;
+  }
+  getItem(number){
+    this.selectedNumber = null;
+    return this.itemList.querySelector(`[data-number='${number}']`);
+  }
+  decreaseTotalMoney(price){
+    this.totalMoney.textContent -= price;
   }
 }
+
+export {VendingMachine};
