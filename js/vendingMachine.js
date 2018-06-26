@@ -8,8 +8,10 @@ class VendingMachine{
     this.totalMoney = this.vendingMachineWrap.querySelector('.vm_money_box > span');
     this.delayTime = delayTime
     this.selectedNumber = null;
-    this.timeoutID = null;
+    this.runTimeoutID = null; // 변수 명 수정
+    this.returnTimeoutID = null; // 변수 명 수정
     this.items = null;
+    this.inputMoneyIntoWallet = null;
 
     this.render({data: itemData, template: template});
     this.collectItems();
@@ -25,6 +27,7 @@ class VendingMachine{
     this.items = this.itemList.childNodes;
   }
   inputMoney(price){
+    clearTimeout(this.returnTimeoutID);    
     this.increaseTotalMoney(price)
     this.printMessage(`${price}원이 투입되었습니다!`)
     this.highlightItems()
@@ -58,8 +61,9 @@ class VendingMachine{
   selectItem({target:{tagName, textContent}}){
     if(tagName !== 'BUTTON') return;
     this.selectNumber(textContent);
-    clearTimeout(this.timeoutID);
-    this.timeoutID = setTimeout(this.run.bind(this), this.delayTime);
+    clearTimeout(this.runTimeoutID);
+    clearTimeout(this.returnTimeoutID);
+    this.runTimeoutID = setTimeout(this.run.bind(this), this.delayTime);
   }
   selectNumber(number){
     this.selectedNumber = this.selectedNumber || '';
@@ -67,6 +71,7 @@ class VendingMachine{
   }
   run(){
     const item = this.getItem(this.selectedNumber);
+    this.returnTimeoutID = setTimeout(this.returnMoney.bind(this), this.delayTime); // 비동기 순서 다시 파악하기
 
     if(!this.isValidItem(item)) return;
 
@@ -95,6 +100,27 @@ class VendingMachine{
   }
   decreaseTotalMoney(price){
     this.totalMoney.textContent -= price;
+  }
+  returnMoney(){
+    const totalMoney = this.totalMoney.textContent;
+    const change = this.makeChange(totalMoney);
+
+    this.decreaseTotalMoney(totalMoney);
+    this.highlightItems();
+    this.printMessage(`${totalMoney}원이 반환되었습니다`);
+    this.inputMoneyIntoWallet(change);
+  }
+  makeChange(money){
+    const change = {};
+    const priceUnits = [10000, 5000, 1000, 500, 100, 50, 10];
+
+    priceUnits.forEach(price =>{
+      const [count, remainder] = [Math.floor(money/price), money%price];
+      if(count) change[price] = count;
+      money = remainder;
+    })
+
+    return change;
   }
 }
 
