@@ -71,10 +71,10 @@ class VendingMachine{
   }
   run(){
     const item = this.getItem(this.selectedNumber);
-    this.returnTimeoutID = setTimeout(this.returnMoney.bind(this), this.delayTime);
-
+    
     if(!this.isValidItem(item)) return;
-
+    
+    this.returnTimeoutID = setTimeout(this.returnMoney.bind(this), this.delayTime);
     const price = item.dataset.price;
     const itemName = item.querySelector('.item_name').textContent;
 
