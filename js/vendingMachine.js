@@ -27,10 +27,10 @@ class VendingMachine{
     this.items = this.itemList.childNodes;
   }
   inputMoney(price){
-    clearTimeout(this.returnTimeoutID);    
-    this.increaseTotalMoney(price)
-    this.printMessage(`${price}원이 투입되었습니다!`)
-    this.highlightItems()
+    clearTimeout(this.returnTimeoutID);
+    this.increaseTotalMoney(price);
+    this.printMessage(`${price}원이 투입되었습니다!`);
+    this.highlightItems();
   }
   increaseTotalMoney(price){
     this.totalMoney.textContent = Number(this.totalMoney.textContent) + Number(price);
@@ -71,7 +71,7 @@ class VendingMachine{
   }
   run(){
     const item = this.getItem(this.selectedNumber);
-    this.returnTimeoutID = setTimeout(this.returnMoney.bind(this), this.delayTime); // 비동기 순서 다시 파악하기
+    this.returnTimeoutID = setTimeout(this.returnMoney.bind(this), this.delayTime);
 
     if(!this.isValidItem(item)) return;
 
@@ -83,16 +83,21 @@ class VendingMachine{
     this.highlightItems();
   }
   isValidItem(item){
+    return this.isWrongNumber(item) ? false : this.isExpensive(item) ? false : true;
+  }
+  isWrongNumber(item){
     if(!item){
       this.printMessage('해당 번호의 아이템이 존재하지 않습니다');
-      return false;
+      return true;
     }
+    return false
+  }
+  isExpensive(item){
     if(Number(item.dataset.price) > Number(this.totalMoney.textContent)){
       this.printMessage('돈이 부족합니다')
-      return false;
+      return true;
     }
-
-    return true;
+    return false
   }
   getItem(number){
     this.selectedNumber = null;
