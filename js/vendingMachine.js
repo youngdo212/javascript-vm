@@ -8,8 +8,8 @@ class VendingMachine{
     this.totalMoney = this.vendingMachineWrap.querySelector('.vm_money_box > span');
     this.delayTime = delayTime
     this.selectedNumber = null;
-    this.runTimeoutID = null; // 변수 명 수정
-    this.returnTimeoutID = null; // 변수 명 수정
+    this.runTimeoutID = null;
+    this.returnMoneyTimeoutID = null;
     this.items = null;
     this.inputMoneyIntoWallet = null;
 
@@ -27,7 +27,7 @@ class VendingMachine{
     this.items = this.itemList.childNodes;
   }
   inputMoney(price){
-    clearTimeout(this.returnTimeoutID);
+    clearTimeout(this.returnMoneyTimeoutID);
     this.increaseTotalMoney(price);
     this.printMessage(`${price}원이 투입되었습니다!`);
     this.highlightItems();
@@ -62,7 +62,7 @@ class VendingMachine{
     if(tagName !== 'BUTTON') return;
     this.selectNumber(textContent);
     clearTimeout(this.runTimeoutID);
-    clearTimeout(this.returnTimeoutID);
+    clearTimeout(this.returnMoneyTimeoutID);
     this.runTimeoutID = setTimeout(this.run.bind(this), this.delayTime);
   }
   selectNumber(number){
@@ -74,7 +74,7 @@ class VendingMachine{
     
     if(!this.isValidItem(item)) return;
     
-    this.returnTimeoutID = setTimeout(this.returnMoney.bind(this), this.delayTime);
+    this.returnMoneyTimeoutID = setTimeout(this.returnMoney.bind(this), this.delayTime);
     const price = item.dataset.price;
     const itemName = item.querySelector('.item_name').textContent;
 
