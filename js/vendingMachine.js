@@ -114,7 +114,7 @@ class VendingMachine{
     const change = {};
     const priceUnits = [10000, 5000, 1000, 500, 100, 50, 10];
 
-    priceUnits.forEach(price =>{
+    priceUnits.forEach(price => {
       const [count, remainder] = [Math.floor(money/price), money%price];
       if(count) change[price] = count;
       money = remainder;

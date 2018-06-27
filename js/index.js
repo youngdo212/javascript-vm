@@ -11,8 +11,11 @@ const vm = new VendingMachine({
 })
 
 const wallet = new Wallet({
-  walletWrap: document.querySelector('.walletWrap')
+  walletWrap: document.querySelector('.walletWrap'),
+  moneyData : {10: 10, 50: 10, 100: 10, 500: 10, 1000: 10, 5000: 5, 10000: 2}
 })
+
+wallet.init();
 
 const action = new Action({
   vendingMachine: vm,

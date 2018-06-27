@@ -1,55 +1,74 @@
 // 지갑의 데이터와 작동을 갖고 있는 클래스
 
 class Wallet{
-  constructor({walletWrap}){
+  constructor({walletWrap, moneyData}){
     this.walletWrap = walletWrap;
-    this.moneyCountList = this.walletWrap.querySelector('.money_count_list');
-    this.totalmoney = this.walletWrap.querySelector('.wallet_money_box > span');
-    
+    this.moneyData = moneyData;
+    this.moneyButtons = this.walletWrap.querySelectorAll('.money_button_list > li > button');
+    this.moneyCountList = this.walletWrap.querySelector('.money_count_list'); // 리팩토링
+    this.totalMoney = this.walletWrap.querySelector('.wallet_money_box > span');
+    this.moneyCountElemDict = this.makeMoneyCountElemDict(); // 이름에 Dict 가 사용되나요?
     this.inputMoneyIntoMachine = null;
-
+  }
+  init(){
+    this.render();
+    this.addEventListener();
+    this.calcTotalMoney();
+    this.moneyData = null; // 더 이상 moneyData를 사용하지 않으므로 GC를 고려해서 초기화
+  }
+  render(){
+    for(let [price, count] of Object.entries(this.moneyData)){
+      const moneyCountElem = this.moneyCountElemDict[price];
+      moneyCountElem.textContent = count;
+    }
+  }
+  addEventListener(){
     this.walletWrap.addEventListener('click', this.selectMoney.bind(this));
+  }
+  makeMoneyCountElemDict(){ // reduce?
+    const moneyCountElemDict = {};
+
+    this.moneyButtons.forEach( button => {
+      const price = button.dataset.price;
+      const moneyCountElem = this.moneyCountList.querySelector(`[data-price='${price}']>span`);
+      moneyCountElemDict[price] = moneyCountElem;
+    })
+
+    return moneyCountElemDict
+  }
+  calcTotalMoney(){
+    let totalMoney = 0;
+
+    for(let [price, {textContent:count}] of Object.entries(this.moneyCountElemDict)){
+      totalMoney += price * count;
+    }
+
+    this.totalMoney.textContent = totalMoney;
   }
   selectMoney({target}){
     if(target.tagName !== 'BUTTON') return;
     
     const price = target.dataset.price;
-    const moneyCount = this.moneyCountList.querySelector(`[data-price='${price}']>span`);
+    const moneyCountElem = this.moneyCountList.querySelector(`[data-price='${price}']>span`);
     
-    if(this.isZeroCount(moneyCount)) return;
+    if(this.isZeroCount(moneyCountElem)) return;
 
-    this.decreaseMoneyCount(moneyCount)
-    this.decreaseTotalMoney(price);
+    this.manipulateMoneyCount(moneyCountElem, -1);
+    this.calcTotalMoney();
     this.inputMoneyIntoMachine(price);
   }
-  isZeroCount(moneyCount){
-    return moneyCount.textContent === '0';
+  isZeroCount(moneyCountElem){
+    return moneyCountElem.textContent === '0';
   }
-  decreaseMoneyCount(moneyCount){
-    moneyCount.textContent -= 1;
-  }
-  decreaseTotalMoney(price){
-    this.totalmoney.textContent -= price;
+  manipulateMoneyCount(moneyCountElem, count){
+    moneyCountElem.textContent = Number(moneyCountElem.textContent) + count;
   }
   inputMoney(change){
-    for(let price in change){
-      let count = change[price]; // 한번에 받아오기
-      this.increaseMoney(price, count);
+    for(let [price, count] of Object.entries(change)){
+      const moneyCountElem = this.moneyCountElemDict[price];
+      this.manipulateMoneyCount(moneyCountElem, count);
     }
-  }
-  increaseMoney(price, count){
-    const moneyCount = this.moneyCountList.querySelector(`[data-price='${price}']>span`);
-
-    while(count-- > 0){
-      this.increaseMoneyCount(moneyCount); // decrease와 중복
-      this.increaseTotalMoney(price); // decrease와 중복
-    }
-  }
-  increaseMoneyCount(moneyCount){
-    moneyCount.textContent = Number(moneyCount.textContent) + 1;
-  }
-  increaseTotalMoney(price){
-    this.totalmoney.textContent = Number(this.totalmoney.textContent) + Number(price);
+    this.calcTotalMoney();
   }
 }
 
