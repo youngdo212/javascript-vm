@@ -5,7 +5,7 @@ class Wallet{
     this.walletWrap = walletWrap;
     this.moneyData = moneyData;
     this.moneyButtons = this.walletWrap.querySelectorAll('.money_button_list > li > button');
-    this.moneyCountList = this.walletWrap.querySelector('.money_count_list'); // 리팩토링
+    this.moneyCountList = this.walletWrap.querySelector('.money_count_list');
     this.totalMoney = this.walletWrap.querySelector('.wallet_money_box > span');
     this.moneyCountElems = this.makeMoneyCountElemDict();
     this.inputMoneyIntoMachine = null;
@@ -25,7 +25,7 @@ class Wallet{
   addEventListener(){
     this.walletWrap.addEventListener('click', this.selectMoney.bind(this));
   }
-  makeMoneyCountElemDict(){ // reduce?
+  makeMoneyCountElemDict(){
     const moneyCountElemDict = {};
 
     this.moneyButtons.forEach( button => {
