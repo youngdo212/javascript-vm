@@ -4,33 +4,34 @@ class Wallet{
   constructor({walletWrap, moneyData}){
     this.walletWrap = walletWrap;
     this.moneyData = moneyData;
-    this.moneyButtons = this.walletWrap.querySelectorAll('.money_button_list > li > button');
-    this.moneyCountList = this.walletWrap.querySelector('.money_count_list');
     this.totalMoney = this.walletWrap.querySelector('.wallet_money_box > span');
     this.moneyCountElems = this.makeMoneyCountElemDict();
     this.inputMoneyIntoMachine = null;
   }
   init(){
     this.render();
-    this.addEventListener();
+    this.addAllEventListener();
     this.calcTotalMoney();
     this.moneyData = null;
   }
   render(){
-    for(let [price, count] of Object.entries(this.moneyData)){
+    const entries = Object.entries(this.moneyData);
+    for(let [price, count] of entries){
       const moneyCountElem = this.moneyCountElems[price];
       moneyCountElem.textContent = count;
     }
   }
-  addEventListener(){
+  addAllEventListener(){
     this.walletWrap.addEventListener('click', this.selectMoney.bind(this));
   }
   makeMoneyCountElemDict(){
     const moneyCountElemDict = {};
+    const moneyButtons = this.walletWrap.querySelectorAll('.money_button_list > li > button');
+    const moneyCountList = this.walletWrap.querySelector('.money_count_list');
 
-    this.moneyButtons.forEach( button => {
+    moneyButtons.forEach( button => {
       const price = button.dataset.price;
-      const moneyCountElem = this.moneyCountList.querySelector(`[data-price='${price}']>span`);
+      const moneyCountElem = moneyCountList.querySelector(`[data-price='${price}']>span`);
       moneyCountElemDict[price] = moneyCountElem;
     })
 
@@ -38,8 +39,9 @@ class Wallet{
   }
   calcTotalMoney(){
     let totalMoney = 0;
+    const entries = Object.entries(this.moneyCountElems);
 
-    for(let [price, {textContent:count}] of Object.entries(this.moneyCountElems)){
+    for(let [price, {textContent:count}] of entries){
       totalMoney += price * count;
     }
 
@@ -64,7 +66,8 @@ class Wallet{
     moneyCountElem.textContent = Number(moneyCountElem.textContent) + count;
   }
   inputMoney(change){
-    for(let [price, count] of Object.entries(change)){
+    const entries = Object.entries(change);
+    for(let [price, count] of entries){
       const moneyCountElem = this.moneyCountElems[price];
       this.manipulateMoneyCount(moneyCountElem, count);
     }

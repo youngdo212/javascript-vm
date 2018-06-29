@@ -4,9 +4,9 @@ class Action{
   constructor({vendingMachine, wallet}){
     this.vendingMachine = vendingMachine;
     this.wallet = wallet;
-    this.init();
+    this.bindFunctions();
   }
-  init(){
+  bindFunctions(){
     this.wallet.inputMoneyIntoMachine = this.inputMoneyIntoMachine.bind(this);
     this.vendingMachine.inputMoneyIntoWallet = this.inputMoneyIntoWallet.bind(this);
   }

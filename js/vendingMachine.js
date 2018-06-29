@@ -7,7 +7,7 @@ class VendingMachine{
     this.logBox = this.vendingMachineWrap.querySelector('.log_box');
     this.totalMoney = this.vendingMachineWrap.querySelector('.vm_money_box > span');
     this.delayTime = delayTime
-    this.selectedNumber = null;
+    this.selectedNumber = '';
     this.runTimeoutID = null;
     this.returnMoneyTimeoutID = null;
     this.items = null;
@@ -15,9 +15,9 @@ class VendingMachine{
 
     this.render({data: itemData, template: template});
     this.collectItems();
-    this.addEventListener();
+    this.addAllEventListener();
   }
-  addEventListener(){
+  addAllEventListener(){
     this.vendingMachineWrap.addEventListener('click', this.selectItem.bind(this));
   }
   render({data, template}){
@@ -100,7 +100,7 @@ class VendingMachine{
     return false
   }
   getItem(number){
-    this.selectedNumber = null;
+    this.selectedNumber = '';
     return this.itemList.querySelector(`[data-number='${number}']`);
   }
   decreaseTotalMoney(price){
