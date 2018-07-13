@@ -52,19 +52,19 @@ class MoneyCountList{
 /*
 MoneyButtonList, MoneyCountList 클래스를 생성자 인자로 받아 컨트롤 하는 전체 지갑 클래스
 */
-class Wallet{
-  constructor({moneyButtonList, moneyCountList, totalMoney, moneyData = {}}){
-    this.moneyButtonList = moneyButtonList;
-    this.moneyCountList = moneyCountList;
-    this.totalMoney = totalMoney;
+function Wallet({moneyButtonList, moneyCountList, totalMoney, moneyData = {}}){
+  this.moneyButtonList = moneyButtonList;
+  this.moneyCountList = moneyCountList;
+  this.totalMoney = totalMoney;
 
-    this.inputMoney(moneyData);
-    this.moneyButtonList.bindSelectMoney(this.selectMoney.bind(this));
-  }
+  this.inputMoney(moneyData);
+  this.moneyButtonList.bindSelectMoney(this.selectMoney.bind(this));
+}
 
+Wallet.prototype = {
   bindTakeOutMoney(handler){
     this.takeOutMoney = handler;
-  }
+  },
 
   selectMoney(price){
     if(this.moneyCountList.isZeroCount(price)) return;
@@ -72,7 +72,7 @@ class Wallet{
     this.moneyCountList.manipulateCount({[price] : -1});
     this.totalMoney.textContent = this.moneyCountList.calculate();
     this.takeOutMoney({[price] : 1})
-  }
+  },
 
   inputMoney(moneyData){
     this.moneyCountList.manipulateCount(moneyData);
@@ -81,3 +81,31 @@ class Wallet{
 }
 
 export {MoneyButtonList, MoneyCountList, Wallet};
+
+// class Wallet{
+//   constructor({moneyButtonList, moneyCountList, totalMoney, moneyData = {}}){
+//     this.moneyButtonList = moneyButtonList;
+//     this.moneyCountList = moneyCountList;
+//     this.totalMoney = totalMoney;
+
+//     this.inputMoney(moneyData);
+//     this.moneyButtonList.bindSelectMoney(this.selectMoney.bind(this));
+//   }
+
+//   bindTakeOutMoney(handler){
+//     this.takeOutMoney = handler;
+//   }
+
+//   selectMoney(price){
+//     if(this.moneyCountList.isZeroCount(price)) return;
+
+//     this.moneyCountList.manipulateCount({[price] : -1});
+//     this.totalMoney.textContent = this.moneyCountList.calculate();
+//     this.takeOutMoney({[price] : 1})
+//   }
+
+//   inputMoney(moneyData){
+//     this.moneyCountList.manipulateCount(moneyData);
+//     this.totalMoney.textContent = this.moneyCountList.calculate();    
+//   }
+// }
