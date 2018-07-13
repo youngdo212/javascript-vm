@@ -1,5 +1,5 @@
 import {VendingMachine} from "./vendingMachine.js"
-import {Wallet} from "./wallet.js"
+import {MoneyButtonList, MoneyCountList, Wallet} from "./wallet.js"
 import {Action} from "./Action.js"
 import {itemData} from "./itemData.js"
 import {makeItemHtml} from "./template.js"
@@ -10,12 +10,20 @@ const vm = new VendingMachine({
   template: makeItemHtml
 })
 
-const wallet = new Wallet({
-  walletWrap: document.querySelector('.walletWrap'),
-  moneyData : {10: 10, 50: 10, 100: 10, 500: 10, 1000: 10, 5000: 5, 10000: 2}
+const moneyButtonList = new MoneyButtonList({
+  moneyButtonList: document.querySelector('.money_button_list')
 })
 
-wallet.init();
+const moneyCountList = new MoneyCountList({
+  moneyCountList: document.querySelector('.money_count_list')
+})
+
+const wallet = new Wallet({
+  moneyButtonList: moneyButtonList,
+  moneyCountList: moneyCountList,
+  totalMoney: document.querySelector('.wallet_money_box > span'),
+  moneyData : {10: 10, 50: 10, 100: 10, 500: 10, 1000: 10, 5000: 5, 10000: 2}
+})
 
 const action = new Action({
   vendingMachine: vm,
