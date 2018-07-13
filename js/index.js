@@ -1,8 +1,25 @@
 import {ItemList, VmTotalMoney, SelectButtonList, LogBox, VendingMachine} from "./vendingMachine.js"
 import {MoneyButtonList, MoneyCountList, Wallet} from "./wallet.js"
-import {Action} from "./Action.js"
 import {itemData} from "./itemData.js"
 import {Template} from "./template.js"
+
+class Action{
+  constructor({vendingMachine, wallet}){
+    this.vendingMachine = vendingMachine;
+    this.wallet = wallet;
+    this.bindFunctions();
+  }
+  bindFunctions(){
+    this.wallet.bindTakeOutMoney(this.inputMoneyIntoMachine.bind(this));
+    this.vendingMachine.bindThrowMoney(this.inputMoneyIntoWallet.bind(this));
+  }
+  inputMoneyIntoMachine(price){
+    this.vendingMachine.inputMoney(price);
+  }
+  inputMoneyIntoWallet(change){
+    this.wallet.inputMoney(change);
+  }
+}
 
 const itemList = new ItemList({
   itemList : document.querySelector('.item_list'),
