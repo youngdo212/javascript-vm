@@ -39,6 +39,10 @@ class MoneyCountList{
 
     return totalMoney;
   }
+
+  isZeroCount(price){
+    return this.moneyCounts[price].firstElementChild.textContent === '0';
+  }
 }
 
 class Wallet{
@@ -56,6 +60,8 @@ class Wallet{
   }
 
   selectMoney(price){
+    if(this.moneyCountList.isZeroCount(price)) return;
+    
     this.moneyCountList.manipulateCount({[price] : -1});
     this.totalMoney.textContent = this.moneyCountList.calculate();
     this.takeOutMoney(price)
