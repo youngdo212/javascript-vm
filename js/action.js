@@ -8,7 +8,7 @@ class Action{
   }
   bindFunctions(){
     this.wallet.bindTakeOutMoney(this.inputMoneyIntoMachine.bind(this));
-    this.vendingMachine.inputMoneyIntoWallet = this.inputMoneyIntoWallet.bind(this);
+    this.vendingMachine.bindThrowMoney(this.inputMoneyIntoWallet.bind(this));
   }
   inputMoneyIntoMachine(price){
     this.vendingMachine.inputMoney(price);

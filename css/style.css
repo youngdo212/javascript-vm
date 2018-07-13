@@ -13,7 +13,7 @@
   float: left;
 }
 
-.box_wrap {
+.total_money_wrap {
   background-color: #fff;
   width: 335px;
   height: 635px;
@@ -56,7 +56,7 @@
   margin: auto;
 }
 
-.vm_money_box, .itemSelect_button_box, .log_box {
+.total_money, .select_button_list, .log_box {
   border: 3px solid slategray;
   width: 309px;
   margin-bottom: 20px;
@@ -64,21 +64,21 @@
   padding: 10px;
 }
 
-.vm_money_box {
+.total_money {
   height: 50px;
   line-height: 50px;
   font-size: 2em;
   text-align: right;
 }
 
-.itemSelect_button_box {
+.select_button_list {
   width: 319px;
   padding-right: 0px;
   padding-bottom: 0px;
   overflow: hidden;
 }
 
-.itemSelect_button_box > button {
+.select_button_list > button {
   width: 66px;
   height: 50px;
   border-radius: 10px;
@@ -136,7 +136,7 @@
   height: 50px;
 }
 
-.money_button_list button:hover, .itemSelect_button_box > button:hover {
+.money_button_list button:hover, .select_button_list > button:hover {
   color: #fff;
   background: slategray;
 }

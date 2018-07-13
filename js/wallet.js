@@ -71,7 +71,7 @@ class Wallet{
 
     this.moneyCountList.manipulateCount({[price] : -1});
     this.totalMoney.textContent = this.moneyCountList.calculate();
-    this.takeOutMoney(price)
+    this.takeOutMoney({[price] : 1})
   }
 
   inputMoney(moneyData){

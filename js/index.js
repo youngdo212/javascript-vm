@@ -1,13 +1,32 @@
-import {VendingMachine} from "./vendingMachine.js"
+import {ItemList, VmTotalMoney, SelectButtonList, LogBox, VendingMachine} from "./vendingMachine.js"
 import {MoneyButtonList, MoneyCountList, Wallet} from "./wallet.js"
 import {Action} from "./Action.js"
 import {itemData} from "./itemData.js"
-import {makeItemHtml} from "./template.js"
+import {Template} from "./template.js"
+
+const itemList = new ItemList({
+  itemList : document.querySelector('.item_list'),
+  template: new Template(),
+  itemData: itemData
+});
+
+const vmTotalMoney = new VmTotalMoney({
+  totalMoney: document.querySelector('.total_money > span')
+});
+
+const selectButtonList = new SelectButtonList({
+  selectButtonList: document.querySelector('.select_button_list')
+});
+
+const logBox = new LogBox({
+  logBox: document.querySelector('.log_box')
+})
 
 const vm = new VendingMachine({
-  vendingMachineWrap: document.querySelector('.vending_machine_wrap'),
-  itemData: itemData,
-  template: makeItemHtml
+  itemList: itemList,
+  totalMoney: vmTotalMoney,
+  selectButtonList: selectButtonList,
+  logBox: logBox
 })
 
 const moneyButtonList = new MoneyButtonList({
