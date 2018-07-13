@@ -65,3 +65,7 @@ const action = new Action({
   vendingMachine: vm,
   wallet: wallet
 })
+
+document.addEventListener('DOMContentLoaded', () => {
+  alert('dom 준비 완료');
+})
