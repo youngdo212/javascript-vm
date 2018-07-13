@@ -1,5 +1,6 @@
-// 지갑의 데이터와 작동을 갖고 있는 클래스
-
+/*
+지갑의 돈 버튼을 담는 클래스
+*/
 class MoneyButtonList{
   constructor({moneyButtonList}){
     this.moneyButtonList = moneyButtonList;
@@ -13,6 +14,9 @@ class MoneyButtonList{
   }
 }
 
+/*
+지갑의 돈 개수를 담는 클래스
+*/
 class MoneyCountList{
   constructor({moneyCountList}){
     this.moneyCounts = Array.from(moneyCountList.querySelectorAll('li'))
@@ -45,6 +49,9 @@ class MoneyCountList{
   }
 }
 
+/*
+MoneyButtonList, MoneyCountList 클래스를 생성자 인자로 받아 컨트롤 하는 전체 지갑 클래스
+*/
 class Wallet{
   constructor({moneyButtonList, moneyCountList, totalMoney, moneyData = {}}){
     this.moneyButtonList = moneyButtonList;
@@ -61,7 +68,7 @@ class Wallet{
 
   selectMoney(price){
     if(this.moneyCountList.isZeroCount(price)) return;
-    
+
     this.moneyCountList.manipulateCount({[price] : -1});
     this.totalMoney.textContent = this.moneyCountList.calculate();
     this.takeOutMoney(price)
