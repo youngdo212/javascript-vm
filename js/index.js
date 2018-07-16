@@ -28,7 +28,8 @@ const itemList = new ItemList({
 });
 
 const vmTotalMoney = new VmTotalMoney({
-  totalMoney: document.querySelector('.total_money > span')
+  totalMoney: document.querySelector('.total_money > span'),
+  priceUnits: [10000, 5000, 1000, 500, 100, 50, 10]
 });
 
 const selectButtonList = new SelectButtonList({

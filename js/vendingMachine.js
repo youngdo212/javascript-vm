@@ -2,8 +2,9 @@
 자판기의 담긴 돈을 처리하는 클래스
 */
 class VmTotalMoney{
-  constructor({totalMoney}){
+  constructor({totalMoney, priceUnits}){
     this.totalMoney = totalMoney;
+    this.priceUnits = priceUnits;
   }
 
   get(){
@@ -29,9 +30,8 @@ class VmTotalMoney{
 
   makeChange(money){
     const change = {};
-    const priceUnits = [10000, 5000, 1000, 500, 100, 50, 10];
 
-    priceUnits.forEach(price => {
+    this.priceUnits.forEach(price => {
       const [count, remainder] = [Math.floor(money/price), money%price];
       if(count) change[price] = count;
       money = remainder;
