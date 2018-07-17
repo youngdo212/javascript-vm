@@ -38,14 +38,11 @@ class MoneyCountList{
   }
 
   calculate(){
-    let totalMoney = 0;
-
-    Object.keys(this.moneyCounts).forEach(price => {
+    return Object.keys(this.moneyCounts).reduce((totalMoney, price) => {
       const count = this.moneyCounts[price].firstElementChild.textContent;
       totalMoney += Number(price) * Number(count);
-    });
-
-    return totalMoney;
+      return totalMoney
+    }, 0);
   }
 
   isZeroCount(price){
