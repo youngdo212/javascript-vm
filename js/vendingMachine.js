@@ -183,7 +183,7 @@ class VendingMachine{
     this.oTotalMoney.decrease(price);
     this.oItemList.highlight(this.oTotalMoney.get())
 
-    if(this.oTotalMoney.get()) this.returnMoneyTimeoutID = setTimeout(this.returnMoney.bind(this), this.delayTime);
+    if(this.oTotalMoney.get() !== '0') this.returnMoneyTimeoutID = setTimeout(this.returnMoney.bind(this), this.delayTime);
   }
 
   returnMoney(){
