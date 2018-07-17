@@ -1,5 +1,13 @@
-import {ItemList, VmTotalMoney, SelectButtonList, LogBox, VendingMachine} from "./vendingMachine.js"
-import {MoneyButtonList, MoneyCountList, Wallet} from "./wallet.js"
+import {ItemList} from "./vendingMachine/itemList.js"
+import {VmTotalMoney} from "./vendingMachine/vmTotalMoney.js"
+import {SelectButtonList} from "./vendingMachine/selectButtonList.js"
+import {LogBox} from "./vendingMachine/logBox.js"
+import {VendingMachine} from "./vendingMachine/vendingMachine.js"
+
+import {MoneyButtonList} from "./wallet/moneyButtonList.js"
+import {MoneyCountList} from "./wallet/moneyCountList.js"
+import {Wallet} from "./wallet/wallet.js"
+
 import {itemData} from "./itemData.js"
 import {Template} from "./template.js"
 
