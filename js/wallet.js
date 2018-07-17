@@ -19,8 +19,12 @@ class MoneyButtonList{
 */
 class MoneyCountList{
   constructor({moneyCountList}){
-    this.moneyCounts = Array.from(moneyCountList.querySelectorAll('li'))
-    .reduce((dict, moneyCount) => (dict[moneyCount.dataset.price] = moneyCount, dict), {}); // 너무 복잡?
+    this.moneyCounts = this.makeMoneyCountDict(moneyCountList.querySelectorAll('li'))
+  }
+
+  // @param {nodeList} moneyCountList
+  makeMoneyCountDict(moneyCountList){
+    return Array.from(moneyCountList).reduce((dict, moneyCount) => (dict[moneyCount.dataset.price] = moneyCount, dict), {});
   }
 
   // @param {Object} moneyData - {price: manipulateCount}
