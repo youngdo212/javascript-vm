@@ -3,11 +3,11 @@
 */
 class MoneyButtonList{
   constructor({moneyButtonList}){
-    this.moneyButtonList = moneyButtonList;
+    this.$moneyButtonList = moneyButtonList;
   }
   
   bindSelectMoney(handler){
-    this.moneyButtonList.addEventListener('click', ({target}) => {
+    this.$moneyButtonList.addEventListener('click', ({target}) => {
       if(target.tagName !== 'BUTTON') return;
       handler(target.dataset.price);
     })
@@ -54,12 +54,12 @@ MoneyButtonList, MoneyCountList 클래스를 생성자 인자로 받아 컨트�
 */
 class Wallet{
   constructor({moneyButtonList, moneyCountList, totalMoney, moneyData = {}}){
-    this.moneyButtonList = moneyButtonList;
-    this.moneyCountList = moneyCountList;
-    this.totalMoney = totalMoney;
+    this.oMoneyButtonList = moneyButtonList;
+    this.oMoneyCountList = moneyCountList;
+    this.$totalMoney = totalMoney;
 
     this.inputMoney(moneyData);
-    this.moneyButtonList.bindSelectMoney(this.selectMoney.bind(this));
+    this.oMoneyButtonList.bindSelectMoney(this.selectMoney.bind(this));
   }
 
   bindTakeOutMoney(handler){
@@ -67,16 +67,16 @@ class Wallet{
   }
 
   selectMoney(price){
-    if(this.moneyCountList.isZeroCount(price)) return;
+    if(this.oMoneyCountList.isZeroCount(price)) return;
 
-    this.moneyCountList.manipulateCount({[price] : -1});
-    this.totalMoney.textContent = this.moneyCountList.calculate();
+    this.oMoneyCountList.manipulateCount({[price] : -1});
+    this.$totalMoney.textContent = this.oMoneyCountList.calculate();
     this.takeOutMoney({[price] : 1})
   }
 
   inputMoney(moneyData){
-    this.moneyCountList.manipulateCount(moneyData);
-    this.totalMoney.textContent = this.moneyCountList.calculate();    
+    this.oMoneyCountList.manipulateCount(moneyData);
+    this.$totalMoney.textContent = this.oMoneyCountList.calculate();    
   }
 }
 

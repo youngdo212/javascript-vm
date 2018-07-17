@@ -3,24 +3,24 @@
 */
 class VmTotalMoney{
   constructor({totalMoney, priceUnits}){
-    this.totalMoney = totalMoney;
+    this.$totalMoney = totalMoney;
     this.priceUnits = priceUnits;
   }
 
   get(){
-    return this.totalMoney.textContent;
+    return this.$totalMoney.textContent;
   }
 
   increase(price){
-    this.totalMoney.textContent = Number(this.totalMoney.textContent) + Number(price);
+    this.$totalMoney.textContent = Number(this.$totalMoney.textContent) + Number(price);
   }
 
   decrease(price){
-    this.totalMoney.textContent = Number(this.totalMoney.textContent) - Number(price);
+    this.$totalMoney.textContent = Number(this.$totalMoney.textContent) - Number(price);
   }
 
   return(){
-    const totalMoney = this.totalMoney.textContent;
+    const totalMoney = this.$totalMoney.textContent;
     const change = this.makeChange(totalMoney);
 
     this.decrease(totalMoney);
@@ -46,11 +46,11 @@ class VmTotalMoney{
 */
 class SelectButtonList{
   constructor({selectButtonList}){
-    this.selectButtonList = selectButtonList
+    this.$selectButtonList = selectButtonList
   }
 
   bindSelectItem(handler){
-    this.selectButtonList.addEventListener('click', ({target}) => {
+    this.$selectButtonList.addEventListener('click', ({target}) => {
       if(target.tagName !== 'BUTTON') return;
       handler(target.textContent);
     })
@@ -62,7 +62,7 @@ log box에 로그를 찍는 클래스
 */
 class LogBox{
   constructor({logBox}){
-    this.logBox = logBox;
+    this.$logBox = logBox;
   }
 
   printMessage(message){
@@ -70,9 +70,9 @@ class LogBox{
     const text = document.createTextNode(message);
     log.appendChild(text);
 
-    if(this.logBox.children.length >= 10) this.logBox.removeChild(this.logBox.firstElementChild);
+    if(this.$logBox.children.length >= 10) this.$logBox.removeChild(this.$logBox.firstElementChild);
 
-    this.logBox.appendChild(log);
+    this.$logBox.appendChild(log);
   }
 }
 
@@ -81,19 +81,19 @@ class LogBox{
 */
 class ItemList{
   constructor({itemList, template, itemData}){
-    this.itemList = itemList;
-    this.template = template;
+    this.$itemList = itemList;
+    this.oTemplate = template;
     this.render(itemData);
   }
 
   render(itemData){
     itemData.forEach(item => {
-      this.itemList.innerHTML += this.template.itemList(item);
+      this.$itemList.innerHTML += this.oTemplate.itemList(item);
     })
   }
 
   highlight(money){
-    const items = this.itemList.childNodes; // 클래스 변수로 선언할까?
+    const items = this.$itemList.childNodes; // 클래스 변수로 선언할까?
 
     items.forEach(item => {
       this.isAvailableItem({item: item, money: money}) ? this.highlightItem(item) : this.deHighlightItem(item);
@@ -113,7 +113,7 @@ class ItemList{
   }
 
   getItem(number){ // refactor
-    const item = this.itemList.querySelector(`[data-number='${number}']`);
+    const item = this.$itemList.querySelector(`[data-number='${number}']`);
 
     if(!item) return null;
 
@@ -130,17 +130,17 @@ class ItemList{
 */
 class VendingMachine{
   constructor({itemList, totalMoney, selectButtonList, logBox, delayTime = 3000}){
-    this.itemList = itemList;
-    this.totalMoney = totalMoney;
-    this.selectButtonList = selectButtonList;
-    this.logBox = logBox;
+    this.oItemList = itemList;
+    this.oTotalMoney = totalMoney;
+    this.oSelectButtonList = selectButtonList;
+    this.oLogBox = logBox;
     this.delayTime = delayTime;
     this.selectedNumber = '';
 
     this.runTimeoutID = null;
     this.returnMoneyTimeoutID = null;
 
-    this.selectButtonList.bindSelectItem(this.selectNumber.bind(this));
+    this.oSelectButtonList.bindSelectItem(this.selectNumber.bind(this));
   }
 
   inputMoney(moneyData){
@@ -153,9 +153,9 @@ class VendingMachine{
 
     clearTimeout(this.returnMoneyTimeoutID);
 
-    this.totalMoney.increase(price);
-    this.logBox.printMessage(`${price}원이 투입되었습니다!`);
-    this.itemList.highlight(this.totalMoney.get());
+    this.oTotalMoney.increase(price);
+    this.oLogBox.printMessage(`${price}원이 투입되었습니다!`);
+    this.oItemList.highlight(this.oTotalMoney.get());
   }
 
   selectNumber(number){
@@ -168,28 +168,28 @@ class VendingMachine{
   }
 
   run(){ // refactor
-    const item = this.itemList.getItem(this.selectedNumber);
+    const item = this.oItemList.getItem(this.selectedNumber);
     this.selectedNumber = '';
 
     if(!item){
-      this.logBox.printMessage('올바른 번호를 입력하세요');
+      this.oLogBox.printMessage('올바른 번호를 입력하세요');
       return;
     }
 
     const itemName = item.querySelector('.item_name').textContent;
     const price = item.dataset.price;
 
-    this.logBox.printMessage(`${itemName} 선택!`);
-    this.totalMoney.decrease(price);
-    this.itemList.highlight(this.totalMoney.get())
+    this.oLogBox.printMessage(`${itemName} 선택!`);
+    this.oTotalMoney.decrease(price);
+    this.oItemList.highlight(this.oTotalMoney.get())
 
-    if(this.totalMoney.get()) this.returnMoneyTimeoutID = setTimeout(this.returnMoney.bind(this), this.delayTime);
+    if(this.oTotalMoney.get()) this.returnMoneyTimeoutID = setTimeout(this.returnMoney.bind(this), this.delayTime);
   }
 
   returnMoney(){
-    const change = this.totalMoney.return();
-    this.itemList.highlight(0);
-    this.logBox.printMessage(`잔돈이 반환되었습니다!`);
+    const change = this.oTotalMoney.return();
+    this.oItemList.highlight(0);
+    this.oLogBox.printMessage(`잔돈이 반환되었습니다!`);
     this.throwMoney(change);
   }
 
