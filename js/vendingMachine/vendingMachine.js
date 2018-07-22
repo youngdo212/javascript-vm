@@ -41,7 +41,7 @@ class VendingMachine{
   }
 
   run(){ // refactor
-    const item = this.oItemList.getItem(this.selectedNumber);
+    const item = this.oItemList.getItem(Number(this.selectedNumber));
     this.selectedNumber = '';
 
     if(!item){

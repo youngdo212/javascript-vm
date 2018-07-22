@@ -5,45 +5,59 @@ class ItemList{
   constructor({itemList, template, itemData}){
     this.$itemList = itemList;
     this.oTemplate = template;
-    this.render(itemData);
+    this.items = this.$itemList.childNodes;
+    this._render(itemData);
   }
 
-  render(itemData){
-    itemData.forEach(item => {
+  // @param {Array} itemData - array of objects
+  _render(itemData){
+    itemData.forEach((item, idx) => {
+      item.number = idx + 1;
       this.$itemList.innerHTML += this.oTemplate.itemList(item);
     })
   }
 
+  // @param {number} money
   highlight(money){
-    const items = this.$itemList.childNodes; // 클래스 변수로 선언할까?
-
-    items.forEach(item => {
-      this.isAvailableItem({item: item, money: money}) ? this.highlightItem(item) : this.deHighlightItem(item);
+    this.items.forEach(item => {
+      this._isAvailableItem(item, money) ? this._highlightItem(item) : this._deHighlightItem(item);
     })
   }
 
-  isAvailableItem({item: {dataset: {price}}, money}){
-    return Number(price) <= Number(money);
+  // @param {Element} item
+  // @param {number} money
+  _isAvailableItem(item, money){
+    return Number(item.dataset.price) <= money;
   }
 
-  highlightItem(item){
+  _highlightItem(item){
     item.querySelector('.item_name').classList.add('highlight');
   }
 
-  deHighlightItem(item){
+  _deHighlightItem(item){
     item.querySelector('.item_name').classList.remove('highlight');
   }
 
-  getItem(number){ // refactor
-    const item = this.$itemList.querySelector(`[data-number='${number}']`);
+  // @param {number} number - Number(vendingMachine.selectedNumber)
+  getItem(number){
+    let item = this._getItemByNumber(this.items, number);
+    
+    return this._isValidItem(item) ? item : null;
+  }
 
-    if(!item) return null;
+  // @param {NodeList} items
+  // @param {number} number
+  _getItemByNumber(items, number){
+    return items[number-1];
+  }
 
-    const isHighlight = item.querySelector('.item_name').className.includes('highlight');
+  _isValidItem(item){
+    if(item && this._isHighlight(item)) return true;
+    return false;
+  }
 
-    if(!isHighlight) return null;
-
-    return item;
+  _isHighlight(item){
+    return item.querySelector('.item_name').className.includes('highlight');
   }
 }
 
