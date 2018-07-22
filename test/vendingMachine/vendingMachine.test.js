@@ -90,7 +90,7 @@ test("selectNumber(number): setTimeout의 콜백함수가 제대로 this 바인�
 
 
 test("run(): 잘못된 번호가 입력된 경우 상품을 출력하지 않는다", () => {
-  const ans = '1234'
+  const ans = 1234;
   vendingMachine.selectedNumber = ans;
   mockItemList.getItem = jest.fn();
   mockItemList.getItem.mockReturnValue(false);
@@ -126,7 +126,7 @@ test("run(): 올바르게 작동한다", () => {
 
   vendingMachine.run();
 
-  expect(mockItemList.getItem).toHaveBeenCalledWith('1');
+  expect(mockItemList.getItem).toHaveBeenCalledWith(1);
   expect(mockItemList.getItem).toHaveReturnedWith(item);
   expect(vendingMachine.selectedNumber).toBe('');
   expect(mockLogBox.appendMessage).toHaveBeenCalledWith('콜라 선택!');
