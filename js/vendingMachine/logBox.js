@@ -2,7 +2,7 @@
 log box에 로그를 찍는 클래스
 */
 class LogBox{
-  constructor({logBox, maxMessageNumber = 10}){
+  constructor({logBox, maxMessageNumber = 10} = {}){
     this.$logBox = logBox;
     this.MAX_MESSAGE_NUMBER = maxMessageNumber;
   }

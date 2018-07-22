@@ -40,7 +40,7 @@ describe("setTimeout, clearTimeout test", () => {
 
   test("inputMoney(moneyData): 메소드가 정상적으로 작동한다", () => {
     mockItemList.highlight = jest.fn();
-    mockLogBox.printMessage = jest.fn();
+    mockLogBox.appendMessage = jest.fn();
     mockTotalMoney.increase =  jest.fn();
     mockTotalMoney.get = jest.fn();
     mockTotalMoney.get.mockReturnValue(true);
@@ -51,7 +51,7 @@ describe("setTimeout, clearTimeout test", () => {
 
     expect(clearTimeout).toHaveBeenCalledTimes(1);
     expect(mockTotalMoney.increase).toHaveBeenCalledWith(answer);
-    expect(mockLogBox.printMessage).toHaveBeenCalledWith(`${answer}원이 투입되었습니다!`);
+    expect(mockLogBox.appendMessage).toHaveBeenCalledWith(`${answer}원이 투입되었습니다!`);
     expect(mockTotalMoney.get).toHaveBeenCalled();
     expect(mockItemList.highlight).toHaveBeenCalledWith(true);
   })
@@ -94,13 +94,13 @@ test("run(): 잘못된 번호가 입력된 경우 상품을 출력하지 않는�
   vendingMachine.selectedNumber = ans;
   mockItemList.getItem = jest.fn();
   mockItemList.getItem.mockReturnValue(false);
-  mockLogBox.printMessage = jest.fn();
+  mockLogBox.appendMessage = jest.fn();
 
   vendingMachine.run();
 
   expect(mockItemList.getItem).toHaveBeenCalledWith(ans);
   expect(mockItemList.getItem).toHaveReturnedWith(false);
-  expect(mockLogBox.printMessage).toHaveBeenCalledWith('올바른 번호를 입력하세요');
+  expect(mockLogBox.appendMessage).toHaveBeenCalledWith('올바른 번호를 입력하세요');
   // 초기화 테스트
   expect(vendingMachine.selectedNumber).toBe('');
 })
@@ -119,7 +119,7 @@ test("run(): 올바르게 작동한다", () => {
   mockItemList.getItem = jest.fn();
   mockItemList.highlight = jest.fn();
   mockItemList.getItem.mockReturnValue(item);
-  mockLogBox.printMessage = jest.fn();
+  mockLogBox.appendMessage = jest.fn();
   mockTotalMoney.decrease = jest.fn();
   mockTotalMoney.get = jest.fn();
   mockTotalMoney.get.mockReturnValue('0');
@@ -129,7 +129,7 @@ test("run(): 올바르게 작동한다", () => {
   expect(mockItemList.getItem).toHaveBeenCalledWith('1');
   expect(mockItemList.getItem).toHaveReturnedWith(item);
   expect(vendingMachine.selectedNumber).toBe('');
-  expect(mockLogBox.printMessage).toHaveBeenCalledWith('콜라 선택!');
+  expect(mockLogBox.appendMessage).toHaveBeenCalledWith('콜라 선택!');
   expect(mockTotalMoney.decrease).toHaveBeenCalledWith('500');
   expect(mockItemList.highlight).toHaveBeenCalledWith('0');
 })
