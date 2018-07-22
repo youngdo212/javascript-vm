@@ -1,5 +1,5 @@
 import {ItemList} from "./vendingMachine/itemList.js"
-import {VmTotalMoney} from "./vendingMachine/vmTotalMoney.js"
+import {VendingMachineMoneyBox} from "./vendingMachine/vendingMachineMoneyBox.js"
 import {SelectButtonList} from "./vendingMachine/selectButtonList.js"
 import {LogBox} from "./vendingMachine/logBox.js"
 import {VendingMachine} from "./vendingMachine/vendingMachine.js"
@@ -35,9 +35,9 @@ const itemList = new ItemList({
   itemData: itemData
 });
 
-const vmTotalMoney = new VmTotalMoney({
-  totalMoney: document.querySelector('.total_money > span'),
-  priceUnits: [10000, 5000, 1000, 500, 100, 50, 10]
+const vendingMachineMoneyBox = new VendingMachineMoneyBox({
+  totalMoney: document.querySelector('.vending_machine_wrap .money_box > span'),
+  moneyUnits: [10000, 5000, 1000, 500, 100, 50, 10]
 });
 
 const selectButtonList = new SelectButtonList({
@@ -50,7 +50,7 @@ const logBox = new LogBox({
 
 const vm = new VendingMachine({
   itemList: itemList,
-  totalMoney: vmTotalMoney,
+  moneyBox: vendingMachineMoneyBox,
   selectButtonList: selectButtonList,
   logBox: logBox
 })

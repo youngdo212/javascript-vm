@@ -1,24 +1,24 @@
 import {VendingMachine} from "../../js/vendingMachine/vendingMachine.js"
 
 let mockItemList = {};
-let mockTotalMoney = {};
+let mockVendingMachineMoneyBox = {};
 let mockSelectButtonList = {bindSelectItem: jest.fn()};
 let mockLogBox = {};
 let vendingMachine = new VendingMachine({
   itemList: mockItemList,
-  totalMoney: mockTotalMoney,
+  moneyBox: mockVendingMachineMoneyBox,
   selectButtonList: mockSelectButtonList,
   logBox: mockLogBox
 })
 
 function initialize(){
   mockItemList = {};
-  mockTotalMoney = {};
+  mockVendingMachineMoneyBox = {};
   mockSelectButtonList = {bindSelectItem: jest.fn()};
   mockLogBox = {};
   vendingMachine = new VendingMachine({
     itemList: mockItemList,
-    totalMoney: mockTotalMoney,
+    moneyBox: mockVendingMachineMoneyBox,
     selectButtonList: mockSelectButtonList,
     logBox: mockLogBox
   })
@@ -41,18 +41,18 @@ describe("setTimeout, clearTimeout test", () => {
   test("inputMoney(moneyData): 메소드가 정상적으로 작동한다", () => {
     mockItemList.highlight = jest.fn();
     mockLogBox.appendMessage = jest.fn();
-    mockTotalMoney.increase =  jest.fn();
-    mockTotalMoney.get = jest.fn();
-    mockTotalMoney.get.mockReturnValue(true);
+    mockVendingMachineMoneyBox.modifyMoney = jest.fn();
+    mockVendingMachineMoneyBox.totalMoney = jest.fn();
+    mockVendingMachineMoneyBox.totalMoney.mockReturnValue(true);
 
     const moneyData = {100: 1, 500: 10};
     const answer = 5100;
     vendingMachine.inputMoney(moneyData);
 
     expect(clearTimeout).toHaveBeenCalledTimes(1);
-    expect(mockTotalMoney.increase).toHaveBeenCalledWith(answer);
+    expect(mockVendingMachineMoneyBox.modifyMoney).toHaveBeenCalledWith(answer);
     expect(mockLogBox.appendMessage).toHaveBeenCalledWith(`${answer}원이 투입되었습니다!`);
-    expect(mockTotalMoney.get).toHaveBeenCalled();
+    expect(mockVendingMachineMoneyBox.totalMoney).toHaveBeenCalled();
     expect(mockItemList.highlight).toHaveBeenCalledWith(true);
   })
 
@@ -120,9 +120,9 @@ test("run(): 올바르게 작동한다", () => {
   mockItemList.highlight = jest.fn();
   mockItemList.getItem.mockReturnValue(item);
   mockLogBox.appendMessage = jest.fn();
-  mockTotalMoney.decrease = jest.fn();
-  mockTotalMoney.get = jest.fn();
-  mockTotalMoney.get.mockReturnValue('0');
+  mockVendingMachineMoneyBox.modifyMoney = jest.fn();
+  mockVendingMachineMoneyBox.totalMoney = jest.fn();
+  mockVendingMachineMoneyBox.totalMoney.mockReturnValue('0');
 
   vendingMachine.run();
 
@@ -130,6 +130,6 @@ test("run(): 올바르게 작동한다", () => {
   expect(mockItemList.getItem).toHaveReturnedWith(item);
   expect(vendingMachine.selectedNumber).toBe('');
   expect(mockLogBox.appendMessage).toHaveBeenCalledWith('콜라 선택!');
-  expect(mockTotalMoney.decrease).toHaveBeenCalledWith('500');
+  expect(mockVendingMachineMoneyBox.modifyMoney).toHaveBeenCalledWith(-500);
   expect(mockItemList.highlight).toHaveBeenCalledWith('0');
 })

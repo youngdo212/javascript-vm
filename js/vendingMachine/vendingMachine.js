@@ -2,9 +2,9 @@
 자판기의 기능을 컨트롤하는 클래스
 */
 class VendingMachine{
-  constructor({itemList, totalMoney, selectButtonList, logBox, delayTime = 3000}){
+  constructor({itemList, moneyBox, selectButtonList, logBox, delayTime = 3000}){
     this.oItemList = itemList;
-    this.oTotalMoney = totalMoney;
+    this.oMoneyBox = moneyBox;
     this.oSelectButtonList = selectButtonList;
     this.oLogBox = logBox;
     this.delayTime = delayTime;
@@ -26,9 +26,9 @@ class VendingMachine{
 
     clearTimeout(this.returnMoneyTimeoutID);
 
-    this.oTotalMoney.increase(price);
+    this.oMoneyBox.modifyMoney(price);
     this.oLogBox.appendMessage(`${price}원이 투입되었습니다!`);
-    this.oItemList.highlight(this.oTotalMoney.get());
+    this.oItemList.highlight(this.oMoneyBox.totalMoney());
   }
 
   selectNumber(number){
@@ -50,17 +50,17 @@ class VendingMachine{
     }
 
     const itemName = item.querySelector('.item_name').textContent;
-    const price = item.dataset.price;
+    const price = Number(item.dataset.price);
 
     this.oLogBox.appendMessage(`${itemName} 선택!`);
-    this.oTotalMoney.decrease(price);
-    this.oItemList.highlight(this.oTotalMoney.get())
+    this.oMoneyBox.modifyMoney(-price);
+    this.oItemList.highlight(this.oMoneyBox.totalMoney())
 
-    if(this.oTotalMoney.get() !== '0') this.returnMoneyTimeoutID = setTimeout(this.returnMoney.bind(this), this.delayTime);
+    if(this.oMoneyBox.totalMoney()) this.returnMoneyTimeoutID = setTimeout(this.returnMoney.bind(this), this.delayTime);
   }
 
   returnMoney(){
-    const change = this.oTotalMoney.return();
+    const change = this.oMoneyBox.returnMoney();
     this.oItemList.highlight(0);
     this.oLogBox.appendMessage(`잔돈이 반환되었습니다!`);
     this.throwMoney(change);
