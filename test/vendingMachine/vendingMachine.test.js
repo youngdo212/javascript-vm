@@ -1,4 +1,4 @@
-import {VendingMachine} from "../js/vendingMachine/vendingMachine.js"
+import {VendingMachine} from "../../js/vendingMachine/vendingMachine.js"
 
 let mockItemList = {};
 let mockTotalMoney = {};

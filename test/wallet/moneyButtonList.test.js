@@ -1,4 +1,4 @@
-import {MoneyButtonList} from "../js/wallet/moneyButtonList.js"
+import {MoneyButtonList} from "../../js/wallet/moneyButtonList.js"
 
 function initializeDOM(){
   document.body.innerHTML = `
