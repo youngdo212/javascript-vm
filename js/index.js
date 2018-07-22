@@ -32,8 +32,9 @@ class Action{
 const itemList = new ItemList({
   itemList : document.querySelector('.item_list'),
   template: new Template(),
-  itemData: itemData
 });
+
+itemList.render(itemData);
 
 const vendingMachineMoneyBox = new VendingMachineMoneyBox({
   totalMoney: document.querySelector('.vending_machine_wrap .money_box > span'),

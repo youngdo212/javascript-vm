@@ -2,15 +2,14 @@
 아이템들을 다루는 클래스
 */
 class ItemList{
-  constructor({itemList, template, itemData}){
+  constructor({itemList, template} = {}){
     this.$itemList = itemList;
     this.oTemplate = template;
     this.items = this.$itemList.childNodes;
-    this._render(itemData);
   }
 
   // @param {Array} itemData - array of objects
-  _render(itemData){
+  render(itemData){
     itemData.forEach((item, idx) => {
       item.number = idx + 1;
       this.$itemList.innerHTML += this.oTemplate.itemList(item);
