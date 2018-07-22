@@ -2,18 +2,34 @@
 log box에 로그를 찍는 클래스
 */
 class LogBox{
-  constructor({logBox}){
+  constructor({logBox, maxMessageNumber = 10}){
     this.$logBox = logBox;
+    this.MAX_MESSAGE_NUMBER = maxMessageNumber;
   }
 
-  printMessage(message){
-    const log = document.createElement("DIV");
-    const text = document.createTextNode(message);
-    log.appendChild(text);
+  appendMessage(message){
+    this._hasMaxMessage(this.$logBox, this.MAX_MESSAGE_NUMBER) && this._deleteFirstMessage(this.$logBox);
 
-    if(this.$logBox.children.length >= 10) this.$logBox.removeChild(this.$logBox.firstElementChild);
+    let messageElem = this._makeMessageElem(message);
+    this.$logBox.appendChild(messageElem);
+  }
 
-    this.$logBox.appendChild(log);
+  _makeMessageElem(message){
+    let messageElem = document.createElement("DIV");
+    let textNode = document.createTextNode(message);
+    messageElem.appendChild(textNode);
+
+    return messageElem;
+  }
+
+  _deleteFirstMessage(logBox){
+    let firstMessage = logBox.firstElementChild;
+    logBox.removeChild(firstMessage);
+  }
+
+  _hasMaxMessage(logBox, maxMessageNumber){
+    let messageNumber = logBox.children.length;
+    return messageNumber === maxMessageNumber;
   }
 }
 

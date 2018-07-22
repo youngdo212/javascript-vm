@@ -27,7 +27,7 @@ class VendingMachine{
     clearTimeout(this.returnMoneyTimeoutID);
 
     this.oTotalMoney.increase(price);
-    this.oLogBox.printMessage(`${price}원이 투입되었습니다!`);
+    this.oLogBox.appendMessage(`${price}원이 투입되었습니다!`);
     this.oItemList.highlight(this.oTotalMoney.get());
   }
 
@@ -45,14 +45,14 @@ class VendingMachine{
     this.selectedNumber = '';
 
     if(!item){
-      this.oLogBox.printMessage('올바른 번호를 입력하세요');
+      this.oLogBox.appendMessage('올바른 번호를 입력하세요');
       return;
     }
 
     const itemName = item.querySelector('.item_name').textContent;
     const price = item.dataset.price;
 
-    this.oLogBox.printMessage(`${itemName} 선택!`);
+    this.oLogBox.appendMessage(`${itemName} 선택!`);
     this.oTotalMoney.decrease(price);
     this.oItemList.highlight(this.oTotalMoney.get())
 
@@ -62,7 +62,7 @@ class VendingMachine{
   returnMoney(){
     const change = this.oTotalMoney.return();
     this.oItemList.highlight(0);
-    this.oLogBox.printMessage(`잔돈이 반환되었습니다!`);
+    this.oLogBox.appendMessage(`잔돈이 반환되었습니다!`);
     this.throwMoney(change);
   }
 
