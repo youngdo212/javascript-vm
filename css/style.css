@@ -13,7 +13,7 @@
   float: left;
 }
 
-.total_money_wrap {
+.controller_wrap {
   background-color: #fff;
   width: 335px;
   height: 635px;
@@ -56,7 +56,7 @@
   margin: auto;
 }
 
-.total_money, .select_button_list, .log_box {
+.money_box, .select_button_list, .log_box {
   border: 3px solid slategray;
   width: 309px;
   margin-bottom: 20px;
@@ -64,7 +64,7 @@
   padding: 10px;
 }
 
-.total_money {
+.money_box {
   height: 50px;
   line-height: 50px;
   font-size: 2em;
