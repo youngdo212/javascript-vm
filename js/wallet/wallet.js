@@ -12,7 +12,7 @@ class Wallet{
   }
 
   bindTakeOutMoney(handler){
-    this.takeOutMoney = handler;
+    this.bTakeOutMoney = handler;
   }
 
   selectMoney(price){
@@ -20,7 +20,7 @@ class Wallet{
 
     this.oMoneyCountList.manipulateCount({[price] : -1});
     this.$totalMoney.textContent = this.oMoneyCountList.calculate();
-    this.takeOutMoney({[price] : 1})
+    this.bTakeOutMoney({[price] : 1})
   }
 
   inputMoney(moneyData){

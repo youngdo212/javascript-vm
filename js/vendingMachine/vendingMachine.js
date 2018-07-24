@@ -63,11 +63,11 @@ class VendingMachine{
     const change = this.oMoneyBox.returnMoney();
     this.oItemList.highlight(0);
     this.oLogBox.appendMessage(`잔돈이 반환되었습니다!`);
-    this.throwMoney(change);
+    this.bThrowMoney(change);
   }
 
   bindThrowMoney(handler){
-    this.throwMoney = handler;
+    this.bThrowMoney = handler;
   }
 }
 
