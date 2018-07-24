@@ -51,12 +51,12 @@ class ItemList{
   }
 
   _isValidItem(item){
-    if(item && this._isHighlight(item)) return true;
+    if(item && this._hasClassName({elem: item.querySelector('.item_name'), className: 'highlight'})) return true;
     return false;
   }
 
-  _isHighlight(item){
-    return item.querySelector('.item_name').className.includes('highlight');
+  _hasClassName({elem, className}){
+    return elem.className.includes(className);
   }
 }
 
