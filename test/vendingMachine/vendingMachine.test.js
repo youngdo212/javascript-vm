@@ -2,24 +2,24 @@ import {VendingMachine} from "../../js/vendingMachine/vendingMachine.js"
 
 let mockItemList = {};
 let mockVendingMachineMoneyBox = {};
-let mockSelectButtonList = {bindSelectItem: jest.fn()};
+let mockNumberButtonList = {bindSelectNumber: jest.fn()};
 let mockLogBox = {};
 let vendingMachine = new VendingMachine({
   itemList: mockItemList,
   moneyBox: mockVendingMachineMoneyBox,
-  selectButtonList: mockSelectButtonList,
+  numberButtonList: mockNumberButtonList,
   logBox: mockLogBox
 })
 
 function initialize(){
   mockItemList = {};
   mockVendingMachineMoneyBox = {};
-  mockSelectButtonList = {bindSelectItem: jest.fn()};
+  mockNumberButtonList = {bindSelectNumber: jest.fn()};
   mockLogBox = {};
   vendingMachine = new VendingMachine({
     itemList: mockItemList,
     moneyBox: mockVendingMachineMoneyBox,
-    selectButtonList: mockSelectButtonList,
+    numberButtonList: mockNumberButtonList,
     logBox: mockLogBox
   })
 }

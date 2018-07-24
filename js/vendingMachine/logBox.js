@@ -8,7 +8,7 @@ class LogBox{
   }
 
   appendMessage(message){
-    this._hasMaxMessage(this.$logBox, this.MAX_MESSAGE_NUMBER) && this._deleteFirstMessage(this.$logBox);
+    this._hasMaxMessage({logBox: this.$logBox, maxMessageNumber: this.MAX_MESSAGE_NUMBER}) && this._deleteFirstMessage(this.$logBox);
 
     let messageElem = this._makeMessageElem(message);
     this.$logBox.appendChild(messageElem);
@@ -27,9 +27,9 @@ class LogBox{
     logBox.removeChild(firstMessage);
   }
 
-  _hasMaxMessage(logBox, maxMessageNumber){
-    let messageNumber = logBox.children.length;
-    return messageNumber === maxMessageNumber;
+  _hasMaxMessage({logBox, maxMessageNumber}){
+    let currentMessageNumber = logBox.children.length;
+    return currentMessageNumber === maxMessageNumber;
   }
 }
 

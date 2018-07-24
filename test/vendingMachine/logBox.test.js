@@ -17,17 +17,17 @@ beforeEach(() => {
 
 test("_hasMaxMessage: 메시지의 개수가 최대가 되면 true를 반환한다", () => {
   let logBox = new LogBox();
-  let logBoxElem = document.querySelector(".log_box");
+  let has3MessageLogBoxElem = document.querySelector(".log_box");
 
-  expect(logBox._hasMaxMessage(logBoxElem, 3)).toBe(true);
+  expect(logBox._hasMaxMessage({logBox: has3MessageLogBoxElem, maxMessageNumber: 3})).toBe(true);
 })
 
 
 test("_hasMaxMessage: 메시지의 개수가 최대가 아니면 false를 반환한다", () => {
   let logBox = new LogBox();
-  let logBoxElem = document.querySelector(".log_box");
+  let has3MessageLogBoxElem = document.querySelector(".log_box");
 
-  expect(logBox._hasMaxMessage(logBoxElem, 4)).toBe(false);
+  expect(logBox._hasMaxMessage({logBox: has3MessageLogBoxElem, maxMessageNumber: 4})).toBe(false);
 })
 
 
