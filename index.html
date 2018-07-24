@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Web Vending Machine</title>
+    <meta name="description" content="웹을 이용해 간단한 자판기 어플리케이션을 이용할 수 있습니다">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="application-name" content="webVendingMachine">
+    <meta name="referrer" content="unsafe-url">
+    <link rel="stylesheet" href="./css/style.css">
+  </head>
+  <body>
+    <div class="vending_machine_wrap">
+      <div class="list_wrap">
+        <ul class="item_list"></ul>
+      </div>
+      <div class="controller_wrap">
+        <div class="money_box">
+            <span>0</span>원
+        </div>
+        <div class="select_button_list">
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>0</button>
+        </div>
+        <div class="log_box"></div>
+      </div>
+    </div>
+    <div class="walletWrap">
+      <ul class="money_button_list">
+        <li><button data-price='10'>10원</button></li>
+        <li><button data-price='50'>50원</button></li>
+        <li><button data-price='100'>100원</button></li>
+        <li><button data-price='500'>500원</button></li>
+        <li><button data-price='1000'>1000원</button></li>
+        <li><button data-price='5000'>5000원</button></li>
+        <li><button data-price='10000'>10000원</button></li>
+      </ul>
+      <ul class='money_count_list'>
+        <li data-price='10'><span>0</span>개</li>
+        <li data-price='50'><span>0</span>개</li>
+        <li data-price='100'><span>0</span>개</li>
+        <li data-price='500'><span>0</span>개</li>
+        <li data-price='1000'><span>0</span>개</li>
+        <li data-price='5000'><span>0</span>개</li>
+        <li data-price='10000'><span>0</span>개</li>
+      </ul>
+      <div class="wallet_money_box">
+        <span>0</span>원
+      </div>
+    </div>
+    <script type='module' src="./js/index.js"></script>
+  </body>
+</html>
