@@ -14,7 +14,7 @@ beforeEach(() => {
 })
 
 
-test("_makeChange: 올바른 잔돈이 반환된다", () => {
+test("_makeChange: {price: count} 형태의 잔돈이 반환된다", () => {
   let vendingMachineMoneyBox = new VendingMachineMoneyBox();
   let money = 2150
   let moneyUnits = [1000, 500, 100, 50, 10];
