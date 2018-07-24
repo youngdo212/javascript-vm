@@ -2,10 +2,10 @@
 자판기의 기능을 컨트롤하는 클래스
 */
 class VendingMachine{
-  constructor({itemList, moneyBox, selectButtonList, logBox, delayTime = 3000}){
+  constructor({itemList, moneyBox, numberButtonList, logBox, delayTime = 3000}){
     this.oItemList = itemList;
     this.oMoneyBox = moneyBox;
-    this.oSelectButtonList = selectButtonList;
+    this.oNumberButtonList = numberButtonList;
     this.oLogBox = logBox;
     this.delayTime = delayTime;
     this.selectedNumber = '';
@@ -13,7 +13,7 @@ class VendingMachine{
     this.runTimeoutID = null;
     this.returnMoneyTimeoutID = null;
 
-    this.oSelectButtonList.bindSelectItem(this.selectNumber.bind(this));
+    this.oNumberButtonList.bindSelectNumber(this.selectNumber.bind(this));
   }
 
   inputMoney(moneyData){
